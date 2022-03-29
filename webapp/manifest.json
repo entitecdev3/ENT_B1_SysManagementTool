@@ -1,0 +1,144 @@
+{
+  "_version": "1.9.0",
+  "sap.app": {
+    "version": "1.9.0",
+    "id": "nvid.sample",
+    "type": "application",
+    "applicationVersion": {
+      "version": "1.0.0"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDesc}}",
+    "tags": {
+      "keywords": ["{{appTag1}}"]
+    },
+    "ach": "FIN-ACC-AP"
+  },
+  "sap.ui": {
+    "version": "1.9.0",
+    "technology": "UI5",
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    },
+    "supportedThemes": ["sap_bluecrystal", "sap_belize"],
+    "icons": {
+      "icon": "sap-icon://accidental-leave"
+    }
+  },
+  "sap.ui5": {
+    "version": "1.9.0",
+    "dependencies": {
+      "minUI5Version": "1.56.10",
+      "libs": {
+        "sap.ui.layout": {
+          "minVersion": ""
+        },
+        "sap.m": {
+          "minVersion": ""
+        }
+      }
+    },
+    "rootView": {
+      "viewName": "nvid.sample.view.MainApp",
+      "type": "XML"
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "viewType": "XML",
+        "viewPath": "nvid.sample.view",
+        "async": true,
+				"clearTarget": "true",
+				"controlAggregation": "pages",
+				"controlId": "idMainApp"
+      },
+      "routes": [
+				{
+          "pattern": "",
+          "name": "MainApp",
+          "target": "MainApp"
+        }, {
+          "pattern": "Main",
+          "name": "Main",
+          "target": "Main"
+        },{
+				"pattern": "Jobs",
+				"name": "Jobs",
+				"target": ["donald", "trumph"]
+			}, {
+				"name": "detail",
+				"pattern": "Job/{navya}",
+				"titleTarget": "",
+				"greedy": false,
+				"target": ["donald", "modi"]
+			}
+			],
+      "targets": {
+				"MainApp": {
+          "viewName": "MainApp",
+          "id": "idMainApp"
+        },
+        "Main": {
+					"viewName": "Main",
+					"viewId": "idMain"
+        },
+				"App": {
+					"viewName": "App",
+					"viewId": "idAppCon"
+        },
+        "donald": {
+          "viewName": "View1",
+          "id": "idView1",
+					"parent": "App",
+          "controlId": "idAppCon",
+          "controlAggregation": "masterPages"
+        },
+        "trumph": {
+          "viewName": "Empty",
+          "id": "idEmpty",
+					"parent": "App",
+          "controlId": "idAppCon",
+          "controlAggregation": "detailPages",
+          "viewLevel": 1
+        },
+        "modi": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearAggregation": true,
+          "viewName": "View2",
+					"parent": "App",
+          "controlId": "idAppCon",
+          "controlAggregation": "detailPages",
+          "viewLevel": 2
+        }
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "resources": {
+      "css": [{
+        "uri": "style/mystyle.css",
+        "id": ""
+      }]
+    },
+    "models": {
+      "local": {
+        "type": "sap.ui.model.json.JSONModel",
+        "settings": {},
+        "preload": true,
+        "uri": "model/mockdata/mockdata.json"
+      },
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {},
+        "uri": "i18n/i18n.properties",
+        "preload": true,
+        "async": true
+      }
+    }
+  }
+}

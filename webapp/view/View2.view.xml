@@ -1,0 +1,153 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="nvid.sample.controller.View2" xmlns:f="sap.ui.layout.form" xmlns:html="http://www.w3.org/1999/xhtml">
+	<Page title="Job Details" showNavButton="false" navButtonPress="onBack">
+		<content>
+			<!-- <Button text="Back" press="onBack"></Button> -->
+			<!-- <ObjectHeader title="{local>JOB_NAME}" intro="{local>FROM_SCHEMA}" number="{local>TO_SCHEMA}" numberUnit="" icon=""></ObjectHeader> -->
+			<IconTabBar>
+				<items>
+					<IconTabFilter text="Job" key="" icon="sap-icon://task">
+						<content>
+							<VBox class="sapUiSmallMargin">
+								<f:Form id="FormDisplay480_Trial" editable="true">
+									<f:layout>
+										<f:ResponsiveGridLayout labelSpanXL="2" labelSpanL="2" labelSpanM="2" labelSpanS="2" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2" singleContainerFullSize="false"/>
+									</f:layout>
+									<f:formContainers>
+										<f:FormContainer>
+											<f:formElements id="idFormElements1">
+												<f:FormElement label="Job Name">
+													<f:fields>
+														<Input value="{local>JOB_NAME}"/>
+													</f:fields>
+												</f:FormElement>
+												<f:FormElement label="Job Type">
+													<f:fields>
+														<Select forceSelection="false" selectedKey="{local>JOB_TYPE}" items="{	path: 'local>/Job_Type',	sorter: { path: 'NAME' }}">
+															<core:Item key="{local>CODE}" text="{local>NAME}"/>
+														</Select>
+													</f:fields>
+												</f:FormElement>
+												<f:FormElement label="Username">
+													<f:fields>
+														<Input value="{local>UserName}"/>
+													</f:fields>
+												</f:FormElement>
+												<f:FormElement label="Scheduled" class="sapUiSmallMargin">
+													<f:fields>
+														<CheckBox selected="{=${local>SCHEDULED}==='Y'?true:false}" select="onScheduled"/>
+													</f:fields>
+												</f:FormElement>
+											</f:formElements>
+										</f:FormContainer>
+										<f:FormContainer>
+											<f:formElements id="idFormElements2">
+												<f:FormElement label="Source Company">
+													<f:fields>
+														<!-- <Input value="{local>BASE_SCHEMA}"/> -->
+														<Select forceSelection="false" selectedKey="{local>BASE_SCHEMA}" items="{	path: 'local>/Companies',	sorter: { path: 'dbName' }}">
+															<core:Item key="{local>dbName}" text="{local>dbName}"/>
+														</Select>
+													</f:fields>
+												</f:FormElement>
+												<f:FormElement id ="idTargetCompany" label="Target Company" class="sapUiSmallMargin">
+													<f:fields>
+														<Input value="{local>TARGET_SCHEMA}"/>
+													</f:fields>
+												</f:FormElement>
+												<f:FormElement label="Password">
+													<f:fields>
+														<Input  type="Password" value="{local>Password}"/>
+													</f:fields>
+												</f:FormElement>
+												<f:FormElement label="Status" visible="true">
+													<f:fields>
+														<HBox>
+															<RadioButtonGroup id="groupD" valueState="Success" columns="3" select="onStatusSelection">
+																<RadioButton text="Active" selected="true" width="222px"/>
+																<RadioButton text="Inactive" width="222px"/>
+															</RadioButtonGroup>
+														</HBox>
+													</f:fields>
+												</f:FormElement>
+											</f:formElements>
+										</f:FormContainer>
+									</f:formContainers >
+								</f:Form>
+								<f:Form id="FormDisplay480_Trial2" editable="true">
+									<f:layout>
+										<f:ResponsiveGridLayout labelSpanXL="1" labelSpanL="1" labelSpanM="1" labelSpanS="1" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false"/>
+									</f:layout>
+									<f:formContainers>
+										<f:FormContainer>
+											<f:formElements id="idFormElements3">
+												<f:FormElement label="Frequency" class="sapUiSmallMargin" visible="{=${local>SCHEDULED}==='Y'?true:false}">
+													<f:fields>
+														<HBox class="sapUiSmallMargin">
+															<RadioButtonGroup id="groupC" valueState="Success" columns="3">
+																<RadioButton text="Daily" selected="true" width="222px"/>
+																<RadioButton text="Weekly" width="222px"/>
+																<RadioButton text="Monthly" width="222px"/>
+															</RadioButtonGroup>
+														</HBox>
+													</f:fields>
+												</f:FormElement>
+												<!-- <f:FormElement label="Confiuraton">
+													<f:fields>
+														<TextArea placeholder="Enter Confiuraton" growing="true" growingMaxLines="6" width="100%" value="{local>CONFIGURATION}"/>
+													</f:fields>
+												</f:FormElement> -->
+											</f:formElements>
+										</f:FormContainer>
+									</f:formContainers >
+								</f:Form>
+								<f:Form id="FormDisplay480_Trial3" editable="true">
+									<f:layout>
+										<f:ResponsiveGridLayout labelSpanXL="2" labelSpanL="2" labelSpanM="2" labelSpanS="2" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2" singleContainerFullSize="false"/>
+									</f:layout>
+									<f:formContainers>
+										<f:FormContainer>
+											<f:formElements id="idFormElements1">
+												<f:FormElement label="Start On" visible="{=${local>SCHEDULED}==='Y'?true:false}">
+													<f:fields>
+														<DateTimePicker id="DTP2" showCurrentDateButton="true" showCurrentTimeButton="true" value="{local>START_ON}" valueFormat="yyyy-MM-dd HH:mm:ss" displayFormat="short" change="handleChange" class="sapUiSmallMarginBottom"/>
+														<!-- <DatePicker dateValue="{local>START_ON}"/> -->
+													</f:fields>
+												</f:FormElement>
+											</f:formElements>
+										</f:FormContainer>
+										<f:FormContainer>
+											<f:formElements>
+												<f:FormElement label="End On" visible="{=${local>SCHEDULED}==='Y'?true:false}">
+													<f:fields>
+														<DateTimePicker id="DTP3" showCurrentDateButton="true" showCurrentTimeButton="true" value="{local>END_ON}" valueFormat="yyyy-MM-dd HH:mm:ss" displayFormat="short" change="handleChange" class="sapUiSmallMarginBottom"/>
+														<!-- <DatePicker dateValue="{local>END_ON}"/> -->
+													</f:fields>
+												</f:FormElement>
+											</f:formElements>
+										</f:FormContainer>
+									</f:formContainers >
+								</f:Form>
+							</VBox>
+						</content>
+					</IconTabFilter>
+					<IconTabFilter text="Logs" key="" icon="sap-icon://activity-items">
+						<content>
+							<core:Fragment fragmentName="nvid.sample.fragments.logTable" type="XML"></core:Fragment>
+						</content>
+					</IconTabFilter>
+					<!-- <IconTabFilter text="Cities" key="" icon="sap-icon://arrow-down"> <Select items="{/cities}"> <core:Item key="{name}" text="{name}"></core:Item> </Select> <ComboBox items="{/cities}"> <core:Item key="{name}" text="{name}"></core:Item> </ComboBox>
+					<MultiComboBox items="{/cities}"> <core:Item key="{name}" text="{name}"></core:Item> </MultiComboBox> </IconTabFilter> -->
+				</items>
+			</IconTabBar>
+		</content>
+		<footer>
+			<Toolbar>
+				<ToolbarSpacer/>
+				<Button text="Run" icon="sap-icon://begin" press="onForceRun" type="Accept"></Button>
+				<Button text="Save" icon="sap-icon://save" press="onSave" type="Accept"></Button>
+				<Button text="Delete" icon="sap-icon://delete" press="onDelete" type="Reject"></Button>
+				<!-- <Button text="Cancel" press="onCancel" type="Reject"></Button> -->
+			</Toolbar>
+		</footer>
+	</Page>
+</mvc:View>

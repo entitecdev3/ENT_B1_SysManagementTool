@@ -1,0 +1,22 @@
+{
+  "Job": {
+    "JOB_NAME": null,
+    "BASE_SCHEMA": null,
+    "TARGET_SCHEMA": null,
+    "FREQUENCY": "D",
+    "START_ON": null,
+    "END_ON": null,
+    "SCHEDULED": "Y",
+    "STATUS": "A",
+    "JOB_TYPE": "COPY_COMPANY",
+    "CONFIGURATION": {},
+    "CREATED_ON": null
+  },
+  "Job_Type": [
+    {
+      "CODE": "COPY_COMPANY",
+      "NAME": "Copy Company"
+    }
+
+  ]
+}

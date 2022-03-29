@@ -1,0 +1,83 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:form="sap.ui.layout.form" xmlns:tnt="sap.tnt"
+	controllerName="nvid.sample.controller.MainApp" xmlns:l="sap.ui.layout" xmlns:html="http://www.w3.org/1999/xhtml">
+	<App id="idMainApp">
+		<Page title="B1 SysManagement Tool" titleAlignment="Center" id="loginPage" class="MainLoginPage" enableScrolling="false">
+			<headerContent>
+				<Text text="Version 1.0.0" tooltip="build date: 2021/03/31"/>
+			</headerContent>
+			<content>
+				<l:BlockLayout >
+					<l:BlockLayoutRow>
+						<l:BlockLayoutCell >
+							<l:layoutData>
+								<l:BlockLayoutCellData lSize="4" mSize="4" xlSize="3"/>
+							</l:layoutData>
+							<Image src="images/B1HManage_Login6.png" class="coverImage" width="104%" height="95%"/>
+						</l:BlockLayoutCell>
+						<l:BlockLayoutCell >
+							<l:layoutData>
+								<!--<l:BlockLayoutCellData lSize="2" mSize="3" xlSize="1"/>-->
+							</l:layoutData>
+							<VBox alignItems="Center" direction="Column" fitContainer="true" width="auto" height="93%" justifyContent="Center">
+								<VBox class="sapUiMediumMarginBottom">
+									<Image class="__image1" src="images/B1HManage_Login7.png" width="250px" height="125px"/>
+								</VBox >
+								<items>
+									<form:Form width="auto" editable="false" visible="true">
+										<form:title>
+											<core:Title text="{i18n>Details}" level="H1" icon="sap-icon://visits"/>
+										</form:title>
+										<form:formContainers>
+											<form:FormContainer visible="true">
+												<form:formElements>
+													<form:FormElement visible="true">
+														<form:label>
+															<Label text="" design="Bold" width="auto" required="false" textAlign="Center" textDirection="Inherit" visible="true"/>
+														</form:label>
+														<form:fields>
+															<Input id="userid" placeholder="{i18n>User}" type="Text" width="auto"/>
+														</form:fields>
+													</form:FormElement>
+													<form:FormElement visible="true">
+														<form:label>
+															<Label text="" design="Bold" width="auto" required="false" textAlign="Center" textDirection="Inherit" visible="true"/>
+														</form:label>
+														<form:fields>
+															<Input placeholder="{i18n>Password}" type="Password" id="pwd" submit="onSubmit" enabled="true" visible="true" width="auto" maxLength="0"/>
+														</form:fields>
+													</form:FormElement>
+													<form:FormElement visible="true">
+														<form:label>
+															<Label text="" design="Standard" width="100%" required="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+														</form:label>
+														<form:fields>
+															<Button text="{i18n>Login}" press="Login" type="Emphasized" iconFirst="false" width="auto" iconDensityAware="false"/>
+														</form:fields>
+														<form:label>
+															<Label text="" design="Standard" width="100%" required="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+														</form:label>
+														<form:fields>
+															<Button text="{i18n>ForgetPassword}" visible="false" press="onForgetPassword"/>
+														</form:fields>
+													</form:FormElement>
+												</form:formElements>
+												<form:title/>
+											</form:FormContainer>
+										</form:formContainers>
+										<form:layout>
+											<form:ResponsiveGridLayout adjustLabelSpan="false" columnsL="2" labelSpanL="3" columnsM="1" labelSpanM="2" labelSpanS="12"/>
+										</form:layout>
+									</form:Form>
+								</items>
+								<layoutData/>
+							</VBox>
+							<!--</HBox>-->
+						</l:BlockLayoutCell>
+					</l:BlockLayoutRow>
+				</l:BlockLayout>
+			</content>
+			<!--</content>-->
+			<footer></footer>
+		</Page>
+	</App>
+</mvc:View>

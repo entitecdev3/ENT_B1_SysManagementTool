@@ -1,0 +1,35 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m">
+	<Table items="{local>/Logs}">
+		<columns>
+			<Column width="8rem">
+				<Text text="Started On"></Text>
+			</Column>
+			<Column width="8rem">
+				<Text text="Ended On"></Text>
+			</Column>
+			<Column minScreenWidth="Tablet" width="5rem">
+				<Text text="Status"></Text>
+			</Column>
+			<Column minScreenWidth="Tablet" demandPopin="true">
+				<Text text="Configuration"></Text>
+			</Column>
+			<Column minScreenWidth="Tablet" demandPopin="true">
+				<Text text="Message"></Text>
+			</Column>
+		</columns>
+		<items>
+			<ColumnListItem>
+				<cells>
+					<!-- <DatePicker dateValue="" editable="false"/> -->
+					<!-- <Text text="{path: 'local>STARTED_ON', formatter:'.formatter.getDateDDMMYYYYFormat'}"/>. -->
+					<Text text="{path: 'local>STARTED_ON'}"/>
+					<Text text="{local>ENDED_ON}"></Text>
+					<!-- <Text text="{local>STATUS}"></Text> -->
+					<ObjectStatus class="sapUiSmallMarginBottom" text="{= ${local>STATUS}==='I' ? 'In-Process' : ${local>STATUS}==='S' ? 'Success' : 'Error'}"/>
+					<Text text="{local>CONFIGURATION}"></Text>
+					<Text text="{local>MSG}"></Text>
+				</cells>
+			</ColumnListItem>
+		</items>
+	</Table>
+</core:FragmentDefinition>

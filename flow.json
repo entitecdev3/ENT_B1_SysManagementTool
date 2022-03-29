@@ -1,0 +1,3835 @@
+[
+    {
+        "id": "5a9ea7fb.714ac8",
+        "type": "tab",
+        "label": "Serve",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "e7f8ec40.9de36",
+        "type": "tab",
+        "label": "Login",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "dcad3eb1.e262e",
+        "type": "tab",
+        "label": "GET Companies List",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "c0763147.55f79",
+        "type": "tab",
+        "label": "Management",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "6ccd91ab.19ee9",
+        "type": "tab",
+        "label": "Create JOBS/LOGS",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "58b888b4.6c1618",
+        "type": "tab",
+        "label": "Jobs Lookup Queue",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "14adbe7e.88fa32",
+        "type": "tab",
+        "label": "Job -  Copy Company",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "cf45155e.4364b8",
+        "type": "tab",
+        "label": "Testing",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "5ddb2001.76d37",
+        "type": "subflow",
+        "name": "Iterate",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 220,
+                "y": 219,
+                "wires": [
+                    {
+                        "id": "8c2fd99c.ea8498"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 454,
+                "y": 174,
+                "wires": [
+                    {
+                        "id": "8c2fd99c.ea8498",
+                        "port": 0
+                    }
+                ]
+            },
+            {
+                "x": 455,
+                "y": 259,
+                "wires": [
+                    {
+                        "id": "8c2fd99c.ea8498",
+                        "port": 1
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "inputVarName",
+                "type": "str",
+                "value": "",
+                "ui": {
+                    "icon": "font-awesome/fa-arrow-circle-right",
+                    "label": {
+                        "en-US": "msg."
+                    },
+                    "type": "input",
+                    "opts": {
+                        "types": [
+                            "str",
+                            "num",
+                            "bool",
+                            "json",
+                            "bin",
+                            "env"
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "currentObjectName",
+                "type": "str",
+                "value": ""
+            }
+        ],
+        "color": "#DDAA99"
+    },
+    {
+        "id": "5717a347.80f76c",
+        "type": "subflow",
+        "name": "Configuration",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 60,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "60ba2a1e.d06d04"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 860,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "fa52a0d.578976",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "configFilename",
+                "type": "str",
+                "value": "config_flow.json",
+                "ui": {
+                    "label": {
+                        "en-US": "Config Filename"
+                    },
+                    "type": "input",
+                    "opts": {
+                        "types": [
+                            "str",
+                            "num",
+                            "bool",
+                            "json",
+                            "bin",
+                            "env"
+                        ]
+                    }
+                }
+            }
+        ],
+        "color": "#DDAA99"
+    },
+    {
+        "id": "86e46972.2716d8",
+        "type": "sqlitedb",
+        "db": "B!HManageDB",
+        "mode": "RWC"
+    },
+    {
+        "id": "cf0aae0a.edbdf",
+        "type": "hana-client-config",
+        "configSetup": "config-file",
+        "configFileName": "config_flow.json",
+        "server": "-",
+        "port": "-",
+        "database": "-",
+        "userName": "-",
+        "password": "-"
+    },
+    {
+        "id": "9f5c164e.6abee8",
+        "type": "service-layer-config",
+        "configSetup": "config-file",
+        "configFileName": "config_flow.json",
+        "serviceLayerUrl": "-",
+        "companyName": "-",
+        "userName": "-",
+        "password": "-",
+        "maxPageSize": "0",
+        "logFilePath": ""
+    },
+    {
+        "id": "bd1cf984.3d5158",
+        "type": "sqlitedb",
+        "db": "B1HManage",
+        "mode": "RWC"
+    },
+    {
+        "id": "e7336e81.c32bc",
+        "type": "sqlitedb",
+        "db": "B1HManageDB",
+        "mode": "RWC"
+    },
+    {
+        "id": "b9ad92c6.15a3b",
+        "type": "hana-client-config",
+        "configSetup": "config-file",
+        "configFileName": "\\config_flow.json",
+        "server": "192.168.1.220",
+        "port": "30015",
+        "database": "DEV_GGR_GOLOGI_DB",
+        "userName": "SYSTEM",
+        "password": "HanaSysAdm1n"
+    },
+    {
+        "id": "ff7dc85b.c74498",
+        "type": "static",
+        "z": "5a9ea7fb.714ac8",
+        "name": "",
+        "folder": "projects/B1HManage/webapp",
+        "x": 430,
+        "y": 180,
+        "wires": [
+            [
+                "dac28394.4e63"
+            ]
+        ]
+    },
+    {
+        "id": "2aa69f60.55672",
+        "type": "http in",
+        "z": "5a9ea7fb.714ac8",
+        "name": "",
+        "url": "/ui/*",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 200,
+        "y": 180,
+        "wires": [
+            [
+                "ff7dc85b.c74498"
+            ]
+        ]
+    },
+    {
+        "id": "1d6892b0.83fa8d",
+        "type": "debug",
+        "z": "5a9ea7fb.714ac8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 710,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "dac28394.4e63",
+        "type": "http response",
+        "z": "5a9ea7fb.714ac8",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 690,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "63ef73.725e708c",
+        "type": "http in",
+        "z": "6ccd91ab.19ee9",
+        "name": "GET JOBS",
+        "url": "/api/jobs",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 140,
+        "y": 260,
+        "wires": [
+            [
+                "6bb43ea1.517f6"
+            ]
+        ]
+    },
+    {
+        "id": "b62ee9b5.4b1388",
+        "type": "http in",
+        "z": "6ccd91ab.19ee9",
+        "name": "GET LOGS",
+        "url": "/api/logs",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 150,
+        "y": 340,
+        "wires": [
+            [
+                "c07b6c00.bbe15"
+            ]
+        ]
+    },
+    {
+        "id": "682fe8e0.c0c0c8",
+        "type": "http in",
+        "z": "6ccd91ab.19ee9",
+        "name": "find Job by Id",
+        "url": "/api/jobbyId",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 150,
+        "y": 720,
+        "wires": [
+            [
+                "21941d45.387da2"
+            ]
+        ]
+    },
+    {
+        "id": "768fc65d.c42718",
+        "type": "http in",
+        "z": "6ccd91ab.19ee9",
+        "name": "find Log by Id",
+        "url": "/api/logbyId",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 150,
+        "y": 800,
+        "wires": [
+            [
+                "d26dca67.3329e8"
+            ]
+        ]
+    },
+    {
+        "id": "240ab2e3.1cf0fe",
+        "type": "http in",
+        "z": "6ccd91ab.19ee9",
+        "name": "find Job by Name",
+        "url": "/api/jobbyName",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 160,
+        "y": 880,
+        "wires": [
+            [
+                "deaa6e5a.c8d6f"
+            ]
+        ]
+    },
+    {
+        "id": "e6c1fcc6.034b",
+        "type": "http in",
+        "z": "6ccd91ab.19ee9",
+        "name": "Create JOBS",
+        "url": "/api/createJob",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 150,
+        "y": 100,
+        "wires": [
+            [
+                "d04f4093.a2fea"
+            ]
+        ]
+    },
+    {
+        "id": "52061937.177d08",
+        "type": "http in",
+        "z": "6ccd91ab.19ee9",
+        "name": "Create LOGS",
+        "url": "/api/createLog",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 150,
+        "y": 180,
+        "wires": [
+            [
+                "c1634a42.83edc8"
+            ]
+        ]
+    },
+    {
+        "id": "a3069ff6.7ff25",
+        "type": "sqlite",
+        "z": "6ccd91ab.19ee9",
+        "mydb": "e7336e81.c32bc",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 560,
+        "y": 100,
+        "wires": [
+            [
+                "3af03560.ec996a",
+                "a1765f83.c031f"
+            ]
+        ]
+    },
+    {
+        "id": "3af03560.ec996a",
+        "type": "debug",
+        "z": "6ccd91ab.19ee9",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 770,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "d04f4093.a2fea",
+        "type": "function",
+        "z": "6ccd91ab.19ee9",
+        "name": "",
+        "func": "\n// \"CREATE TABLE ENT_JOB(JOB_ID TEXT PRIMARY KEY, JOB_NAME TEXT, CREATED_ON TEXT, FROM_SCHEMA TEXT, TO_SCHEMA TEXT, FRQUENCY TEXT, START_ON TEXT, END_ON TEXT, ONE_TIME TEXT)\";\n\nconst {JOB_NAME,BASE_SCHEMA,TARGET_SCHEMA,FREQUENCY, START_ON, END_ON, SCHEDULED, JOB_TYPE, CONFIGURATION, STATUS} = msg.req.body;\n\nfunction uuidv4() {\n  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\n    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);\n    return v.toString(16);\n  });\n}\nconst JOB_ID = uuidv4();\n\nmsg.topic = `INSERT INTO ENT_JOBS (JOB_ID,JOB_NAME,CREATED_ON,BASE_SCHEMA,TARGET_SCHEMA,FREQUENCY, START_ON, END_ON, SCHEDULED, JOB_TYPE, CONFIGURATION, STATUS)\n            VALUES ('${JOB_ID}', ${JOB_NAME ? \"'\"+JOB_NAME+\"'\" : JOB_NAME}, datetime('now', 'localtime'), ${BASE_SCHEMA ? \"'\"+BASE_SCHEMA+\"'\" : BASE_SCHEMA}, \n            ${TARGET_SCHEMA ? \"'\"+TARGET_SCHEMA+\"'\" : TARGET_SCHEMA}, ${FREQUENCY ? \"'\"+FREQUENCY+\"'\" : FREQUENCY}, ${START_ON ? \"'\"+START_ON+\"'\" : START_ON}, \n            ${END_ON ? \"'\"+END_ON+\"'\" : END_ON}, ${SCHEDULED ? \"'\"+SCHEDULED+\"'\" : SCHEDULED}, ${JOB_TYPE ? \"'\"+JOB_TYPE+\"'\" : JOB_TYPE}, \n            ${CONFIGURATION ? \"'\"+CONFIGURATION+\"'\" : CONFIGURATION}, ${STATUS ? \"'\"+STATUS+\"'\" : STATUS});`;\n            \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 100,
+        "wires": [
+            [
+                "a3069ff6.7ff25"
+            ]
+        ]
+    },
+    {
+        "id": "a4796c9d.e85e9",
+        "type": "sqlite",
+        "z": "6ccd91ab.19ee9",
+        "mydb": "e7336e81.c32bc",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 560,
+        "y": 180,
+        "wires": [
+            [
+                "4438fe60.d997b",
+                "5bfdd6a.8ccec28"
+            ]
+        ]
+    },
+    {
+        "id": "4438fe60.d997b",
+        "type": "debug",
+        "z": "6ccd91ab.19ee9",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 770,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "c1634a42.83edc8",
+        "type": "function",
+        "z": "6ccd91ab.19ee9",
+        "name": "",
+        "func": "// \"CREATE TABLE ENT_JOB_LOGS(LOG_ID TEXT PRIMARY KEY, JOB_ID TEXT, STARTED_ON TEXT, ENDED_ON TEXT, STATUS CHAR(1), FOREIGN KEY (JOB_ID) REFERENCES ENT_JOB (JOB_ID) ON UPDATE SET NULL ON DELETE SET NULL)\";\n\nconst {JOB_ID,STARTED_ON,ENDED_ON,STATUS} = msg.req.body;\nfunction uuidv4() {\n  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\n    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);\n    return v.toString(16);\n  });\n}\n\nconst LOG_ID = uuidv4();\n\nmsg.topic = `INSERT INTO ENT_JOB_LOGS (LOG_ID,JOB_ID,STARTED_ON,ENDED_ON,STATUS)\n            VALUES ('${LOG_ID}', '${JOB_ID}', '${STARTED_ON}', '${ENDED_ON}', '${STATUS}' );`;\n            \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 180,
+        "wires": [
+            [
+                "a4796c9d.e85e9"
+            ]
+        ]
+    },
+    {
+        "id": "e88db0db.c3ff1",
+        "type": "sqlite",
+        "z": "6ccd91ab.19ee9",
+        "mydb": "e7336e81.c32bc",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 560,
+        "y": 260,
+        "wires": [
+            [
+                "ec87e38a.e593d",
+                "333bd44d.d6021c"
+            ]
+        ]
+    },
+    {
+        "id": "ec87e38a.e593d",
+        "type": "debug",
+        "z": "6ccd91ab.19ee9",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 770,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "b8fbbd7a.2adc6",
+        "type": "sqlite",
+        "z": "6ccd91ab.19ee9",
+        "mydb": "e7336e81.c32bc",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 560,
+        "y": 340,
+        "wires": [
+            [
+                "70ae9a4a.352eb4",
+                "db036bdb.33eff8"
+            ]
+        ]
+    },
+    {
+        "id": "70ae9a4a.352eb4",
+        "type": "debug",
+        "z": "6ccd91ab.19ee9",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 770,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "682f5341.8bf12c",
+        "type": "sqlite",
+        "z": "6ccd91ab.19ee9",
+        "mydb": "e7336e81.c32bc",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 560,
+        "y": 720,
+        "wires": [
+            [
+                "84168539.aa6a48",
+                "bbbeeea7.508b4"
+            ]
+        ]
+    },
+    {
+        "id": "84168539.aa6a48",
+        "type": "debug",
+        "z": "6ccd91ab.19ee9",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 770,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "a1fb1cd.42035e",
+        "type": "sqlite",
+        "z": "6ccd91ab.19ee9",
+        "mydb": "e7336e81.c32bc",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 560,
+        "y": 800,
+        "wires": [
+            [
+                "f19fa8ff.3c1668",
+                "df58377f.ebaca8"
+            ]
+        ]
+    },
+    {
+        "id": "f19fa8ff.3c1668",
+        "type": "debug",
+        "z": "6ccd91ab.19ee9",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 770,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "b772a89a.2e25f8",
+        "type": "sqlite",
+        "z": "6ccd91ab.19ee9",
+        "mydb": "e7336e81.c32bc",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 560,
+        "y": 880,
+        "wires": [
+            [
+                "4c42ee16.13576",
+                "e590ad03.06fc8"
+            ]
+        ]
+    },
+    {
+        "id": "4c42ee16.13576",
+        "type": "debug",
+        "z": "6ccd91ab.19ee9",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 770,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "6bb43ea1.517f6",
+        "type": "function",
+        "z": "6ccd91ab.19ee9",
+        "name": "",
+        "func": "\nmsg.topic = `SELECT * FROM  ENT_JOBS`;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 260,
+        "wires": [
+            [
+                "e88db0db.c3ff1"
+            ]
+        ]
+    },
+    {
+        "id": "c07b6c00.bbe15",
+        "type": "function",
+        "z": "6ccd91ab.19ee9",
+        "name": "",
+        "func": "\nmsg.topic = `SELECT * FROM  ENT_JOB_LOGS`;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 340,
+        "wires": [
+            [
+                "b8fbbd7a.2adc6"
+            ]
+        ]
+    },
+    {
+        "id": "21941d45.387da2",
+        "type": "function",
+        "z": "6ccd91ab.19ee9",
+        "name": "",
+        "func": "\nconst {JOB_ID} = msg.req.query;\n\nmsg.topic = `SELECT * FROM  ENT_JOBS WHERE JOB_ID ='${JOB_ID}'`;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 720,
+        "wires": [
+            [
+                "682f5341.8bf12c"
+            ]
+        ]
+    },
+    {
+        "id": "d26dca67.3329e8",
+        "type": "function",
+        "z": "6ccd91ab.19ee9",
+        "name": "",
+        "func": "const {LOG_ID} = msg.req.query;\n\nmsg.topic = `SELECT * FROM  ENT_JOB_LOGS WHERE LOG_ID ='${LOG_ID}'`;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 800,
+        "wires": [
+            [
+                "a1fb1cd.42035e"
+            ]
+        ]
+    },
+    {
+        "id": "deaa6e5a.c8d6f",
+        "type": "function",
+        "z": "6ccd91ab.19ee9",
+        "name": "",
+        "func": "\nconst {JOB_NAME} = msg.req.query;\n\nmsg.topic = `SELECT * FROM  ENT_JOB WHERE JOB_NAME LIKE '%${JOB_NAME}%'`;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 880,
+        "wires": [
+            [
+                "b772a89a.2e25f8"
+            ]
+        ]
+    },
+    {
+        "id": "a1765f83.c031f",
+        "type": "http response",
+        "z": "6ccd91ab.19ee9",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 770,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "5bfdd6a.8ccec28",
+        "type": "http response",
+        "z": "6ccd91ab.19ee9",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 770,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "333bd44d.d6021c",
+        "type": "http response",
+        "z": "6ccd91ab.19ee9",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 770,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "db036bdb.33eff8",
+        "type": "http response",
+        "z": "6ccd91ab.19ee9",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 770,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "bbbeeea7.508b4",
+        "type": "http response",
+        "z": "6ccd91ab.19ee9",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 770,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "df58377f.ebaca8",
+        "type": "http response",
+        "z": "6ccd91ab.19ee9",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 770,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "e590ad03.06fc8",
+        "type": "http response",
+        "z": "6ccd91ab.19ee9",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 770,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "27ba5dff.cff8a2",
+        "type": "sqlite",
+        "z": "c0763147.55f79",
+        "mydb": "e7336e81.c32bc",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 540,
+        "y": 140,
+        "wires": [
+            [
+                "8a2a209d.a1b7f"
+            ]
+        ]
+    },
+    {
+        "id": "e305ee09.b0dcc",
+        "type": "inject",
+        "z": "c0763147.55f79",
+        "name": "CREATE TABLE ENT_JOBS",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "CREATE TABLE ENT_JOBS(JOB_ID TEXT PRIMARY KEY, JOB_NAME TEXT NOT NULL, BASE_SCHEMA TEXT, TARGET_SCHEMA TEXT, STATUS CHAR(1) NOT NULL, FREQUENCY CHAR(1), START_ON DATETIME, END_ON DATETIME, SCHEDULED CHAR(1) NOT NULL, JOB_TYPE TEXT NOT NULL, CONFIGURATION TEXT, CREATED_ON DATETIME NOT NULL);",
+        "payload": "",
+        "payloadType": "date",
+        "x": 260,
+        "y": 140,
+        "wires": [
+            [
+                "27ba5dff.cff8a2"
+            ]
+        ]
+    },
+    {
+        "id": "8a2a209d.a1b7f",
+        "type": "debug",
+        "z": "c0763147.55f79",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 710,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "60933614.190528",
+        "type": "sqlite",
+        "z": "c0763147.55f79",
+        "mydb": "e7336e81.c32bc",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 540,
+        "y": 180,
+        "wires": [
+            [
+                "eee81c4f.39a07"
+            ]
+        ]
+    },
+    {
+        "id": "a9ef0a87.02e388",
+        "type": "inject",
+        "z": "c0763147.55f79",
+        "name": "CREATE TABLE ENT_JOB_LOGS",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "CREATE TABLE ENT_JOB_LOGS(LOG_ID TEXT PRIMARY KEY, JOB_ID TEXT NOT NULL, STARTED_ON TEXT NOT NULL, ENDED_ON TEXT, STATUS CHAR(1) NOT NULL, MSG TEXT, CONFIGURATION TEXT,  FOREIGN KEY (JOB_ID) REFERENCES ENT_JOBS (JOB_ID) ON UPDATE SET NULL ON DELETE SET NULL)",
+        "payload": "",
+        "payloadType": "date",
+        "x": 280,
+        "y": 180,
+        "wires": [
+            [
+                "60933614.190528"
+            ]
+        ]
+    },
+    {
+        "id": "eee81c4f.39a07",
+        "type": "debug",
+        "z": "c0763147.55f79",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 730,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "8edb8794.2a8a38",
+        "type": "sqlite",
+        "z": "c0763147.55f79",
+        "mydb": "bd1cf984.3d5158",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 670,
+        "y": 360,
+        "wires": [
+            [
+                "dfcef466.e0d478"
+            ]
+        ]
+    },
+    {
+        "id": "62755405.2b8a6c",
+        "type": "inject",
+        "z": "c0763147.55f79",
+        "name": "INSERT_ENT_JOB",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 230,
+        "y": 360,
+        "wires": [
+            [
+                "99e1ec49.1a439"
+            ]
+        ]
+    },
+    {
+        "id": "dfcef466.e0d478",
+        "type": "debug",
+        "z": "c0763147.55f79",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 830,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "99e1ec49.1a439",
+        "type": "function",
+        "z": "c0763147.55f79",
+        "name": "",
+        "func": "\n\"CREATE TABLE ENT_JOB(JOB_ID TEXT PRIMARY KEY, JOB_NAME TEXT, CREATED_ON TEXT, FROM_SCHEMA TEXT, TO_SCHEMA TEXT, FRQUENCY TEXT, START_ON TEXT, END_ON TEXT, ONE_TIME TEXT)\";\n\n\"CREATE TABLE ENT_JOB_LOGS(LOG_ID TEXT PRIMARY KEY, JOB_ID TEXT, STARTED_ON TEXT, ENDED_ON TEXT, STATUS CHAR(1), FOREIGN KEY (JOB_ID) REFERENCES ENT_JOB (JOB_ID) ON UPDATE SET NULL ON DELETE SET NULL)\";\n\nmsg.topic = `INSERT INTO ENT_JOB (JOB_ID,JOB_NAME,CREATED_ON,FROM_SCHEMA,TO_SCHEMA,FRQUENCY, START_ON, END_ON, ONE_TIME)\n            VALUES ('1', 'xxxxx', 'xxxxx', 'xxxxx', 'xxxxx', 'xxxxx', 'xxxxx', 'xxxxx', 'xxxxx' );`;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 360,
+        "wires": [
+            [
+                "8edb8794.2a8a38"
+            ]
+        ]
+    },
+    {
+        "id": "4025820c.d54c9c",
+        "type": "sqlite",
+        "z": "c0763147.55f79",
+        "mydb": "e7336e81.c32bc",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 500,
+        "y": 600,
+        "wires": [
+            [
+                "4828b52e.4bb13c"
+            ]
+        ]
+    },
+    {
+        "id": "9ec4b48e.62a7b8",
+        "type": "inject",
+        "z": "c0763147.55f79",
+        "name": "SELECT ENT_JOB",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "SELECT * FROM  ENT_JOBS",
+        "payload": "",
+        "payloadType": "date",
+        "x": 250,
+        "y": 600,
+        "wires": [
+            [
+                "4025820c.d54c9c"
+            ]
+        ]
+    },
+    {
+        "id": "4828b52e.4bb13c",
+        "type": "debug",
+        "z": "c0763147.55f79",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 710,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "7245d749.e13538",
+        "type": "sqlite",
+        "z": "c0763147.55f79",
+        "mydb": "bd1cf984.3d5158",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 650,
+        "y": 400,
+        "wires": [
+            [
+                "6ff1ad26.1e15c4"
+            ]
+        ]
+    },
+    {
+        "id": "8f73076a.ad7d38",
+        "type": "inject",
+        "z": "c0763147.55f79",
+        "name": "INSERT_ENT_JOB_LOG",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "SELECT * FROM  ENT_JOB",
+        "payload": "",
+        "payloadType": "date",
+        "x": 250,
+        "y": 400,
+        "wires": [
+            [
+                "51655164.7db19"
+            ]
+        ]
+    },
+    {
+        "id": "6ff1ad26.1e15c4",
+        "type": "debug",
+        "z": "c0763147.55f79",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 830,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "51655164.7db19",
+        "type": "function",
+        "z": "c0763147.55f79",
+        "name": "",
+        "func": "\n\"CREATE TABLE ENT_JOB(JOB_ID TEXT PRIMARY KEY, JOB_NAME TEXT, CREATED_ON TEXT, FROM_SCHEMA TEXT, TO_SCHEMA TEXT, FRQUENCY TEXT, START_ON TEXT, END_ON TEXT, ONE_TIME TEXT)\";\n\n\"CREATE TABLE ENT_JOB_LOGS(LOG_ID TEXT PRIMARY KEY, JOB_ID TEXT, STARTED_ON TEXT, ENDED_ON TEXT, STATUS CHAR(1), FOREIGN KEY (JOB_ID) REFERENCES ENT_JOB (JOB_ID) ON UPDATE SET NULL ON DELETE SET NULL)\";\n\n// msg.topic = `INSERT INTO ENT_JOB (JOB_ID,JOB_NAME,CREATED_ON,FROM_SCHEMA,TO_SCHEMA,FRQUENCY, START_ON, END_ON, ONE_TIME)\n//             VALUES ('1', 'xxxxx', 'xxxxx', 'xxxxx', 'xxxxx', 'xxxxx', 'xxxxx', 'xxxxx', 'xxxxx' );`;\n            \nmsg.topic = `INSERT INTO ENT_JOB_LOGS (LOG_ID,JOB_ID,STARTED_ON,ENDED_ON,STATUS)\n            VALUES ('1', '2', 'xxxxx', 'xxxxx', 'xxxxx' );`;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 400,
+        "wires": [
+            [
+                "7245d749.e13538"
+            ]
+        ]
+    },
+    {
+        "id": "cde687e7.16e368",
+        "type": "sqlite",
+        "z": "c0763147.55f79",
+        "mydb": "e7336e81.c32bc",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 500,
+        "y": 660,
+        "wires": [
+            [
+                "96dad5ec.4718d8"
+            ]
+        ]
+    },
+    {
+        "id": "aed29a64.f33288",
+        "type": "inject",
+        "z": "c0763147.55f79",
+        "name": "SELECT ENT_JOB_LOGs",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "SELECT * FROM  ENT_JOB_LOGS",
+        "payload": "",
+        "payloadType": "date",
+        "x": 270,
+        "y": 660,
+        "wires": [
+            [
+                "cde687e7.16e368"
+            ]
+        ]
+    },
+    {
+        "id": "96dad5ec.4718d8",
+        "type": "debug",
+        "z": "c0763147.55f79",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 750,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "c85599e0.f33ef8",
+        "type": "sqlite",
+        "z": "c0763147.55f79",
+        "mydb": "e7336e81.c32bc",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 540,
+        "y": 100,
+        "wires": [
+            [
+                "ada83813.4ff788"
+            ]
+        ]
+    },
+    {
+        "id": "6c833c64.ac3af4",
+        "type": "inject",
+        "z": "c0763147.55f79",
+        "name": "CREATE TABLE ENT_USERS",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "CREATE TABLE ENT_USERS(USER_ID PRIMARY KEY, NAME TEXT, USERNAME TEXT UNIQUE NOT NULL, ROLE TEXT NOT NULL, PASSWORD TEXT NOT NULL, BLOCKED CHAR(1), CREATED_ON DATETIME NOT NULL);",
+        "payload": "",
+        "payloadType": "date",
+        "x": 260,
+        "y": 100,
+        "wires": [
+            [
+                "c85599e0.f33ef8"
+            ]
+        ]
+    },
+    {
+        "id": "ada83813.4ff788",
+        "type": "debug",
+        "z": "c0763147.55f79",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 710,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "9698a7e8.039d48",
+        "type": "comment",
+        "z": "c0763147.55f79",
+        "name": "Create Table",
+        "info": "",
+        "x": 130,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "617302bb.fb5e8c",
+        "type": "sqlite",
+        "z": "c0763147.55f79",
+        "mydb": "e7336e81.c32bc",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 680,
+        "y": 320,
+        "wires": [
+            [
+                "3545aa4.8b38a56"
+            ]
+        ]
+    },
+    {
+        "id": "33e037db.cae2c8",
+        "type": "inject",
+        "z": "c0763147.55f79",
+        "name": "INSERT_ENT_USERS",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 240,
+        "y": 320,
+        "wires": [
+            [
+                "fbdc5196.d46d1"
+            ]
+        ]
+    },
+    {
+        "id": "3545aa4.8b38a56",
+        "type": "debug",
+        "z": "c0763147.55f79",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 830,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "fbdc5196.d46d1",
+        "type": "function",
+        "z": "c0763147.55f79",
+        "name": "",
+        "func": "\n\"CREATE TABLE ENT_JOB(JOB_ID TEXT PRIMARY KEY, JOB_NAME TEXT, CREATED_ON TEXT, FROM_SCHEMA TEXT, TO_SCHEMA TEXT, FRQUENCY TEXT, START_ON TEXT, END_ON TEXT, ONE_TIME TEXT)\";\n\n\"CREATE TABLE ENT_JOB_LOGS(LOG_ID TEXT PRIMARY KEY, JOB_ID TEXT, STARTED_ON TEXT, ENDED_ON TEXT, STATUS CHAR(1), FOREIGN KEY (JOB_ID) REFERENCES ENT_JOB (JOB_ID) ON UPDATE SET NULL ON DELETE SET NULL)\";\n\nmsg.topic = `INSERT INTO ENT_USERS (USER_ID, NAME, USERNAME, ROLE, PASSWORD, BLOCKED, CREATED_ON)\n            VALUES ('124321454','Yogendra', 'YOGI', 'ADMIN', '1234', 'Y', datetime('now', 'localtime'));`;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 320,
+        "wires": [
+            [
+                "617302bb.fb5e8c"
+            ]
+        ]
+    },
+    {
+        "id": "b1904fd6.26046",
+        "type": "comment",
+        "z": "c0763147.55f79",
+        "name": "Insert Data",
+        "info": "",
+        "x": 120,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "492a27b8.333fb8",
+        "type": "comment",
+        "z": "c0763147.55f79",
+        "name": "Select Data",
+        "info": "",
+        "x": 130,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "4582fda5.7d4474",
+        "type": "sqlite",
+        "z": "c0763147.55f79",
+        "mydb": "e7336e81.c32bc",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 500,
+        "y": 540,
+        "wires": [
+            [
+                "a4bf2b33.a51088"
+            ]
+        ]
+    },
+    {
+        "id": "78992fde.b01e7",
+        "type": "inject",
+        "z": "c0763147.55f79",
+        "name": "SELECT ENT_USERS",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "SELECT * FROM  ENT_USERS",
+        "payload": "",
+        "payloadType": "date",
+        "x": 260,
+        "y": 540,
+        "wires": [
+            [
+                "4582fda5.7d4474"
+            ]
+        ]
+    },
+    {
+        "id": "a4bf2b33.a51088",
+        "type": "debug",
+        "z": "c0763147.55f79",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 710,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "da0c28ed.80a278",
+        "type": "sqlite",
+        "z": "e7f8ec40.9de36",
+        "mydb": "e7336e81.c32bc",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 600,
+        "y": 260,
+        "wires": [
+            [
+                "b6fb9b37.e37958",
+                "74a195eb.5ae05c"
+            ]
+        ]
+    },
+    {
+        "id": "c53d038c.c4e83",
+        "type": "inject",
+        "z": "e7f8ec40.9de36",
+        "name": "login",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "SELECT * FROM  ENT_USERS",
+        "payload": "",
+        "payloadType": "date",
+        "x": 210,
+        "y": 200,
+        "wires": [
+            [
+                "27f1a68a.ce5e0a"
+            ]
+        ]
+    },
+    {
+        "id": "27f1a68a.ce5e0a",
+        "type": "function",
+        "z": "e7f8ec40.9de36",
+        "name": "",
+        "func": "const { username, password} = msg.req.body;\nmsg.topic=`SELECT * FROM  ENT_USERS where USERNAME= '${username}' and PASSWORD= '${password}'`\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 260,
+        "wires": [
+            [
+                "da0c28ed.80a278"
+            ]
+        ]
+    },
+    {
+        "id": "74a195eb.5ae05c",
+        "type": "debug",
+        "z": "e7f8ec40.9de36",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 910,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "3545bacc.f5fa76",
+        "type": "http response",
+        "z": "e7f8ec40.9de36",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 990,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "98daf2d1.0be9",
+        "type": "http in",
+        "z": "e7f8ec40.9de36",
+        "name": "login",
+        "url": "/api/login",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 190,
+        "y": 260,
+        "wires": [
+            [
+                "27f1a68a.ce5e0a"
+            ]
+        ]
+    },
+    {
+        "id": "b6fb9b37.e37958",
+        "type": "function",
+        "z": "e7f8ec40.9de36",
+        "name": "",
+        "func": "if(msg.payload.length){\n    return [msg, null];\n}\nmsg.payload=\"Incorrect Username/Password\";\nreturn [null, msg];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 820,
+        "y": 260,
+        "wires": [
+            [
+                "3545bacc.f5fa76"
+            ],
+            [
+                "dcc64289.66426"
+            ]
+        ]
+    },
+    {
+        "id": "dcc64289.66426",
+        "type": "http response",
+        "z": "e7f8ec40.9de36",
+        "name": "",
+        "statusCode": "401",
+        "headers": {},
+        "x": 1000,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "86df040c.204668",
+        "type": "inject",
+        "z": "58b888b4.6c1618",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 200,
+        "y": 100,
+        "wires": [
+            [
+                "d32ae5b9.640118"
+            ]
+        ]
+    },
+    {
+        "id": "4622d10.bfffc3",
+        "type": "sqlite",
+        "z": "58b888b4.6c1618",
+        "mydb": "e7336e81.c32bc",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 440,
+        "y": 160,
+        "wires": [
+            [
+                "2ac03a5f.c3a0c6",
+                "bafe4ff3.8ade4"
+            ]
+        ]
+    },
+    {
+        "id": "d32ae5b9.640118",
+        "type": "function",
+        "z": "58b888b4.6c1618",
+        "name": "Join Job&Log",
+        "func": "\nmsg.topic = `SELECT * FROM  ENT_JOBS J1 LEFT OUTER JOIN ENT_JOB_LOGS L1 ON J1.JOB_ID=L1.JOB_ID WHERE J1.SCHEDULED ='Y' \nAND J1.STATUS = 'A' AND  strftime('%s','now') < strftime('%s',J1.END_ON) AND  strftime('%s','now') > strftime('%s',J1.START_ON) \n--AND JOB_ID NOT IN (SELECT JOB_ID FROM ENT_JOB_LOGS WHERE date(STARTED_ON) = date('now') )`;\n\n//LEFT OUTER JOIN ENT_JOB_LOGS L1 ON J1.JOB_ID=L1.JOB_ID\n//J1.END_ON > '${new Date()}' AND\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 240,
+        "y": 160,
+        "wires": [
+            [
+                "4622d10.bfffc3"
+            ]
+        ]
+    },
+    {
+        "id": "dcb19515.c440d8",
+        "type": "debug",
+        "z": "58b888b4.6c1618",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1110,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "8532c4bd.2f1f08",
+        "type": "sqlite",
+        "z": "58b888b4.6c1618",
+        "mydb": "e7336e81.c32bc",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 540,
+        "y": 760,
+        "wires": [
+            [
+                "d58cbd76.4798e"
+            ]
+        ]
+    },
+    {
+        "id": "62916676.c1a508",
+        "type": "function",
+        "z": "58b888b4.6c1618",
+        "name": "Log - Job In-Process",
+        "func": "\nconst {JOB_ID, CONFIGURATION} = msg.item;\nfunction uuidv4() {\n  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\n    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);\n    return v.toString(16);\n  });\n}\n\nconst LOG_ID = uuidv4();\nmsg.LOG_ID = LOG_ID;\nmsg.topic = `INSERT INTO ENT_JOB_LOGS (LOG_ID,JOB_ID,STARTED_ON,STATUS, CONFIGURATION)\n            VALUES ('${LOG_ID}', '${JOB_ID}', datetime('now', 'localtime'), 'I', '${CONFIGURATION}' );`;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 760,
+        "wires": [
+            [
+                "8532c4bd.2f1f08"
+            ]
+        ]
+    },
+    {
+        "id": "8c2fd99c.ea8498",
+        "type": "function",
+        "z": "5ddb2001.76d37",
+        "name": "Iterate",
+        "func": "var arrayVarName = \"iterationInfo\";\nvar inputVarName = \"payload\";\n//var tempArrayVarName = env.get(\"arrayVarName\");\nvar tempInputVarName = env.get(\"inputVarName\");\nvar currentObjectName = env.get(\"currentObjectName\");\n// TO DO \n// aggiungere un ulteriore proprieta' che indica da dove devo copiare i dati, \n// esempio payload dovro' copiare i dati da payload in DocumentLines \n//         msg.arraInfo[nomevariabileTo] = msg[nomevariabileFrom]\n// nell'oggetto msg.iterationInfo andremo a creare i vari oggetti utilizzati dal nodo\n// esempio :\n// msg.iterationInfo.current riga che contiene i dati attualmente iterati , esempio currentDocumentLine\n// msg.iterationInfo._current array ad uso interno\n// msg.iterationInfo.     , esempio DocumentLines (tutto l'array)\n// \nif (currentObjectName !=='')\n    arrayVarName = '_' + currentObjectName + '_internal_DoNotUse';\nif (tempInputVarName !=='')    \n    inputVarName = tempInputVarName;    \n\nvar nextObj, out;\n//var itt = msg.iterationInfo;\nvar itt = msg[arrayVarName];\n//If the iterating has not yet begun set up the iteration metadata in the msg\nif (typeof itt === 'undefined') {\n    //Make sure payload is an array    \n    //if( Object.prototype.toString.call(msg.payload) !== '[object Array]' ) {    \n    if( Object.prototype.toString.call(msg[inputVarName]) !== '[object Array]' ) {       \n        //msg.payload = [msg.payload];       \n        msg[inputVarName] = [msg[inputVarName]];   \n        \n    }    \n    //msg.iterationInfo = itt = {};    \n    msg[arrayVarName] = itt = {};    \n    itt.index = -1;    \n    //itt.inArray = msg.payload;    \n    itt.inArray = msg[inputVarName];    \n    itt.outArray = [];\n    //Otherwise just push the input to the output array\n    } else {    \n    //itt.outArray.push(msg.payload)    \n    itt.outArray.push(msg[inputVarName])}\n    //Goto next object\n    itt.index ++;\n    //If there are stil objects left to iterate goto the next one in the original array\n    if (itt.index < itt.inArray.length) {    \n        nextObj = msg;    \n        //msg.payload = itt.inArray[itt.index];    \n        msg[currentObjectName] = itt.inArray[itt.index];\n        //otherwise pass the out array as the payload\n    } else {    \n        out = msg;    \n        //msg.payload = itt.outArray;    \n        msg[inputVarName] = itt.outArray;    \n        //delete msg.iterationInfo;    \n        delete msg[arrayVarName];\n    }\nreturn [nextObj, out];",
+        "outputs": "2",
+        "noerr": 0,
+        "x": 347,
+        "y": 220,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "76fa59cf.0f7de8",
+        "type": "subflow:5ddb2001.76d37",
+        "z": "58b888b4.6c1618",
+        "name": "",
+        "env": [
+            {
+                "name": "inputVarName",
+                "value": "payload",
+                "type": "str"
+            },
+            {
+                "name": "currentObjectName",
+                "value": "item",
+                "type": "str"
+            }
+        ],
+        "x": 790,
+        "y": 160,
+        "wires": [
+            [
+                "44b3487a.144a18"
+            ],
+            [
+                "6d903ddc.d73b94"
+            ]
+        ]
+    },
+    {
+        "id": "44b3487a.144a18",
+        "type": "function",
+        "z": "58b888b4.6c1618",
+        "name": "",
+        "func": "\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 940,
+        "y": 120,
+        "wires": [
+            [
+                "dcb19515.c440d8",
+                "76fa59cf.0f7de8",
+                "64f94c54.4ba714"
+            ]
+        ]
+    },
+    {
+        "id": "d58cbd76.4798e",
+        "type": "function",
+        "z": "58b888b4.6c1618",
+        "name": "Check JobType",
+        "func": "\nif(msg.item.JOB_TYPE===\"COPY_COMPANY\"){\n    return [msg, null];\n}\nreturn [null, msg];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 760,
+        "wires": [
+            [
+                "7d00c343.ac26ec",
+                "1895b955.ff0737"
+            ],
+            [
+                "c40187b7.2f9538",
+                "a7d4823e.03602"
+            ]
+        ]
+    },
+    {
+        "id": "64f94c54.4ba714",
+        "type": "link out",
+        "z": "58b888b4.6c1618",
+        "name": "",
+        "links": [
+            "c5231673.2a2448"
+        ],
+        "x": 1075,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "c5231673.2a2448",
+        "type": "link in",
+        "z": "58b888b4.6c1618",
+        "name": "",
+        "links": [
+            "64f94c54.4ba714",
+            "9b12ea1d.ef2d18"
+        ],
+        "x": 115,
+        "y": 560,
+        "wires": [
+            [
+                "129d6a4c.711966"
+            ]
+        ]
+    },
+    {
+        "id": "1895b955.ff0737",
+        "type": "link out",
+        "z": "58b888b4.6c1618",
+        "name": "",
+        "links": [
+            "b3226777.67bb78",
+            "f9dcd32b.d33f9"
+        ],
+        "x": 955,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "c40187b7.2f9538",
+        "type": "link out",
+        "z": "58b888b4.6c1618",
+        "name": "",
+        "links": [],
+        "x": 955,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "7d00c343.ac26ec",
+        "type": "debug",
+        "z": "58b888b4.6c1618",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 970,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "a7d4823e.03602",
+        "type": "debug",
+        "z": "58b888b4.6c1618",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 970,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "f9dcd32b.d33f9",
+        "type": "link in",
+        "z": "14adbe7e.88fa32",
+        "name": "",
+        "links": [
+            "1895b955.ff0737"
+        ],
+        "x": 175,
+        "y": 160,
+        "wires": [
+            [
+                "8f386d67.52245"
+            ]
+        ]
+    },
+    {
+        "id": "2aa8967.660946a",
+        "type": "hana-client",
+        "z": "14adbe7e.88fa32",
+        "server": "cf0aae0a.edbdf",
+        "sql": "",
+        "x": 730,
+        "y": 160,
+        "wires": [
+            [
+                "2fbf985d.033f38"
+            ],
+            [
+                "94551b15.a358d8"
+            ]
+        ]
+    },
+    {
+        "id": "8f386d67.52245",
+        "type": "function",
+        "z": "14adbe7e.88fa32",
+        "name": "Standard export WITH NO dependencies",
+        "func": "const {BASE_SCHEMA, TARGET_SCHEMA, CONFIGURATION} = msg.item;\n// const file_path = `/usr/sap/bputils/backups_entitec_sysadmintool`\nvar d = new Date(),\n    dformat = [d.getFullYear(),\n               d.getMonth()+1,\n               d.getDate()].join('')+'_'+\n              [d.getHours(),\n               d.getMinutes(),\n               d.getSeconds()].join('');\n               \nmsg.file_path = `/usr/sap/bputils/backups_entitec_sysadmintool/${BASE_SCHEMA}/bck_${dformat}`;//yyyymmdd_hhssmm\n\nmsg.configOverride = {};\nif(!msg.flowInfo){\n    msg.flowInfo = {};\n}\n\nmsg.flowInfo.sql = `export ${BASE_SCHEMA}.\"*\" as binary\ninto '${msg.file_path}'\nwith threads 4 no dependencies;`;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 160,
+        "wires": [
+            [
+                "2aa8967.660946a",
+                "54477b72.a7b8d4"
+            ]
+        ]
+    },
+    {
+        "id": "79e7ba22.a96194",
+        "type": "function",
+        "z": "14adbe7e.88fa32",
+        "name": "Standard import WITH rename",
+        "func": "const {BASE_SCHEMA, TARGET_SCHEMA, CONFIGURATION} = msg.item;\n\nmsg.flowInfo.sql = `import ${BASE_SCHEMA}.\"*\" as binary\nfrom '${msg.file_path}'\nwith threads 4 replace no dependencies\nrename schema ${BASE_SCHEMA} to ${TARGET_SCHEMA};`;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 360,
+        "wires": [
+            [
+                "fc8658e6.8b67c8",
+                "1f6b7d32.cfd6a3"
+            ]
+        ]
+    },
+    {
+        "id": "fc8658e6.8b67c8",
+        "type": "hana-client",
+        "z": "14adbe7e.88fa32",
+        "server": "cf0aae0a.edbdf",
+        "sql": "",
+        "x": 670,
+        "y": 360,
+        "wires": [
+            [
+                "73d339f5.005c38",
+                "2fda2e30.1cff22"
+            ],
+            [
+                "c33d120b.82098"
+            ]
+        ]
+    },
+    {
+        "id": "94551b15.a358d8",
+        "type": "link out",
+        "z": "14adbe7e.88fa32",
+        "name": "",
+        "links": [
+            "a8ecb5ed.6ad148"
+        ],
+        "x": 1035,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "c33d120b.82098",
+        "type": "link out",
+        "z": "14adbe7e.88fa32",
+        "name": "",
+        "links": [
+            "a8ecb5ed.6ad148"
+        ],
+        "x": 855,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "3cfb5aa4.d588a6",
+        "type": "sqlite",
+        "z": "14adbe7e.88fa32",
+        "mydb": "e7336e81.c32bc",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 900,
+        "y": 460,
+        "wires": [
+            [
+                "61519ae8.0cc544"
+            ]
+        ]
+    },
+    {
+        "id": "3f86ad81.41aed2",
+        "type": "function",
+        "z": "14adbe7e.88fa32",
+        "name": "Log - Job  Successfull",
+        "func": "const { JOB_ID } = msg.item;\nconst MSG = \"Job Successfully Completed\"\nmsg.configOverride={};\nmsg.topic = `\nUPDATE ENT_JOB_LOGS SET STATUS = 'S', MSG = '${MSG}', ENDED_ON = datetime('now', 'localtime') WHERE LOG_ID = '${msg.LOG_ID}';   \n`;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 460,
+        "wires": [
+            [
+                "3cfb5aa4.d588a6",
+                "d5b4593d.5b4178"
+            ]
+        ]
+    },
+    {
+        "id": "4e8f3ea8.dcffc",
+        "type": "sqlite",
+        "z": "14adbe7e.88fa32",
+        "mydb": "e7336e81.c32bc",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 680,
+        "y": 660,
+        "wires": [
+            [
+                "bf6192ef.5a68a"
+            ]
+        ]
+    },
+    {
+        "id": "10ea7b71.9a6e55",
+        "type": "function",
+        "z": "14adbe7e.88fa32",
+        "name": "Log - Job  Error",
+        "func": "\nconst { JOB_ID } = msg.item;\nmsg.topic = `\nUPDATE ENT_JOB_LOGS SET STATUS = 'E', MSG = '${msg.error}', ENDED_ON = datetime('now', 'localtime') WHERE LOG_ID = '${msg.LOG_ID}';   \n`;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 660,
+        "wires": [
+            [
+                "4e8f3ea8.dcffc",
+                "ce3b4409.f9cf68"
+            ]
+        ]
+    },
+    {
+        "id": "a8ecb5ed.6ad148",
+        "type": "link in",
+        "z": "14adbe7e.88fa32",
+        "name": "",
+        "links": [
+            "94551b15.a358d8",
+            "c33d120b.82098",
+            "a9bc894a.a1c9e8",
+            "9e5dce19.806b8"
+        ],
+        "x": 215,
+        "y": 660,
+        "wires": [
+            [
+                "10ea7b71.9a6e55"
+            ]
+        ]
+    },
+    {
+        "id": "1244d415.94181c",
+        "type": "debug",
+        "z": "14adbe7e.88fa32",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1050,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "73d339f5.005c38",
+        "type": "debug",
+        "z": "14adbe7e.88fa32",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 770,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "7f2e4e3d.f3f7c",
+        "type": "service-layer-request",
+        "z": "14adbe7e.88fa32",
+        "server": "9f5c164e.6abee8",
+        "name": "SL Login",
+        "serviceLayerMethod": "",
+        "httpMethod": "GET",
+        "slResponseObject": "",
+        "x": 300,
+        "y": 500,
+        "wires": [
+            [
+                "3f86ad81.41aed2"
+            ],
+            [
+                "dc96e009.c3edd"
+            ]
+        ]
+    },
+    {
+        "id": "6dc8d6c2.fd85f8",
+        "type": "function",
+        "z": "14adbe7e.88fa32",
+        "name": "",
+        "func": "const {UserName, Password} = JSON.parse(msg.item.CONFIGURATION)\n// msg.configOverride = {\n//     database: msg.item.TARGET_SCHEMA,\n//     userName: UserName,\n//     password: Password\n// };\nmsg.configOverride = {\n    database: msg.item.TARGET_SCHEMA,\n    userName: UserName,\n    password: Password,\n    serviceLayerUrl: msg.serviceLayerUrl\n    };\nmsg.serviceLayer = {\n    method:'BusinessPartners?$top=1'\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1060,
+        "y": 280,
+        "wires": [
+            [
+                "fe279d17.11909",
+                "b439c4e0.b4dfa8"
+            ]
+        ]
+    },
+    {
+        "id": "61519ae8.0cc544",
+        "type": "debug",
+        "z": "14adbe7e.88fa32",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1070,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "a9bc894a.a1c9e8",
+        "type": "link out",
+        "z": "14adbe7e.88fa32",
+        "name": "",
+        "links": [
+            "a8ecb5ed.6ad148"
+        ],
+        "x": 655,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "bf6192ef.5a68a",
+        "type": "debug",
+        "z": "14adbe7e.88fa32",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 870,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "73b7c690.365388",
+        "type": "debug",
+        "z": "58b888b4.6c1618",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 370,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "72c649cc.1b2658",
+        "type": "catch",
+        "z": "6ccd91ab.19ee9",
+        "name": "",
+        "scope": null,
+        "uncaught": false,
+        "x": 160,
+        "y": 960,
+        "wires": [
+            [
+                "791de05c.d7aeb"
+            ]
+        ]
+    },
+    {
+        "id": "56d3aa8a.c684e4",
+        "type": "http response",
+        "z": "6ccd91ab.19ee9",
+        "name": "",
+        "statusCode": "401",
+        "headers": {},
+        "x": 530,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "a0166404.2c9968",
+        "type": "debug",
+        "z": "6ccd91ab.19ee9",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 520,
+        "y": 920,
+        "wires": []
+    },
+    {
+        "id": "791de05c.d7aeb",
+        "type": "function",
+        "z": "6ccd91ab.19ee9",
+        "name": "",
+        "func": "msg.payload = msg.error.message\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 960,
+        "wires": [
+            [
+                "56d3aa8a.c684e4",
+                "a0166404.2c9968"
+            ]
+        ]
+    },
+    {
+        "id": "2ac03a5f.c3a0c6",
+        "type": "debug",
+        "z": "58b888b4.6c1618",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 630,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "238923f.a1fcadc",
+        "type": "comment",
+        "z": "14adbe7e.88fa32",
+        "name": "Export Schema",
+        "info": "",
+        "x": 160,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "55b0ced3.86ee6",
+        "type": "comment",
+        "z": "14adbe7e.88fa32",
+        "name": "Import WITH rename",
+        "info": "",
+        "x": 180,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "1fe0b491.b1a69b",
+        "type": "comment",
+        "z": "14adbe7e.88fa32",
+        "name": "SL Check",
+        "info": "",
+        "x": 140,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "1612deb9.6ef0c1",
+        "type": "comment",
+        "z": "14adbe7e.88fa32",
+        "name": "Write Error",
+        "info": "",
+        "x": 150,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "b0c4015b.d7442",
+        "type": "sqlite",
+        "z": "58b888b4.6c1618",
+        "mydb": "e7336e81.c32bc",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 580,
+        "y": 380,
+        "wires": [
+            [
+                "448fd6c6.c03e08",
+                "6c78735a.45f55c"
+            ]
+        ]
+    },
+    {
+        "id": "9749a28e.aeec6",
+        "type": "function",
+        "z": "58b888b4.6c1618",
+        "name": "",
+        "func": "\nconst {JOB_ID} = msg.req.body;\n\nmsg.topic = `SELECT * FROM  ENT_JOBS WHERE JOB_ID ='${JOB_ID}'`;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 380,
+        "wires": [
+            [
+                "b0c4015b.d7442"
+            ]
+        ]
+    },
+    {
+        "id": "448fd6c6.c03e08",
+        "type": "function",
+        "z": "58b888b4.6c1618",
+        "name": "",
+        "func": "msg.item=msg.payload[0];\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 820,
+        "y": 380,
+        "wires": [
+            [
+                "95407b82.512c98",
+                "9b12ea1d.ef2d18"
+            ]
+        ]
+    },
+    {
+        "id": "d54e340d.3b0528",
+        "type": "http in",
+        "z": "58b888b4.6c1618",
+        "name": "Run Job",
+        "url": "/api/runJob",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 140,
+        "y": 380,
+        "wires": [
+            [
+                "9749a28e.aeec6"
+            ]
+        ]
+    },
+    {
+        "id": "afc5a47c.585718",
+        "type": "comment",
+        "z": "58b888b4.6c1618",
+        "name": "For Scheduled Job",
+        "info": "",
+        "x": 150,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "8423b709.302458",
+        "type": "comment",
+        "z": "58b888b4.6c1618",
+        "name": "For Non-Scheduled Job",
+        "info": "",
+        "x": 160,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "3d66ce2c.725802",
+        "type": "comment",
+        "z": "58b888b4.6c1618",
+        "name": "Log - Job In-Process",
+        "info": "",
+        "x": 150,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "95407b82.512c98",
+        "type": "http response",
+        "z": "58b888b4.6c1618",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1010,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "6c78735a.45f55c",
+        "type": "debug",
+        "z": "58b888b4.6c1618",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 830,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "7874d580.f7460c",
+        "type": "http in",
+        "z": "6ccd91ab.19ee9",
+        "name": "Update Job",
+        "url": "/api/updateJob",
+        "method": "put",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 150,
+        "y": 440,
+        "wires": [
+            [
+                "a537cf94.7edea"
+            ]
+        ]
+    },
+    {
+        "id": "b77a0b24.c94348",
+        "type": "sqlite",
+        "z": "6ccd91ab.19ee9",
+        "mydb": "e7336e81.c32bc",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 560,
+        "y": 440,
+        "wires": [
+            [
+                "d85ff82e.ca2248",
+                "e32d333c.a747"
+            ]
+        ]
+    },
+    {
+        "id": "d85ff82e.ca2248",
+        "type": "debug",
+        "z": "6ccd91ab.19ee9",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 770,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "a537cf94.7edea",
+        "type": "function",
+        "z": "6ccd91ab.19ee9",
+        "name": "",
+        "func": "\nconst {JOB_ID,JOB_NAME,BASE_SCHEMA,TARGET_SCHEMA,FREQUENCY, START_ON, END_ON, SCHEDULED, JOB_TYPE, CONFIGURATION} = msg.req.body;\n\nmsg.topic = `UPDATE ENT_JOBS SET JOB_NAME = '${JOB_NAME}' ,BASE_SCHEMA = '${BASE_SCHEMA}', TARGET_SCHEMA = '${TARGET_SCHEMA}' ,FREQUENCY = '${FREQUENCY}', START_ON = '${START_ON}', END_ON = '${END_ON}', SCHEDULED = '${SCHEDULED}', \nJOB_TYPE = ${JOB_TYPE ? \"'\"+JOB_TYPE+\"'\" : \"null\"}, CONFIGURATION = '${CONFIGURATION}' WHERE JOB_ID ='${JOB_ID}'`;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 440,
+        "wires": [
+            [
+                "b77a0b24.c94348"
+            ]
+        ]
+    },
+    {
+        "id": "e32d333c.a747",
+        "type": "http response",
+        "z": "6ccd91ab.19ee9",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 770,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "54477b72.a7b8d4",
+        "type": "debug",
+        "z": "14adbe7e.88fa32",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 670,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "1f6b7d32.cfd6a3",
+        "type": "debug",
+        "z": "14adbe7e.88fa32",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 610,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "d5b4593d.5b4178",
+        "type": "debug",
+        "z": "14adbe7e.88fa32",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 890,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "ce3b4409.f9cf68",
+        "type": "debug",
+        "z": "14adbe7e.88fa32",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 670,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "2fbf985d.033f38",
+        "type": "function",
+        "z": "14adbe7e.88fa32",
+        "name": "",
+        "func": "if(msg.payload===null){\n    msg.error = \"Error: Standard Export With No Dependencies\"\n    return [null, msg];\n}else{\n    return [msg, null];\n}",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 900,
+        "y": 120,
+        "wires": [
+            [
+                "1244d415.94181c",
+                "11151c4a.ace614"
+            ],
+            [
+                "94551b15.a358d8",
+                "22a02939.4e4de6"
+            ]
+        ]
+    },
+    {
+        "id": "22a02939.4e4de6",
+        "type": "debug",
+        "z": "14adbe7e.88fa32",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1070,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "4cd47203.f6516c",
+        "type": "catch",
+        "z": "14adbe7e.88fa32",
+        "name": "",
+        "scope": null,
+        "uncaught": false,
+        "x": 260,
+        "y": 760,
+        "wires": [
+            [
+                "6a671a80.ea0f24"
+            ]
+        ]
+    },
+    {
+        "id": "6a671a80.ea0f24",
+        "type": "debug",
+        "z": "14adbe7e.88fa32",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 490,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "c471f19a.fa776",
+        "type": "http in",
+        "z": "6ccd91ab.19ee9",
+        "name": "find Log by Job Id",
+        "url": "/api/logbyJobId",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 160,
+        "y": 520,
+        "wires": [
+            [
+                "497b3bf4.efbe54"
+            ]
+        ]
+    },
+    {
+        "id": "60acf12d.69726",
+        "type": "sqlite",
+        "z": "6ccd91ab.19ee9",
+        "mydb": "e7336e81.c32bc",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 560,
+        "y": 520,
+        "wires": [
+            [
+                "d3cb0f92.1cad1",
+                "2b007564.35181a"
+            ]
+        ]
+    },
+    {
+        "id": "d3cb0f92.1cad1",
+        "type": "debug",
+        "z": "6ccd91ab.19ee9",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 770,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "497b3bf4.efbe54",
+        "type": "function",
+        "z": "6ccd91ab.19ee9",
+        "name": "",
+        "func": "const {JOB_ID} = msg.req.query;\n\nmsg.topic = `SELECT * FROM  ENT_JOB_LOGS WHERE JOB_ID ='${JOB_ID}'`;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 520,
+        "wires": [
+            [
+                "60acf12d.69726"
+            ]
+        ]
+    },
+    {
+        "id": "2b007564.35181a",
+        "type": "http response",
+        "z": "6ccd91ab.19ee9",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 770,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "6aa0480e.138ac8",
+        "type": "comment",
+        "z": "58b888b4.6c1618",
+        "name": "Read Config_Flow.json",
+        "info": "",
+        "x": 160,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "5dfce297.48372c",
+        "type": "debug",
+        "z": "58b888b4.6c1618",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "x": 610,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "129d6a4c.711966",
+        "type": "file in",
+        "z": "58b888b4.6c1618",
+        "name": "",
+        "filename": "config_flow.json",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "x": 260,
+        "y": 560,
+        "wires": [
+            [
+                "c4f95917.6cf398"
+            ]
+        ]
+    },
+    {
+        "id": "c4f95917.6cf398",
+        "type": "json",
+        "z": "58b888b4.6c1618",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 450,
+        "y": 560,
+        "wires": [
+            [
+                "5dfce297.48372c",
+                "174f4983.3ed466"
+            ]
+        ]
+    },
+    {
+        "id": "174f4983.3ed466",
+        "type": "function",
+        "z": "58b888b4.6c1618",
+        "name": "set b1 login data",
+        "func": "const b1_sl_config = msg.payload[\"b1-sl-config\"];\n// msg.configOverride = {\n//     database: exportFrom.companyName,\n//     userName: exportFrom.userName,\n//     password: exportFrom.password,\n//     serviceLayerUrl: b1_sl_config.serviceLayerUrl\n// }\nmsg.serviceLayerUrl = b1_sl_config.serviceLayerUrl;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 660,
+        "y": 560,
+        "wires": [
+            [
+                "24f1e8e5.4aecb8"
+            ]
+        ]
+    },
+    {
+        "id": "9b12ea1d.ef2d18",
+        "type": "link out",
+        "z": "58b888b4.6c1618",
+        "name": "",
+        "links": [
+            "c5231673.2a2448"
+        ],
+        "x": 975,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "276ba7ff.7c8ca8",
+        "type": "link in",
+        "z": "58b888b4.6c1618",
+        "name": "",
+        "links": [
+            "24f1e8e5.4aecb8"
+        ],
+        "x": 105,
+        "y": 760,
+        "wires": [
+            [
+                "62916676.c1a508"
+            ]
+        ]
+    },
+    {
+        "id": "24f1e8e5.4aecb8",
+        "type": "link out",
+        "z": "58b888b4.6c1618",
+        "name": "",
+        "links": [
+            "276ba7ff.7c8ca8"
+        ],
+        "x": 815,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "fe279d17.11909",
+        "type": "debug",
+        "z": "14adbe7e.88fa32",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1230,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "bea77496.cb5fa8",
+        "type": "comment",
+        "z": "c0763147.55f79",
+        "name": "Drop Table",
+        "info": "",
+        "x": 120,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "aca493e0.93882",
+        "type": "sqlite",
+        "z": "c0763147.55f79",
+        "mydb": "e7336e81.c32bc",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 500,
+        "y": 860,
+        "wires": [
+            [
+                "215592a.e8e496e"
+            ]
+        ]
+    },
+    {
+        "id": "3a44fd49.133c52",
+        "type": "inject",
+        "z": "c0763147.55f79",
+        "name": "DROP ENT_JOBS",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "DROP TABLE ENT_JOBS",
+        "payload": "",
+        "payloadType": "date",
+        "x": 250,
+        "y": 860,
+        "wires": [
+            [
+                "aca493e0.93882"
+            ]
+        ]
+    },
+    {
+        "id": "215592a.e8e496e",
+        "type": "debug",
+        "z": "c0763147.55f79",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 710,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "98babd42.3d4f5",
+        "type": "sqlite",
+        "z": "c0763147.55f79",
+        "mydb": "e7336e81.c32bc",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 500,
+        "y": 920,
+        "wires": [
+            [
+                "e72c0afd.8f4878"
+            ]
+        ]
+    },
+    {
+        "id": "12dc138.03a28ed",
+        "type": "inject",
+        "z": "c0763147.55f79",
+        "name": "DROP ENT_JOB_LOGs",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "DROP TABLE ENT_JOB_LOGS",
+        "payload": "",
+        "payloadType": "date",
+        "x": 270,
+        "y": 920,
+        "wires": [
+            [
+                "98babd42.3d4f5"
+            ]
+        ]
+    },
+    {
+        "id": "e72c0afd.8f4878",
+        "type": "debug",
+        "z": "c0763147.55f79",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 750,
+        "y": 920,
+        "wires": []
+    },
+    {
+        "id": "6b85171b.9ddab8",
+        "type": "sqlite",
+        "z": "c0763147.55f79",
+        "mydb": "e7336e81.c32bc",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 500,
+        "y": 800,
+        "wires": [
+            [
+                "c4a61ea8.ee681"
+            ]
+        ]
+    },
+    {
+        "id": "fb7ac6ef.abbfb8",
+        "type": "inject",
+        "z": "c0763147.55f79",
+        "name": "DROP ENT_USERS",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "DROP TABLE ENT_USERS",
+        "payload": "",
+        "payloadType": "date",
+        "x": 250,
+        "y": 800,
+        "wires": [
+            [
+                "6b85171b.9ddab8"
+            ]
+        ]
+    },
+    {
+        "id": "c4a61ea8.ee681",
+        "type": "debug",
+        "z": "c0763147.55f79",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 710,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "5cc5fc01.9243c4",
+        "type": "inject",
+        "z": "cf45155e.4364b8",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 300,
+        "y": 200,
+        "wires": [
+            [
+                "ff051d01.dd621"
+            ]
+        ]
+    },
+    {
+        "id": "232eed62.396ce2",
+        "type": "sqlite",
+        "z": "cf45155e.4364b8",
+        "mydb": "e7336e81.c32bc",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 700,
+        "y": 200,
+        "wires": [
+            [
+                "100b2611.2002fa"
+            ]
+        ]
+    },
+    {
+        "id": "ff051d01.dd621",
+        "type": "function",
+        "z": "cf45155e.4364b8",
+        "name": "Join Job&Log",
+        "func": "\nmsg.topic = `SELECT * FROM  ENT_JOBS J1 LEFT OUTER JOIN ENT_JOB_LOGS L1 ON J1.JOB_ID=L1.JOB_ID WHERE J1.SCHEDULED ='Y' \nAND J1.STATUS = 'A' AND  strftime('%s','now') <= strftime('%s',J1.END_ON) AND  strftime('%s','now') >= strftime('%s',J1.START_ON) \n--AND JOB_ID NOT IN (SELECT JOB_ID FROM ENT_JOB_LOGS WHERE date(STARTED_ON) = date('now') )`;\n\n//LEFT OUTER JOIN ENT_JOB_LOGS L1 ON J1.JOB_ID=L1.JOB_ID\n//J1.END_ON > '${new Date()}' AND\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 200,
+        "wires": [
+            [
+                "232eed62.396ce2"
+            ]
+        ]
+    },
+    {
+        "id": "fb910090.6abc9",
+        "type": "debug",
+        "z": "cf45155e.4364b8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1030,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "da6796a9.a4cde8",
+        "type": "inject",
+        "z": "cf45155e.4364b8",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 200,
+        "y": 320,
+        "wires": [
+            [
+                "686637bf.0b6ad8"
+            ]
+        ]
+    },
+    {
+        "id": "686637bf.0b6ad8",
+        "type": "function",
+        "z": "cf45155e.4364b8",
+        "name": "",
+        "func": "msg.topic = `\nSELECT L2.JOB_ID, L2.LOG_ID, L2.STARTED_ON, J2.FREQUENCY FROM ENT_JOB_LOGS L2 INNER JOIN ENT_JOBS J2 ON L2.JOB_ID = J2.JOB_ID WHERE date(L2.STARTED_ON) = date('now')    \n`;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 320,
+        "wires": [
+            [
+                "523d189.270efe8"
+            ]
+        ]
+    },
+    {
+        "id": "523d189.270efe8",
+        "type": "sqlite",
+        "z": "cf45155e.4364b8",
+        "mydb": "e7336e81.c32bc",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 620,
+        "y": 320,
+        "wires": [
+            [
+                "af603819.c6ff38"
+            ]
+        ]
+    },
+    {
+        "id": "af603819.c6ff38",
+        "type": "debug",
+        "z": "cf45155e.4364b8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 790,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "78980821.402158",
+        "type": "inject",
+        "z": "58b888b4.6c1618",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "1",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 200,
+        "y": 220,
+        "wires": [
+            [
+                "73b7c690.365388"
+            ]
+        ]
+    },
+    {
+        "id": "6d903ddc.d73b94",
+        "type": "debug",
+        "z": "58b888b4.6c1618",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 950,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "69911dd6.26d784",
+        "type": "file in",
+        "z": "5717a347.80f76c",
+        "name": "Read flow config",
+        "filename": "",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "x": 350,
+        "y": 80,
+        "wires": [
+            [
+                "6007a45c.7579ec"
+            ]
+        ]
+    },
+    {
+        "id": "6007a45c.7579ec",
+        "type": "json",
+        "z": "5717a347.80f76c",
+        "name": "Convert to JSON",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 570,
+        "y": 80,
+        "wires": [
+            [
+                "fa52a0d.578976"
+            ]
+        ]
+    },
+    {
+        "id": "fa52a0d.578976",
+        "type": "function",
+        "z": "5717a347.80f76c",
+        "name": "Init",
+        "func": "if (msg.flowInfo === undefined) \n    msg.flowInfo = {};\nmsg.flowInfo.config = msg.payload;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 750,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "60ba2a1e.d06d04",
+        "type": "function",
+        "z": "5717a347.80f76c",
+        "name": "Init",
+        "func": "const filePath = global.get(\"redSettings\").userDir;\n\nconst fileName = env.get(\"configFilename\");\nmsg.filename = filePath + fileName;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 170,
+        "y": 80,
+        "wires": [
+            [
+                "69911dd6.26d784"
+            ]
+        ]
+    },
+    {
+        "id": "3eded5ac.09d2da",
+        "type": "function",
+        "z": "dcad3eb1.e262e",
+        "name": "sql",
+        "func": "msg.configOverride = {};\nif (!msg.flowInfo)\n    msg.flowInfo = {};\nmsg.flowInfo.sql = 'call SBOCOMMON.TMSP_GETCOMPLIST';\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 100,
+        "wires": [
+            [
+                "26bc1738.01b508"
+            ]
+        ]
+    },
+    {
+        "id": "a197420b.436d4",
+        "type": "http response",
+        "z": "dcad3eb1.e262e",
+        "name": "OK",
+        "statusCode": "200",
+        "headers": {},
+        "x": 730,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "d29f93c.23c147",
+        "type": "http response",
+        "z": "dcad3eb1.e262e",
+        "name": "KO",
+        "statusCode": "",
+        "headers": {},
+        "x": 730,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "f86bb7e2.28f588",
+        "type": "debug",
+        "z": "dcad3eb1.e262e",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "x": 730,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "c96b304c.04279",
+        "type": "debug",
+        "z": "dcad3eb1.e262e",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "x": 730,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "1eaa9d9f.57b642",
+        "type": "function",
+        "z": "dcad3eb1.e262e",
+        "name": "v2 format",
+        "func": "let companies = msg.payload.filter;\n\nif (msg.flowInfo.config.portal) {\n    //2021.03.27 - [Vlad] - added possibility to filter company list \n    const regexPath = msg.flowInfo.config.portal['ENT_COMP_LIST_REGEX']\n    const companiesFiltered = msg.payload.filter(comp =>{\n        //var path = new RegExp(\"^((DEV_GGR)(.(?!_DB$))+)$\",\"gmi\");\n        var path = new RegExp(regexPath);\n        return path.test(comp.dbName)\n    });\n    companies = companiesFiltered;\n} \nelse {\n    companies = [{\"dbName\":\"NODB\",\"cmpName\":\"NO DATABASE - verificare config_flow.json - proprieta portal.ENT_COMP_LIST_REGEX\",\"versStr\":\"???\",\"dbUser\":\"???\",\"LOC\":\"???\",\"cmpStatus\":\"?\"}];\n}\n\nconst v2res = {\n    d: {\n        '__count': companies.length,\n        results: companies.map(comp => {\n            const { dbName, cmpName } = comp;\n            const v2comp = {\n                cmpName,\n                dbName,\n                CompanyFullName: `${cmpName} (${dbName})`\n            }\n            \n            return v2comp;\n        })\n    }\n}\n\nmsg.payload = v2res;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 380,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "fabdb8b7.f73ae8",
+        "type": "http in",
+        "z": "dcad3eb1.e262e",
+        "name": "GetCompanies",
+        "url": "/api/getCompanies",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 160,
+        "y": 100,
+        "wires": [
+            [
+                "3eded5ac.09d2da"
+            ]
+        ]
+    },
+    {
+        "id": "f7938fcd.a4fd7",
+        "type": "inject",
+        "z": "dcad3eb1.e262e",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 160,
+        "wires": [
+            [
+                "3eded5ac.09d2da"
+            ]
+        ]
+    },
+    {
+        "id": "26bc1738.01b508",
+        "type": "hana-client",
+        "z": "dcad3eb1.e262e",
+        "server": "cf0aae0a.edbdf",
+        "sql": "",
+        "x": 530,
+        "y": 100,
+        "wires": [
+            [
+                "a197420b.436d4",
+                "f86bb7e2.28f588"
+            ],
+            [
+                "d29f93c.23c147"
+            ]
+        ]
+    },
+    {
+        "id": "100b2611.2002fa",
+        "type": "function",
+        "z": "cf45155e.4364b8",
+        "name": "",
+        "func": "var lastWeek = new Date();\nlastWeek.setDate(lastWeek.getDate() - 7);\nlastWeek = lastWeek.toDateString();\n\nvar lastMonth = new Date();\nlastMonth.setDate(lastMonth.getDate() - 30);\nlastMonth = lastMonth.toDateString();\n\nconst currentDate = new Date().toDateString();\n\nmsg.payload2  =  msg.payload.filter((item)=>{\n    if(item.STARTED_ON === null){\n        return true;\n    }\n    \n    const startedOn = new Date(item.STARTED_ON).toDateString();\n    \n    if(item.FREQUENCY === 'D' && startedOn !== currentDate){\n        return true;\n    }else if (item.FREQUENCY === 'W' && startedOn === lastWeek){\n        return true;\n    }else if (item.FREQUENCY === 'M' && startedOn === lastMonth){\n        return true;\n    }else{\n        return false;\n    }\n    \n});\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 880,
+        "y": 200,
+        "wires": [
+            [
+                "fb910090.6abc9"
+            ]
+        ]
+    },
+    {
+        "id": "bafe4ff3.8ade4",
+        "type": "function",
+        "z": "58b888b4.6c1618",
+        "name": "",
+        "func": "var lastWeek = new Date();\nlastWeek.setDate(lastWeek.getDate() - 7);\nlastWeek = lastWeek.toDateString();\n\nvar lastMonth = new Date();\nlastMonth.setDate(lastMonth.getDate() - 30);\nlastMonth = lastMonth.toDateString();\n\nconst currentDate = new Date().toDateString();\n\nmsg.payload  =  msg.payload.filter((item)=>{\n    if(item.STARTED_ON === null){\n        return true;\n    }\n    \n    const startedOn = new Date(item.STARTED_ON).toDateString();\n    \n    if(item.FREQUENCY === 'D' && startedOn !== currentDate){\n        return true;\n    }else if (item.FREQUENCY === 'W' && startedOn === lastWeek){\n        return true;\n    }else if (item.FREQUENCY === 'M' && startedOn === lastMonth){\n        return true;\n    }else{\n        return false;\n    }\n    \n});\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 160,
+        "wires": [
+            [
+                "76fa59cf.0f7de8",
+                "35acb0fb.cd5b4"
+            ]
+        ]
+    },
+    {
+        "id": "35acb0fb.cd5b4",
+        "type": "debug",
+        "z": "58b888b4.6c1618",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 810,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "2fda2e30.1cff22",
+        "type": "function",
+        "z": "14adbe7e.88fa32",
+        "name": "",
+        "func": "if(msg.payload===null){\n    msg.error = 'Error: Standard Import With Rename'\n    return [null, msg];\n}else{\n    return [msg, null];\n}",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 900,
+        "y": 320,
+        "wires": [
+            [
+                "6dc8d6c2.fd85f8"
+            ],
+            [
+                "9e5dce19.806b8"
+            ]
+        ]
+    },
+    {
+        "id": "26eb2716.d10ec8",
+        "type": "link in",
+        "z": "14adbe7e.88fa32",
+        "name": "",
+        "links": [
+            "b439c4e0.b4dfa8"
+        ],
+        "x": 195,
+        "y": 500,
+        "wires": [
+            [
+                "7f2e4e3d.f3f7c"
+            ]
+        ]
+    },
+    {
+        "id": "b439c4e0.b4dfa8",
+        "type": "link out",
+        "z": "14adbe7e.88fa32",
+        "name": "",
+        "links": [
+            "26eb2716.d10ec8"
+        ],
+        "x": 1195,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "9e5dce19.806b8",
+        "type": "link out",
+        "z": "14adbe7e.88fa32",
+        "name": "",
+        "links": [
+            "a8ecb5ed.6ad148"
+        ],
+        "x": 1015,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "ab963504.38bf98",
+        "type": "link in",
+        "z": "14adbe7e.88fa32",
+        "name": "",
+        "links": [
+            "11151c4a.ace614"
+        ],
+        "x": 215,
+        "y": 360,
+        "wires": [
+            [
+                "79e7ba22.a96194"
+            ]
+        ]
+    },
+    {
+        "id": "11151c4a.ace614",
+        "type": "link out",
+        "z": "14adbe7e.88fa32",
+        "name": "",
+        "links": [
+            "ab963504.38bf98"
+        ],
+        "x": 1035,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "dc96e009.c3edd",
+        "type": "function",
+        "z": "14adbe7e.88fa32",
+        "name": "",
+        "func": "msg.error = \"Service Layer Verification Failed!\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 540,
+        "wires": [
+            [
+                "a9bc894a.a1c9e8"
+            ]
+        ]
+    },
+    {
+        "id": "98b86de1.aa9fb",
+        "type": "http in",
+        "z": "6ccd91ab.19ee9",
+        "name": "Job Soft Delete ",
+        "url": "/api/jobSoftDelete",
+        "method": "delete",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 160,
+        "y": 620,
+        "wires": [
+            [
+                "448a3845.99e3e8"
+            ]
+        ]
+    },
+    {
+        "id": "33b19dcb.bdb482",
+        "type": "sqlite",
+        "z": "6ccd91ab.19ee9",
+        "mydb": "e7336e81.c32bc",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 560,
+        "y": 620,
+        "wires": [
+            [
+                "5554a1fd.64b41",
+                "5265b488.23e5cc"
+            ]
+        ]
+    },
+    {
+        "id": "5554a1fd.64b41",
+        "type": "debug",
+        "z": "6ccd91ab.19ee9",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 770,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "448a3845.99e3e8",
+        "type": "function",
+        "z": "6ccd91ab.19ee9",
+        "name": "",
+        "func": "\nconst {JOB_ID} = msg.req.query;\n\nmsg.topic = `UPDATE ENT_JOBS SET STATUS = 'D'   WHERE JOB_ID ='${JOB_ID}'`;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 620,
+        "wires": [
+            [
+                "33b19dcb.bdb482"
+            ]
+        ]
+    },
+    {
+        "id": "5265b488.23e5cc",
+        "type": "http response",
+        "z": "6ccd91ab.19ee9",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 770,
+        "y": 620,
+        "wires": []
+    }
+]

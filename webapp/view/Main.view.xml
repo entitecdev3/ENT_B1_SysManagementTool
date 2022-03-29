@@ -1,0 +1,61 @@
+<mvc:View controllerName="nvid.sample.controller.Main" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m">
+	<Page title="B1H Manage" id="idMain">
+		<headerContent>
+			<Text id="idUserName" text="{i18n>Email} : {local>/UserName}"/>
+			<!-- <Text id="idUserType" text=" {i18n>UserType}: {path:'local>/AgentType', formatter: '.formatter.titleCase'}"/> -->
+			<Button class="sapUiSmallMargin" icon="sap-icon://log" text="{i18n>Logout}" type="Negative" tooltip="Logout" press="logOutApp"/>
+			<!--	<Carousel loop="true">-->
+			<!--	<Image-->
+			<!--		src="https://static.wixstatic.com/media/11062b_0f10d1a3bc8e4fb1ba089c42056efe9b~mv2.jpg/v1/fill/w_1899,h_813,al_c,q_85,usm_0.66_1.00_0.01/11062b_0f10d1a3bc8e4fb1ba089c42056efe9b~mv2.webp"-->
+			<!--		height="250px" width="100%" mode="Image"/>-->
+			<!--	<Image-->
+			<!--		src="https://static.wixstatic.com/media/ea66f0de45ec4109b5eb190bed2244d1.jpg/v1/fill/w_1899,h_813,al_c,q_85,usm_0.66_1.00_0.01/ea66f0de45ec4109b5eb190bed2244d1.webp"-->
+			<!--		height="250px" width="100%" mode="Image" />-->
+			<!--	<Image-->
+			<!--		src="https://static.wixstatic.com/media/11062b_02fe91d53b3841939145bc741117166f~mv2.jpeg/v1/fill/w_1899,h_813,al_c,q_85,usm_0.66_1.00_0.01/11062b_02fe91d53b3841939145bc741117166f~mv2.webp"-->
+			<!--		height="250px" width="100%" mode="Image"/>-->
+			<!--</Carousel>-->
+		</headerContent>
+		<!--<VBox class="Container" width="100%" height="150px" >-->
+		<!-- <Image src="images/banner.jpg" width="100%" height="auto" backgroundPosition="initial"/> -->
+		<!--</VBox>-->
+		<MessageStrip text="Apps" type="Information" class="sapUiTinyMarginBegin sapUiTinyMarginEnd sapUiMediumMarginBottom sapUiMediumMarginTop"></MessageStrip>
+		<Panel>
+			<GenericTile class="sapUiSmallMarginBegin tileLayout" header="DataBase Schema" id="schemas" subheader="" press="press">
+				<TileContent>
+					<ImageContent src="sap-icon://customer-view"/>
+				</TileContent>
+			</GenericTile>
+			<GenericTile class="sapUiSmallMarginBegin sapUiSmallMarginBottom tileLayout" header="Job/Log" id="Jobs" subheader=""
+				press="press">
+				<TileContent unit="">
+					<ImageContent src="sap-icon://manager-insight"/>
+				</TileContent>
+			</GenericTile>
+			<!-- <GenericTile class="sapUiSmallMarginBegin sapUiSmallMarginBottom tileLayout" header="Analisi Clienti" id="salesrepbybp" subheader=""
+				press="press">
+				<TileContent>
+					<ImageContent src="sap-icon://customer-view"/>
+				</TileContent>
+			</GenericTile>
+			<GenericTile class="sapUiSmallMarginBegin sapUiSmallMarginBottom tileLayout" header="Cruscotto" id="salesdashboard" subheader=""
+				press="press">
+				<TileContent>
+					<ImageContent src="sap-icon://filter-analytics"/>
+				</TileContent>
+			</GenericTile>
+			<GenericTile class="sapUiSmallMarginBegin sapUiSmallMarginBottom tileLayout" header="Analisi Articoli/Clienti" id="salesrepbyitemBP"
+				subheader="" press="press">
+				<TileContent unit="EUR">
+					<ImageContent src="sap-icon://manager-insight"/>
+				</TileContent>
+			</GenericTile>
+			<GenericTile class="sapUiSmallMarginBegin sapUiSmallMarginBottom tileLayout" header="Analisi Clienti/Articoli" id="salesrepbybpItem"
+				subheader="" press="press">
+				<TileContent>
+					<ImageContent src="sap-icon://customer-view"/>
+				</TileContent>
+			</GenericTile> -->
+		</Panel>
+	</Page>
+</mvc:View>
