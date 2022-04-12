@@ -3,6 +3,12 @@
   text-align: right;
 }
 
+.size1 {
+	font-size : 1.5rem;
+  margin-top: .8rem;
+  margin-right: 4.5rem;
+}
+
 .sapMBarRight>.sapMBarChild:not(.sapMTB) {
   margin-top: 0;
   margin-bottom: 0;

@@ -49,6 +49,8 @@ sap.ui.define([
           if (item.JOB_TYPE === "COPY_COMPANY" && item.CONFIGURATION) {
             oData[index].UserName = item.CONFIGURATION.UserName;
             oData[index].Password = item.CONFIGURATION.Password;
+            oData[index].BASE_SCHEMA_NAME = item.CONFIGURATION.BASE_SCHEMA_NAME;
+            oData[index].TARGET_SCHEMA_NAME = item.CONFIGURATION.TARGET_SCHEMA_NAME;
           }
         });
         that.getOwnerComponent().getModel("local").setProperty("/Jobs", oData);

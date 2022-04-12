@@ -19,10 +19,10 @@ sap.ui.define([
       //this.oRouter.attachRoutePatternMatched(this.herculis, this);
       this.oRouter.getRoute("detail").attachMatched(this.herculis, this);
     },
-    formatter: formatter,
-    herculis: function(oEvent) {
-      //debugger;
 
+    formatter: formatter,
+
+    herculis: function(oEvent) {
       this.jobIndex = oEvent.getParameter("arguments").navya;
       var sPath = 'local>/Jobs/' + this.jobIndex,
         that = this;
@@ -32,21 +32,41 @@ sap.ui.define([
         FREQUENCY,
         STATUS
       } = this.getView().getModel("local").getProperty("/Jobs/" + this.jobIndex);
-
+      that.jobId = JOB_ID;
       // dbAPI.callMiddleWare("/jobbyId?JOB_ID=" + jobId, "GET").then(function(jobData) {
       //   that.getOwnerComponent().getModel("local").setProperty("/JobDetails", jobData[0]);
       // }).catch(function(oError) {
       //   dbAPI.errorHandler(oError, that);
       // });
-
-      dbAPI.callMiddleWare("/logbyJobId?JOB_ID=" + JOB_ID, "GET").then(function(oData) {
+      dbAPI.callMiddleWare("/logbyJobId?JOB_ID=" + that.jobId, "GET").then(function(oData) {
         that.getOwnerComponent().getModel("local").setProperty("/Logs", oData);
+        that.getView().byId("idLogRefreshTime").setDateValue(new Date());
       }).catch(function(oError) {
         dbAPI.errorHandler(oError, that);
       });
 
       this.getView().byId("groupD").setSelectedIndex(STATUS === "A" ? 0 : 1);
       this.getView().byId("groupC").setSelectedIndex(FREQUENCY === "D" ? 0 : FREQUENCY === "W" ? 1 : 2);
+      this.loadCompaniesList();
+      this.refreshLogsInterval(that);
+    },
+
+    refreshLogsInterval: function(that){
+      if(that.jobId  && (!that.logInterval)){
+        that.logInterval = setInterval(function(){
+          // console.log(that.jobId );
+          dbAPI.callMiddleWare("/logbyJobId?JOB_ID=" + that.jobId, "GET").then(function(oData) {
+            that.getOwnerComponent().getModel("local").setProperty("/Logs", oData);
+            that.getView().byId("idLogRefreshTime").setDateValue(new Date());
+          }).catch(function(oError) {
+            dbAPI.errorHandler(oError, that);
+          });
+        },30000);
+      }else if((!that.jobId) && that.logInterval){
+        clearInterval(that.logInterval)
+        that.logInterval = null;
+        that.getOwnerComponent().getModel("local").setProperty("/Logs", []);
+      }
     },
 
     onBack: function() {
@@ -59,9 +79,19 @@ sap.ui.define([
     onScheduled: function(oEvent) {
       this.getView().getModel("local").setProperty("/Jobs/" + this.jobIndex + "/SCHEDULED", oEvent.getParameter("selected") ? 'Y' : 'N');
     },
+    onStatusSelection: function(oEvent) {
+      this.getView().getModel("local").setProperty("/Jobs/" + this.jobIndex + "/STATUS", oEvent.getParameter("selectedIndex") === 0 ? "A" : "I");
+    },
+    onSourceCompany: function(oEvent){
+      this.getView().getModel("local").setProperty("/Jobs/" + this.jobIndex +"/BASE_SCHEMA_NAME", oEvent.getParameter("selectedItem").getText().split('(')[1].split(")")[0]);
+    },
     onSave: function() {
       var that = this;
       var job = this.getView().getModel("local").getProperty("/Jobs/" + this.jobIndex);
+      if(job.BASE_SCHEMA===job.TARGET_SCHEMA){
+        MessageToast.show("Invalid Data, Can't Save")
+        return;
+      }
       job.CONFIGURATION = {
         JOB_NAME: job.JOB_NAME,
         BASE_SCHEMA: job.BASE_SCHEMA,
@@ -71,6 +101,8 @@ sap.ui.define([
       if (job.JOB_TYPE === "COPY_COMPANY") {
         job.CONFIGURATION.UserName = job.UserName;
         job.CONFIGURATION.Password = job.Password;
+        job.CONFIGURATION.BASE_SCHEMA_NAME = job.BASE_SCHEMA_NAME;
+        job.CONFIGURATION.TARGET_SCHEMA_NAME = job.TARGET_SCHEMA_NAME;
       }
       job.CONFIGURATION = JSON.stringify(job.CONFIGURATION);
       dbAPI.callMiddleWare("/updateJob", "PUT", job).then(function(oData) {
@@ -85,6 +117,7 @@ sap.ui.define([
       var job = this.getView().getModel("local").getProperty("/Jobs/" + this.jobIndex);
       dbAPI.callMiddleWare("/runJob", "POST", job).then(function(oData) {
         MessageToast.show("Job Started");
+        that.getView().byId("idIconTabBar").setSelectedKey("logs");
       }).catch(function(oError) {
         dbAPI.errorHandler(oError, that);
       });

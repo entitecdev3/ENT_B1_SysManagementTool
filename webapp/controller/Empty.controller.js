@@ -22,10 +22,17 @@ sap.ui.define([
       const selectedIndex = oEvent.getParameter("selectedIndex");
       this.getView().getModel("local").setProperty("/Job/FREQUENCY", selectedIndex === 0 ? "D" : selectedIndex === 1 ? "W" : "M");
     },
+    onSourceCompany: function(oEvent){
+      this.getView().getModel("local").setProperty("/Job/BASE_SCHEMA_NAME", oEvent.getParameter("selectedItem").getText().split('(')[1].split(")")[0]);
+    },
     onSave: function() {
       var that = this,
         job = this.getView().getModel("local").getProperty("/Job");
       this.getView().byId("idSave").setEnabled(false);
+      if(job.BASE_SCHEMA===job.TARGET_SCHEMA){
+        MessageToast.show("Invalid Data, Can't Save")
+        return;
+      }
       // Default Configuration
       job.CONFIGURATION = {
         JOB_NAME: job.JOB_NAME,
@@ -37,6 +44,8 @@ sap.ui.define([
         job.CONFIGURATION.UserName = job.UserName;
         job.CONFIGURATION.Password = job.Password;
         job.CONFIGURATION.TARGET_SCHEMA = job.TARGET_SCHEMA;
+        job.CONFIGURATION.TARGET_SCHEMA_NAME = job.TARGET_SCHEMA_NAME;
+        job.CONFIGURATION.BASE_SCHEMA_NAME = job.BASE_SCHEMA_NAME;
       }
 
       job.CONFIGURATION = JSON.stringify(job.CONFIGURATION);
@@ -53,11 +62,16 @@ sap.ui.define([
     onScheduled: function(oEvent) {
       this.getView().getModel("local").setProperty("/Job/SCHEDULED", oEvent.getParameter("selected") ? 'Y' : 'N');
     },
+    handleInfoPress: function(){
+      MessageToast.show("Hover on it");
+    },
     onClear: function() {
       this.getView().getModel("local").setProperty("/Job", {
         "JOB_NAME": null,
         "BASE_SCHEMA": null,
-        "TARGET_SCHEMA": null,
+        "BASE_SCHEMA_NAME": null,
+        "TARGET_SCHEMA": "",
+        "TARGET_SCHEMA_NAME": "zTEST *$$DATE_DDMMYYYY$$* $$BASE_COMP_NAME$$",
         "FREQUENCY": null,
         "START_ON": null,
         "END_ON": null,

@@ -1,7 +1,7 @@
 <mvc:View controllerName="nvid.sample.controller.Main" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m">
 	<Page title="B1H Manage" id="idMain">
 		<headerContent>
-			<Text id="idUserName" text="{i18n>Email} : {local>/UserName}"/>
+			<Text id="idUserName" text="{i18n>Email} : {local>/UserName}" visible="false"/>
 			<!-- <Text id="idUserType" text=" {i18n>UserType}: {path:'local>/AgentType', formatter: '.formatter.titleCase'}"/> -->
 			<Button class="sapUiSmallMargin" icon="sap-icon://log" text="{i18n>Logout}" type="Negative" tooltip="Logout" press="logOutApp"/>
 			<!--	<Carousel loop="true">-->
@@ -21,12 +21,12 @@
 		<!--</VBox>-->
 		<MessageStrip text="Apps" type="Information" class="sapUiTinyMarginBegin sapUiTinyMarginEnd sapUiMediumMarginBottom sapUiMediumMarginTop"></MessageStrip>
 		<Panel>
-			<GenericTile class="sapUiSmallMarginBegin tileLayout" header="DataBase Schema" id="schemas" subheader="" press="press">
+			<GenericTile class="sapUiSmallMarginBegin tileLayout" header="DataBase Schema" id="schemas" subheader="" press="press" visible="false">
 				<TileContent>
 					<ImageContent src="sap-icon://customer-view"/>
 				</TileContent>
 			</GenericTile>
-			<GenericTile class="sapUiSmallMarginBegin sapUiSmallMarginBottom tileLayout" header="Job/Log" id="Jobs" subheader=""
+			<GenericTile class="sapUiSmallMarginBegin sapUiSmallMarginBottom tileLayout" header="Copy Company Jobs" id="Jobs" subheader=""
 				press="press">
 				<TileContent unit="">
 					<ImageContent src="sap-icon://manager-insight"/>

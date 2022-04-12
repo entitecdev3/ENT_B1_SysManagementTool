@@ -2,7 +2,9 @@
   "Job": {
     "JOB_NAME": null,
     "BASE_SCHEMA": null,
-    "TARGET_SCHEMA": null,
+    "BASE_SCHEMA_NAME": null,
+    "TARGET_SCHEMA": "",
+    "TARGET_SCHEMA_NAME": "zTEST *$$DATE_DDMMYYYY$$* $$BASE_COMP_NAME$$",
     "FREQUENCY": "D",
     "START_ON": null,
     "END_ON": null,

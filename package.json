@@ -2,7 +2,10 @@
     "name": "B1HManage",
     "description": "A Node-RED Project",
     "version": "0.0.1",
-    "dependencies": {},
+    "dependencies": {
+        "node-red-contrib-static": "1.0.2",
+        "node-red-node-sqlite": "1.0.3"
+    },
     "node-red": {
         "settings": {
             "flowFile": "flow.json",

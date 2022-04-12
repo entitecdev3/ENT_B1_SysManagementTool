@@ -1,11 +1,11 @@
 <mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="nvid.sample.controller.View1" xmlns:html="http://www.w3.org/1999/xhtml">
-	<Page title="Jobs">
+	<Page title="Copy Company Jobs" showNavButton="true" navButtonPress="onNavBack">
 		<content>
 			<!--<Button text="Go To Next" press="onNext"></Button>-->
 			<SearchField id="idSearch" search="onSearch" liveChange="onSearch"></SearchField>
 			<List
 				items="{ path: 'local>/Jobs',
-						   sorter: {path: 'JOB_NAME'}, filters: [{
+						   sorter: [{ path: 'STATUS', descending: false}, { path: 'BASE_SCHEMA', descending: false}], filters: [{
 							 path: 'STATUS', operator: 'NE', value1: 'D'
 							 }]
 			}"

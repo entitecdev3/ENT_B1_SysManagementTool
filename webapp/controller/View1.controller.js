@@ -86,7 +86,12 @@ sap.ui.define([
       //step 4: Inject the filter into the binding of list
     },
     onCreateJob: function() {
+      this.getView().byId("idList").removeSelections();
       this.oRouter.navTo("Jobs");
+    },
+    onNavBack: function(){
+      this.getView().byId("idList").removeSelections();
+      this.oRouter.navTo("Main");
     },
     onNext: function(sIndex) {
       // WHO IS RESPONSIBLE FOR NAVIGATION

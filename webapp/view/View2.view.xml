@@ -3,9 +3,9 @@
 		<content>
 			<!-- <Button text="Back" press="onBack"></Button> -->
 			<!-- <ObjectHeader title="{local>JOB_NAME}" intro="{local>FROM_SCHEMA}" number="{local>TO_SCHEMA}" numberUnit="" icon=""></ObjectHeader> -->
-			<IconTabBar>
+			<IconTabBar id="idIconTabBar">
 				<items>
-					<IconTabFilter text="Job" key="" icon="sap-icon://task">
+					<IconTabFilter text="Job" key="job" icon="sap-icon://task">
 						<content>
 							<VBox class="sapUiSmallMargin">
 								<f:Form id="FormDisplay480_Trial" editable="true">
@@ -32,6 +32,11 @@
 														<Input value="{local>UserName}"/>
 													</f:fields>
 												</f:FormElement>
+												<f:FormElement label="Password">
+													<f:fields>
+														<Input  type="Password" value="{local>Password}"/>
+													</f:fields>
+												</f:FormElement>
 												<f:FormElement label="Scheduled" class="sapUiSmallMargin">
 													<f:fields>
 														<CheckBox selected="{=${local>SCHEDULED}==='Y'?true:false}" select="onScheduled"/>
@@ -44,28 +49,40 @@
 												<f:FormElement label="Source Company">
 													<f:fields>
 														<!-- <Input value="{local>BASE_SCHEMA}"/> -->
-														<Select forceSelection="false" selectedKey="{local>BASE_SCHEMA}" items="{	path: 'local>/Companies',	sorter: { path: 'dbName' }}">
-															<core:Item key="{local>dbName}" text="{local>dbName}"/>
+														<Select forceSelection="false" selectedKey="{local>BASE_SCHEMA}" items="{	path: 'local>/Companies',	sorter: { path: 'dbName' }}" change="onSourceCompany">
+															<core:Item key="{local>dbName}" text="{local>dbName} ({local>cmpName})"/>
 														</Select>
+													</f:fields>
+												</f:FormElement>
+												<f:FormElement label="Source Name">
+													<f:fields>
+														<Input value="{local>BASE_SCHEMA_NAME}"/>
 													</f:fields>
 												</f:FormElement>
 												<f:FormElement id ="idTargetCompany" label="Target Company" class="sapUiSmallMargin">
 													<f:fields>
-														<Input value="{local>TARGET_SCHEMA}"/>
+														<!-- <Input value="{local>TARGET_SCHEMA}"/> -->
+														<Input value="{local>TARGET_SCHEMA}" valueState="{=${local>BASE_SCHEMA}===${local>TARGET_SCHEMA}?'Error':'None'}" valueStateText="{=${local>BASE_SCHEMA}===${local>TARGET_SCHEMA}?'Base Schema and Target Schema Can\'t be same':''}"/>
 													</f:fields>
 												</f:FormElement>
-												<f:FormElement label="Password">
+												<f:FormElement id ="idTargetCompanyName" label="Target Name" class="sapUiSmallMargin">
 													<f:fields>
-														<Input  type="Password" value="{local>Password}"/>
+														<Input value="{local>TARGET_SCHEMA_NAME}"/>
 													</f:fields>
 												</f:FormElement>
+
 												<f:FormElement label="Status" visible="true">
 													<f:fields>
 														<HBox>
 															<RadioButtonGroup id="groupD" valueState="Success" columns="3" select="onStatusSelection">
-																<RadioButton text="Active" selected="true" width="222px"/>
-																<RadioButton text="Inactive" width="222px"/>
+																<RadioButton text="Active" selected="true" width="200px"/>
+																<RadioButton text="Inactive" width="200px"/>
 															</RadioButtonGroup>
+															<core:Icon src="sap-icon://message-information"  class="size1"	color="#031E48" press="handleInfoPress" tooltip="Possible dynamic parameters for Target Name | $$BASE_COMP_NAME$$ : Name of base Company, $$DATE_YYYYMMDD$$ :  Date in format 2022-04-06, $$DATE_DDMMYYYY$$ :  Date in format 06-04-2022">
+																<core:layoutData>
+																	<FlexItemData growFactor="1" />
+																</core:layoutData>
+															</core:Icon>
 														</HBox>
 													</f:fields>
 												</f:FormElement>
@@ -109,7 +126,7 @@
 											<f:formElements id="idFormElements1">
 												<f:FormElement label="Start On" visible="{=${local>SCHEDULED}==='Y'?true:false}">
 													<f:fields>
-														<DateTimePicker id="DTP2" showCurrentDateButton="true" showCurrentTimeButton="true" value="{local>START_ON}" valueFormat="yyyy-MM-dd HH:mm:ss" displayFormat="short" change="handleChange" class="sapUiSmallMarginBottom"/>
+														<DateTimePicker id="DTP2" showCurrentDateButton="true" showCurrentTimeButton="true" value="{local>START_ON}" valueFormat="yyyy-MM-dd HH:mm:ss" displayFormat="yyyy-MM-dd HH:mm:ss" change="handleChange" class="sapUiSmallMarginBottom"/>
 														<!-- <DatePicker dateValue="{local>START_ON}"/> -->
 													</f:fields>
 												</f:FormElement>
@@ -119,7 +136,7 @@
 											<f:formElements>
 												<f:FormElement label="End On" visible="{=${local>SCHEDULED}==='Y'?true:false}">
 													<f:fields>
-														<DateTimePicker id="DTP3" showCurrentDateButton="true" showCurrentTimeButton="true" value="{local>END_ON}" valueFormat="yyyy-MM-dd HH:mm:ss" displayFormat="short" change="handleChange" class="sapUiSmallMarginBottom"/>
+														<DateTimePicker id="DTP3" showCurrentDateButton="true" showCurrentTimeButton="true" value="{local>END_ON}" valueFormat="yyyy-MM-dd HH:mm:ss" displayFormat="yyyy-MM-dd HH:mm:ss" change="handleChange" class="sapUiSmallMarginBottom"/>
 														<!-- <DatePicker dateValue="{local>END_ON}"/> -->
 													</f:fields>
 												</f:FormElement>
@@ -130,7 +147,7 @@
 							</VBox>
 						</content>
 					</IconTabFilter>
-					<IconTabFilter text="Logs" key="" icon="sap-icon://activity-items">
+					<IconTabFilter text="Logs" key="logs" icon="sap-icon://activity-items">
 						<content>
 							<core:Fragment fragmentName="nvid.sample.fragments.logTable" type="XML"></core:Fragment>
 						</content>
