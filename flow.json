@@ -2,7 +2,7 @@
     {
         "id": "5a9ea7fb.714ac8",
         "type": "tab",
-        "label": "Serve",
+        "label": "Serve/Settings",
         "disabled": false,
         "info": ""
     },
@@ -215,6 +215,30 @@
         "logFilePath": "-"
     },
     {
+        "id": "73cf520e833dd709",
+        "type": "b1-service-layer-config",
+        "configSetup": "config-file",
+        "configFileName": "config_flow.json",
+        "serviceLayerUrl": "-",
+        "companyName": "-",
+        "userName": "-",
+        "password": "-",
+        "maxPageSize": "0",
+        "logFilePath": ""
+    },
+    {
+        "id": "c322d005be20d02c",
+        "type": "b1-service-layer-config",
+        "configSetup": "config-file",
+        "configFileName": "config_flow.json",
+        "serviceLayerUrl": "-",
+        "companyName": "-",
+        "userName": "-",
+        "password": "-",
+        "maxPageSize": "0",
+        "logFilePath": "-"
+    },
+    {
         "id": "8c2fd99c.ea8498",
         "type": "function",
         "z": "5ddb2001.76d37",
@@ -325,23 +349,6 @@
         ]
     },
     {
-        "id": "1d6892b0.83fa8d",
-        "type": "debug",
-        "z": "5a9ea7fb.714ac8",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 710,
-        "y": 280,
-        "wires": []
-    },
-    {
         "id": "dac28394.4e63",
         "type": "http response",
         "z": "5a9ea7fb.714ac8",
@@ -350,6 +357,15 @@
         "headers": {},
         "x": 690,
         "y": 180,
+        "wires": []
+    },
+    {
+        "id": "f3e4ec17beb0e12e",
+        "type": "settings-config",
+        "z": "5a9ea7fb.714ac8",
+        "name": "",
+        "x": 210,
+        "y": 120,
         "wires": []
     },
     {
@@ -2426,7 +2442,7 @@
         "type": "function",
         "z": "6ccd91ab.19ee9",
         "name": "",
-        "func": "\nfor(var i in msg.payload){\n    if(msg.payload[i].CONFIGURATION)\n    msg.payload[i].CONFIGURATION = msg.payload[i].CONFIGURATION.replace(/\"Password\"\\s*:\\s*\".+\"/gm,`\"Password\":\"*****\"`)\n}\n\nreturn msg;",
+        "func": "\nfor(var i in msg.payload){\n    if(msg.payload[i].CONFIGURATION)\n    var temp = JSON.parse(msg.payload[i].CONFIGURATION)\n    if(temp.Password){\n        temp.Password=\"*****\";\n    }\n    \n    msg.payload[i].CONFIGURATION = JSON.stringify(temp);\n}\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -3516,8 +3532,8 @@
         "name": "",
         "scope": null,
         "uncaught": false,
-        "x": 300,
-        "y": 1020,
+        "x": 320,
+        "y": 1080,
         "wires": [
             [
                 "6a671a80.ea0f24"

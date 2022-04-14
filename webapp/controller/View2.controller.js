@@ -117,7 +117,13 @@ sap.ui.define([
       var job = this.getView().getModel("local").getProperty("/Jobs/" + this.jobIndex);
       dbAPI.callMiddleWare("/runJob", "POST", job).then(function(oData) {
         MessageToast.show("Job Started");
-        that.getView().byId("idIconTabBar").setSelectedKey("logs");
+        dbAPI.callMiddleWare("/logbyJobId?JOB_ID=" + that.jobId, "GET").then(function(oData) {
+          that.getOwnerComponent().getModel("local").setProperty("/Logs", oData);
+          that.getView().byId("idLogRefreshTime").setDateValue(new Date());
+          that.getView().byId("idIconTabBar").setSelectedKey("logs");
+        }).catch(function(oError) {
+          dbAPI.errorHandler(oError, that);
+        });
       }).catch(function(oError) {
         dbAPI.errorHandler(oError, that);
       });

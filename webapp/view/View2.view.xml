@@ -1,5 +1,8 @@
 <mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="nvid.sample.controller.View2" xmlns:f="sap.ui.layout.form" xmlns:html="http://www.w3.org/1999/xhtml">
 	<Page title="Job Details" showNavButton="false" navButtonPress="onBack">
+		<headerContent>
+			<Button class="sapUiSmallMargin" icon="sap-icon://log" text="{i18n>Logout}" type="Negative" tooltip="Logout" press="logOutApp"/>
+		</headerContent>
 		<content>
 			<!-- <Button text="Back" press="onBack"></Button> -->
 			<!-- <ObjectHeader title="{local>JOB_NAME}" intro="{local>FROM_SCHEMA}" number="{local>TO_SCHEMA}" numberUnit="" icon=""></ObjectHeader> -->

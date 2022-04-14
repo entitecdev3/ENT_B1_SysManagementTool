@@ -2,6 +2,9 @@
 	<App>
 		<pages>
 			<Page title="Create Job">
+				<headerContent>
+			<Button class="sapUiSmallMargin" icon="sap-icon://log" text="{i18n>Logout}" type="Negative" tooltip="Logout" press="logOutApp"/>
+		</headerContent>
 				<content>
 					<VBox class="sapUiSmallMargin">
 						<f:Form id="FormDisplay480_Trial" editable="true">

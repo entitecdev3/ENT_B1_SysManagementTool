@@ -14,7 +14,7 @@
 			<Column width="8rem">
 				<Text text="Ended On"></Text>
 			</Column>
-			<Column minScreenWidth="Tablet" width="5rem">
+			<Column minScreenWidth="Tablet" width="5.5rem">
 				<Text text="Status"></Text>
 			</Column>
 			<Column minScreenWidth="Tablet" width="7rem">
@@ -35,7 +35,7 @@
 					<Text text="{path: 'local>STARTED_ON'}"/>
 					<Text text="{local>ENDED_ON}"></Text>
 					<!-- <Text text="{local>STATUS}"></Text> -->
-					<ObjectStatus class="sapUiSmallMarginBottom" text="{= ${local>STATUS}==='I' ? 'In-Process' : ${local>STATUS}==='S' ? 'Success' : 'Error'}"  state="{=${local>STATUS}==='S'? 'Success' : ${local>STATUS}==='I' ? 'Warning' : 'Error'}"/>
+					<ObjectStatus class="sapUiSmallMarginBottom" text="{= ${local>STATUS}==='I' ? 'In-Progress' : ${local>STATUS}==='S' ? 'Success' : 'Error'}"  state="{=${local>STATUS}==='S'? 'Success' : ${local>STATUS}==='I' ? 'Warning' : 'Error'}"/>
 					<Text text="{=${local>RUN_TYPE}==='M'?'Manual':${local>RUN_TYPE}==='S'?'Scheduled':'Not Found'}"></Text>
 					<Text text="{local>CONFIGURATION}"></Text>
 					<Text text="{local>MSG}"></Text>
