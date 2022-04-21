@@ -124,7 +124,7 @@
 									<f:formElements id="idFormElements1">
 										<f:FormElement label="Start On" visible="{=${local>/Job/SCHEDULED}==='Y'?true:false}">
 											<f:fields>
-												<DateTimePicker id="DTP2" showCurrentDateButton="true" showCurrentTimeButton="true" value="{local>/Job/START_ON}" valueFormat="yyyy-MM-dd HH:mm:ss" displayFormat="yyyy-MM-dd HH:mm:ss" change="handleChange" class="sapUiSmallMarginBottom"/>
+												<DateTimePicker id="DTP2" showCurrentDateButton="true" showCurrentTimeButton="true" dateValue="{local>/Date/START_ON}" value="{local>/Job/START_ON}" valueFormat="yyyy-MM-dd HH:mm:ss" displayFormat="yyyy-MM-dd HH:mm:ss" change="handleChange" class="sapUiSmallMarginBottom"/>
 												<!-- <DatePicker dateValue="{local>/Job/START_ON}"/> -->
 											</f:fields>
 										</f:FormElement>
@@ -135,7 +135,7 @@
 									<f:formElements>
 										<f:FormElement label="End On" visible="{=${local>/Job/SCHEDULED}==='Y'?true:false}">
 											<f:fields>
-												<DateTimePicker id="DTP3" showCurrentDateButton="true" showCurrentTimeButton="true" value="{local>/Job/END_ON}" valueFormat="yyyy-MM-dd HH:mm:ss" displayFormat="yyyy-MM-dd HH:mm:ss" change="handleChange" class="sapUiSmallMarginBottom"/>
+												<DateTimePicker id="DTP3" showCurrentDateButton="true" showCurrentTimeButton="true" dateValue="{local>/Date/END_ON}" value="{local>/Job/END_ON}" valueFormat="yyyy-MM-dd HH:mm:ss" displayFormat="yyyy-MM-dd HH:mm:ss" change="handleChange" class="sapUiSmallMarginBottom"/>
 												<!-- <DatePicker dateValue="{local>/Job/END_ON}"/> -->
 											</f:fields>
 										</f:FormElement>
@@ -144,6 +144,39 @@
 							</f:formContainers >
 						</f:Form>
 					</VBox>
+					<Panel expandable="true" headerText="Remap the Attachment Path" width="100%" class="sapUiResponsiveMargin">
+					<content>
+						<HBox width="100%">
+							<VBox width="10%">
+								<Label text="Path Name"/>
+								<Label class="sapUiSmallMarginTop" text="Word path:"/>
+								<Label class="sapUiMediumMarginTop" text="Excel path:"/>
+								<Label class="sapUiMediumMarginTop" text="Bitmap path:"/>
+								<Label class="sapUiMediumMarginTop" text="Attachment path:"/>
+								<Label class="sapUiMediumMarginTop" text="Extension path:"/>
+								<Label class="sapUiMediumMarginTop" text="XML path:"/>
+							</VBox>
+							<VBox width="42%">
+								<Label text="Base Path"/>
+								<Input enabled="false" value="{local>/BasePaths/WordPath}"/>
+								<Input enabled="false" value="{local>/BasePaths/ExcelPath}"/>
+								<Input enabled="false" value="{local>/BasePaths/BitmapPath}"/>
+								<Input enabled="false" value="{local>/BasePaths/AttachPath}"/>
+								<Input enabled="false" value="{local>/BasePaths/ExtPath}"/>
+								<Input enabled="false" value="{local>/BasePaths/XmlPath}"/>
+							</VBox>
+							<VBox width="40%" class="sapUiLargeMarginBegin">
+								<Label text="Target Path"/>
+								<Input value="{local>/TargetPaths/WordPath}"/>
+								<Input value="{local>/TargetPaths/ExcelPath}"/>
+								<Input value="{local>/TargetPaths/BitmapPath}"/>
+								<Input value="{local>/TargetPaths/AttachPath}"/>
+								<Input value="{local>/TargetPaths/ExtPath}"/>
+								<Input value="{local>/TargetPaths/XmlPath}"/>
+							</VBox>
+						</HBox>
+					</content>
+				</Panel>
 				</content>
 				<footer>
 					<Toolbar>

@@ -148,6 +148,39 @@
 									</f:formContainers >
 								</f:Form>
 							</VBox>
+							<Panel expandable="true" headerText="Attachment Path" width="100%" class="sapUiResponsiveMargin">
+							<content>
+								<HBox width="100%">
+									<VBox width="10%">
+										<Label text="Path Name"/>
+										<Label class="sapUiSmallMarginTop" text="Word path:"/>
+										<Label class="sapUiMediumMarginTop" text="Excel path:"/>
+										<Label class="sapUiMediumMarginTop" text="Bitmap path:"/>
+										<Label class="sapUiMediumMarginTop" text="Attachment path:"/>
+										<Label class="sapUiMediumMarginTop" text="Extension path:"/>
+										<Label class="sapUiMediumMarginTop" text="XML path:"/>
+									</VBox>
+									<VBox width="42%">
+										<Label text="Base Path"/>
+										<Input enabled="false" value="{local>/BasePath/WordPath}"/>
+										<Input enabled="false" value="{local>/BasePath/ExcelPath}"/>
+										<Input enabled="false" value="{local>/BasePath/BitmapPath}"/>
+										<Input enabled="false" value="{local>/BasePath/AttachPath}"/>
+										<Input enabled="false" value="{local>/BasePath/ExtPath}"/>
+										<Input enabled="false" value="{local>/BasePath/XmlPath}"/>
+									</VBox>
+									<VBox width="40%" class="sapUiLargeMarginBegin">
+										<Label text="Target Path"/>
+										<Input value="{local>/TargetPath/WordPath}"/>
+										<Input value="{local>/TargetPath/ExcelPath}"/>
+										<Input value="{local>/TargetPath/BitmapPath}"/>
+										<Input value="{local>/TargetPath/AttachPath}"/>
+										<Input value="{local>/TargetPath/ExtPath}"/>
+										<Input value="{local>/TargetPath/XmlPath}"/>
+									</VBox>
+								</HBox>
+							</content>
+						</Panel>
 						</content>
 					</IconTabFilter>
 					<IconTabFilter text="Logs" key="logs" icon="sap-icon://activity-items">

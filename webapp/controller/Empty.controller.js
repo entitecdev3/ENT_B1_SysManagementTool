@@ -12,9 +12,15 @@ sap.ui.define([
      * Can be used to modify the View before it is displayed, to bind event handlers and do other one-time initialization.
      * @memberOf nvid.sample.view.Empty
      */
-    //	onInit: function() {
-    //
-    //	},
+    	onInit: function() {
+        var that = this;
+        setTimeout(function(){
+          that.getOwnerComponent().getModel("local").setProperty("/Date", {
+            "START_ON": new Date(),
+            "END_ON": new Date()
+          });
+        }, 2000)
+    	},
     onStatusSelection: function(oEvent) {
       this.getView().getModel("local").setProperty("/Job/STATUS", oEvent.getParameter("selectedIndex") === 0 ? "A" : "I");
     },
@@ -24,13 +30,31 @@ sap.ui.define([
     },
     onSourceCompany: function(oEvent){
       this.getView().getModel("local").setProperty("/Job/BASE_SCHEMA_NAME", oEvent.getParameter("selectedItem").getText().split('(')[1].split(")")[0]);
+      var that = this;
+      dbAPI.callMiddleWare("/schemaBasePath?BASE_SCHEMA="+oEvent.getParameter("selectedItem").getKey(), "GET").then(function(oData) {
+        that.getOwnerComponent().getModel("local").setProperty("/BasePaths", oData);
+        that.getOwnerComponent().getModel("local").setProperty("/TargetPaths", JSON.parse(JSON.stringify(oData)));
+      }).catch(function(oError) {
+        dbAPI.errorHandler(oError, that);
+      });
     },
     onSave: function() {
       var that = this,
-        job = this.getView().getModel("local").getProperty("/Job");
-      this.getView().byId("idSave").setEnabled(false);
+        job = this.getView().getModel("local").getProperty("/Job"),
+        bPath = this.getView().getModel("local").getProperty("/BasePaths"),
+        tPath = this.getView().getModel("local").getProperty("/TargetPaths");
       if(job.BASE_SCHEMA===job.TARGET_SCHEMA){
         MessageToast.show("Invalid Data, Can't Save")
+        return;
+      }
+      if(job.SCHEDULED==="Y"&&(!job.START_ON)){
+        this.getView().byId("DTP2").setValueState("Error");
+        return;
+      }
+
+      if(bPath.WordPath===tPath.WordPath || bPath.ExcelPath===tPath.ExcelPath  || bPath.BitmapPath===tPath.BitmapPath ||
+        bPath.AttachPath===tPath.AttachPath || bPath.ExtPath===tPath.ExtPath || bPath.XmlPath===tPath.XmlPath){
+        MessageToast.show("Base and Target Path Can't be Same");
         return;
       }
       // Default Configuration
@@ -46,9 +70,16 @@ sap.ui.define([
         job.CONFIGURATION.TARGET_SCHEMA = job.TARGET_SCHEMA;
         job.CONFIGURATION.TARGET_SCHEMA_NAME = job.TARGET_SCHEMA_NAME;
         job.CONFIGURATION.BASE_SCHEMA_NAME = job.BASE_SCHEMA_NAME;
+        job.CONFIGURATION.WordPath = tPath.WordPath;
+        job.CONFIGURATION.ExcelPath = tPath.ExcelPath;
+        job.CONFIGURATION.BitmapPath = tPath.BitmapPath;
+        job.CONFIGURATION.AttachPath = tPath.AttachPath;
+        job.CONFIGURATION.ExtPath = tPath.ExtPath;
+        job.CONFIGURATION.XmlPath = tPath.XmlPath;
       }
 
       job.CONFIGURATION = JSON.stringify(job.CONFIGURATION);
+      this.getView().byId("idSave").setEnabled(false);
       dbAPI.callMiddleWare("/createJob", "POST", job).then(function(oData) {
         MessageToast.show("Success");
         that.onClear();

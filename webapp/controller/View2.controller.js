@@ -30,7 +30,10 @@ sap.ui.define([
       const {
         JOB_ID,
         FREQUENCY,
-        STATUS
+        STATUS,
+        TARGET_SCHEMA,
+        CONFIGURATION,
+        BASE_SCHEMA
       } = this.getView().getModel("local").getProperty("/Jobs/" + this.jobIndex);
       that.jobId = JOB_ID;
       // dbAPI.callMiddleWare("/jobbyId?JOB_ID=" + jobId, "GET").then(function(jobData) {
@@ -38,12 +41,20 @@ sap.ui.define([
       // }).catch(function(oError) {
       //   dbAPI.errorHandler(oError, that);
       // });
+
       dbAPI.callMiddleWare("/logbyJobId?JOB_ID=" + that.jobId, "GET").then(function(oData) {
         that.getOwnerComponent().getModel("local").setProperty("/Logs", oData);
         that.getView().byId("idLogRefreshTime").setDateValue(new Date());
       }).catch(function(oError) {
         dbAPI.errorHandler(oError, that);
       });
+
+      dbAPI.callMiddleWare("/schemaBasePath?BASE_SCHEMA="+BASE_SCHEMA, "GET").then(function(oData) {
+        that.getOwnerComponent().getModel("local").setProperty("/BasePath", oData);
+      }).catch(function(oError) {
+        dbAPI.errorHandler(oError, that);
+      });
+      that.getOwnerComponent().getModel("local").setProperty("/TargetPath", CONFIGURATION);
 
       this.getView().byId("groupD").setSelectedIndex(STATUS === "A" ? 0 : 1);
       this.getView().byId("groupC").setSelectedIndex(FREQUENCY === "D" ? 0 : FREQUENCY === "W" ? 1 : 2);
@@ -84,12 +95,25 @@ sap.ui.define([
     },
     onSourceCompany: function(oEvent){
       this.getView().getModel("local").setProperty("/Jobs/" + this.jobIndex +"/BASE_SCHEMA_NAME", oEvent.getParameter("selectedItem").getText().split('(')[1].split(")")[0]);
+      var that = this;
+      dbAPI.callMiddleWare("/schemaBasePath?BASE_SCHEMA="+oEvent.getParameter("selectedItem").getKey(), "GET").then(function(oData) {
+        that.getOwnerComponent().getModel("local").setProperty("/BasePath", oData);
+      }).catch(function(oError) {
+        dbAPI.errorHandler(oError, that);
+      });
     },
     onSave: function() {
       var that = this;
-      var job = this.getView().getModel("local").getProperty("/Jobs/" + this.jobIndex);
+      var job = this.getView().getModel("local").getProperty("/Jobs/" + this.jobIndex),
+      bPath = this.getView().getModel("local").getProperty("/BasePath"),
+      tPath = this.getView().getModel("local").getProperty("/TargetPath");
       if(job.BASE_SCHEMA===job.TARGET_SCHEMA){
         MessageToast.show("Invalid Data, Can't Save")
+        return;
+      }
+      if(bPath.WordPath===tPath.WordPath || bPath.ExcelPath===tPath.ExcelPath  || bPath.BitmapPath===tPath.BitmapPath ||
+        bPath.AttachPath===tPath.AttachPath || bPath.ExtPath===tPath.ExtPath || bPath.XmlPath===tPath.XmlPath){
+        MessageToast.show("Base and Target Path Can't be Same");
         return;
       }
       job.CONFIGURATION = {
@@ -103,6 +127,12 @@ sap.ui.define([
         job.CONFIGURATION.Password = job.Password;
         job.CONFIGURATION.BASE_SCHEMA_NAME = job.BASE_SCHEMA_NAME;
         job.CONFIGURATION.TARGET_SCHEMA_NAME = job.TARGET_SCHEMA_NAME;
+        job.CONFIGURATION.WordPath = tPath.WordPath;
+        job.CONFIGURATION.ExcelPath = tPath.ExcelPath;
+        job.CONFIGURATION.BitmapPath = tPath.BitmapPath;
+        job.CONFIGURATION.AttachPath = tPath.AttachPath;
+        job.CONFIGURATION.ExtPath = tPath.ExtPath;
+        job.CONFIGURATION.XmlPath = tPath.XmlPath;
       }
       job.CONFIGURATION = JSON.stringify(job.CONFIGURATION);
       dbAPI.callMiddleWare("/updateJob", "PUT", job).then(function(oData) {

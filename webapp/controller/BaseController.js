@@ -42,7 +42,7 @@ sap.ui.define([
       dbAPI.callMiddleWare("/jobs", "GET").then(function(oData) {
         oData.forEach(function(item, index) {
           try {
-            item.CONFIGURATION = JSON.parse(JSON.parse(JSON.stringify(item.CONFIGURATION)));
+            oData[index].CONFIGURATION = JSON.parse(JSON.parse(JSON.stringify(item.CONFIGURATION)));
           } catch (err) {
             item.CONFIGURATION = {};
           }
