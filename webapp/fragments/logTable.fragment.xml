@@ -21,10 +21,10 @@
 				<Text text="Run Type"></Text>
 			</Column>
 			<Column minScreenWidth="Tablet" demandPopin="true">
-				<Text text="Configuration"></Text>
+				<Text text="Message"></Text>
 			</Column>
 			<Column minScreenWidth="Tablet" demandPopin="true">
-				<Text text="Message"></Text>
+				<Text text="Configuration"></Text>
 			</Column>
 		</columns>
 		<items>
@@ -37,8 +37,9 @@
 					<!-- <Text text="{local>STATUS}"></Text> -->
 					<ObjectStatus class="sapUiSmallMarginBottom" text="{= ${local>STATUS}==='I' ? 'In-Progress' : ${local>STATUS}==='S' ? 'Success' : 'Error'}"  state="{=${local>STATUS}==='S'? 'Success' : ${local>STATUS}==='I' ? 'Warning' : 'Error'}"/>
 					<Text text="{=${local>RUN_TYPE}==='M'?'Manual':${local>RUN_TYPE}==='S'?'Scheduled':'Not Found'}"></Text>
-					<Text text="{local>CONFIGURATION}"></Text>
+					<!-- <Text text="{local>CONFIGURATION}"></Text> -->
 					<Text text="{local>MSG}"></Text>
+					<ExpandableText class="sapUiTinyMarginBottom sapUiTinyMarginTop" text="{local>CONFIGURATION}" overflowMode="InPlace" />
 				</cells>
 			</ColumnListItem>
 		</items>
