@@ -4385,7 +4385,7 @@
         "type": "function",
         "z": "14adbe7e.88fa32",
         "name": "UPDATE_ATC1",
-        "func": "          \nconst {BASE_SCHEMA, TARGET_SCHEMA, CONFIGURATION} = msg.item;\nconst {AttachPath} = JSON.parse(CONFIGURATION);\nconst baseAttachPath = msg.payload[0].AttachPath;\nif(!msg.flowInfo){\n    msg.flowInfo={};\n}\n\nmsg.flowInfo.sql = `\n\nUPDATE ${TARGET_SCHEMA}.ATC1 \nSET \"trgtPath\"=REPLACE(\"trgtPath\",'${baseAttachPath}','${AttachPath}')\n\n`\nreturn msg;",
+        "func": "          \nconst {BASE_SCHEMA, TARGET_SCHEMA, CONFIGURATION} = msg.item;\nconst {AttachPath} = JSON.parse(CONFIGURATION);\nconst baseAttachPath = msg.payload[0].AttachPath;\nif(!msg.flowInfo){\n    msg.flowInfo={};\n}\n\nmsg.flowInfo.sql = `\n\nUPDATE ${TARGET_SCHEMA}.ATC1 \nSET \"trgtPath\"=REPLACE(\"trgtPath\",'${baseAttachPath.substr(0,baseAttachPath.length-1)}','${AttachPath.substr(0,AttachPath.length-1)}')\n\n`\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
