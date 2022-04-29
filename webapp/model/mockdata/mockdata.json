@@ -11,7 +11,9 @@
     "SCHEDULED": "Y",
     "STATUS": "A",
     "JOB_TYPE": "COPY_COMPANY",
-    "CONFIGURATION": {},
+    "CONFIGURATION": {
+      "Attach_Path_Remap_Existing_Documents": "N"
+    },
     "CREATED_ON": null
   },
   "Job_Type": [

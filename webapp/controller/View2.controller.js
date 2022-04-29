@@ -72,7 +72,7 @@ sap.ui.define([
           }).catch(function(oError) {
             dbAPI.errorHandler(oError, that);
           });
-        },30000);
+        },10000);
       }else if((!that.jobId) && that.logInterval){
         clearInterval(that.logInterval)
         that.logInterval = null;
@@ -89,6 +89,9 @@ sap.ui.define([
     },
     onScheduled: function(oEvent) {
       this.getView().getModel("local").setProperty("/Jobs/" + this.jobIndex + "/SCHEDULED", oEvent.getParameter("selected") ? 'Y' : 'N');
+    },
+    onExistingDocsChange: function(oEvent) {
+      this.getView().getModel("local").setProperty("/Jobs/" + this.jobIndex + "/CONFIGURATION/Attach_Path_Remap_Existing_Documents", oEvent.getParameter("selected") ? 'Y' : 'N');
     },
     onStatusSelection: function(oEvent) {
       this.getView().getModel("local").setProperty("/Jobs/" + this.jobIndex + "/STATUS", oEvent.getParameter("selectedIndex") === 0 ? "A" : "I");
@@ -111,8 +114,13 @@ sap.ui.define([
         MessageToast.show("Invalid Data, Can't Save")
         return;
       }
-      if(bPath.WordPath===tPath.WordPath || bPath.ExcelPath===tPath.ExcelPath  || bPath.BitmapPath===tPath.BitmapPath ||
-        bPath.AttachPath===tPath.AttachPath || bPath.ExtPath===tPath.ExtPath || bPath.XmlPath===tPath.XmlPath){
+      // if(bPath.WordPath===tPath.WordPath || bPath.ExcelPath===tPath.ExcelPath  || bPath.BitmapPath===tPath.BitmapPath ||
+      //   bPath.AttachPath===tPath.AttachPath || bPath.ExtPath===tPath.ExtPath || bPath.XmlPath===tPath.XmlPath){
+      //   MessageToast.show("Base and Target Path Can't be Same");
+      //   return;
+      // }
+      if((bPath.WordPath===tPath.WordPath&&tPath.WordPath) || (bPath.ExcelPath===tPath.ExcelPath&&tPath.ExcelPath)  || (bPath.BitmapPath===tPath.BitmapPath&&tPath.BitmapPath) ||
+        (bPath.AttachPath===tPath.AttachPath&&tPath.AttachPath) || (bPath.ExtPath===tPath.ExtPath&&tPath.ExtPath) || (bPath.XmlPath===tPath.XmlPath&&tPath.XmlPath)){
         MessageToast.show("Base and Target Path Can't be Same");
         return;
       }
@@ -120,7 +128,8 @@ sap.ui.define([
         JOB_NAME: job.JOB_NAME,
         BASE_SCHEMA: job.BASE_SCHEMA,
         TARGET_SCHEMA: job.TARGET_SCHEMA,
-        JOB_TYPE: job.JOB_TYPE
+        JOB_TYPE: job.JOB_TYPE,
+        Attach_Path_Remap_Existing_Documents: job.CONFIGURATION.Attach_Path_Remap_Existing_Documents
       };
       if (job.JOB_TYPE === "COPY_COMPANY") {
         job.CONFIGURATION.UserName = job.UserName;

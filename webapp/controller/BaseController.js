@@ -106,7 +106,7 @@ sap.ui.define([
     },
 
     logOutApp: function() {
-      window.top.location.href = "/";
+      window.top.location.href = "/ui/index.html";
     },
 
     getResourceBundle: function() {

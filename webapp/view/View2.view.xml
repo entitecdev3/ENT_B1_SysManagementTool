@@ -153,30 +153,46 @@
 								<HBox width="100%">
 									<VBox width="10%">
 										<Label text="Path Name"/>
+										<Label class="sapUiSmallMarginTop" text="Attachment path:"/>
+										<Label class="sapUiMediumMarginTop" text="Existing docs"/>
 										<Label class="sapUiSmallMarginTop" text="Word path:"/>
 										<Label class="sapUiMediumMarginTop" text="Excel path:"/>
 										<Label class="sapUiMediumMarginTop" text="Bitmap path:"/>
-										<Label class="sapUiMediumMarginTop" text="Attachment path:"/>
 										<Label class="sapUiMediumMarginTop" text="Extension path:"/>
 										<Label class="sapUiMediumMarginTop" text="XML path:"/>
 									</VBox>
 									<VBox width="42%">
 										<Label text="Base Path"/>
+										<Input enabled="false" value="{local>/BasePath/AttachPath}"/>
+										<Input enabled="false"/>
 										<Input enabled="false" value="{local>/BasePath/WordPath}"/>
 										<Input enabled="false" value="{local>/BasePath/ExcelPath}"/>
 										<Input enabled="false" value="{local>/BasePath/BitmapPath}"/>
-										<Input enabled="false" value="{local>/BasePath/AttachPath}"/>
 										<Input enabled="false" value="{local>/BasePath/ExtPath}"/>
 										<Input enabled="false" value="{local>/BasePath/XmlPath}"/>
 									</VBox>
 									<VBox width="40%" class="sapUiLargeMarginBegin">
 										<Label text="Target Path"/>
-										<Input value="{local>/TargetPath/WordPath}"/>
+										<!-- <Input value="{local>/TargetPath/WordPath}"/>
 										<Input value="{local>/TargetPath/ExcelPath}"/>
 										<Input value="{local>/TargetPath/BitmapPath}"/>
 										<Input value="{local>/TargetPath/AttachPath}"/>
 										<Input value="{local>/TargetPath/ExtPath}"/>
-										<Input value="{local>/TargetPath/XmlPath}"/>
+										<Input value="{local>/TargetPath/XmlPath}"/> -->
+										<Input value="{local>/TargetPath/AttachPath}" valueState="{=${local>/TargetPath/AttachPath}?(${local>/TargetPath/AttachPath}===${local>/BasePath/AttachPath}?'Error':'Success'):'None'}" valueStateText="{=${local>/TargetPath/AttachPath}?(${local>/TargetPath/AttachPath}===${local>/BasePath/AttachPath}?'Base and Target Path Can\'t be Same':''):''}"/>
+										<HBox>
+											<CheckBox text="Update Attachment path in existing documents?" selected="{=${local>CONFIGURATION/Attach_Path_Remap_Existing_Documents}==='Y'?true:false}" select="onExistingDocsChange"/>
+											<core:Icon src="sap-icon://message-information"  class="size1 sapUiMediumMarginBegin"	color="#031E48" press="handleInfoPress" tooltip="! Attention ! It requires that the content of attachments folder has been manually copied to the new Target Path , otherwise file paths will be inexistent.">
+												<core:layoutData>
+													<FlexItemData growFactor="1" />
+												</core:layoutData>
+											</core:Icon>
+										</HBox>
+										<Input value="{local>/TargetPath/WordPath}" valueState="{=${local>/TargetPath/WordPath}?(${local>/TargetPath/WordPath}===${local>/BasePath/WordPath}?'Error':'Success'):'None'}" valueStateText="{=${local>/TargetPath/WordPath}?(${local>/TargetPath/WordPath}===${local>/BasePath/WordPath}?'Base and Target Path Can\'t be Same':''):''}"/>
+										<Input value="{local>/TargetPath/ExcelPath}" valueState="{=${local>/TargetPath/ExcelPath}?(${local>/TargetPath/ExcelPath}===${local>/BasePath/ExcelPath}?'Error':'Success'):'None'}" valueStateText="{=${local>/TargetPath/ExcelPath}?(${local>/TargetPath/ExcelPath}===${local>/BasePath/ExcelPath}?'Base and Target Path Can\'t be Same':''):''}"/>
+										<Input value="{local>/TargetPath/BitmapPath}" valueState="{=${local>/TargetPath/BitmapPath}?(${local>/TargetPath/BitmapPath}===${local>/BasePath/BitmapPath}?'Error':'Success'):'None'}" valueStateText="{=${local>/TargetPath/BitmapPath}?(${local>/TargetPath/BitmapPath}===${local>/BasePath/BitmapPath}?'Base and Target Path Can\'t be Same':''):''}"/>
+										<Input value="{local>/TargetPath/ExtPath}" valueState="{=${local>/TargetPath/ExtPath}?(${local>/TargetPath/ExtPath}===${local>/BasePath/ExtPath}?'Error':'Success'):'None'}" valueStateText="{=${local>/TargetPath/ExtPath}?(${local>/TargetPath/ExtPath}===${local>/BasePath/ExtPath}?'Base and Target Path Can\'t be Same':''):''}"/>
+										<Input value="{local>/TargetPath/XmlPath}" valueState="{=${local>/TargetPath/XmlPath}?(${local>/TargetPath/XmlPath}===${local>/BasePath/XmlPath}?'Error':'Success'):'None'}" valueStateText="{=${local>/TargetPath/XmlPath}?(${local>/TargetPath/XmlPath}===${local>/BasePath/XmlPath}?'Base and Target Path Can\'t be Same':''):''}"/>
 									</VBox>
 								</HBox>
 							</content>

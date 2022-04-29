@@ -52,8 +52,8 @@ sap.ui.define([
         return;
       }
 
-      if(bPath.WordPath===tPath.WordPath || bPath.ExcelPath===tPath.ExcelPath  || bPath.BitmapPath===tPath.BitmapPath ||
-        bPath.AttachPath===tPath.AttachPath || bPath.ExtPath===tPath.ExtPath || bPath.XmlPath===tPath.XmlPath){
+      if((bPath.WordPath===tPath.WordPath&&tPath.WordPath) || (bPath.ExcelPath===tPath.ExcelPath&&tPath.ExcelPath)  || (bPath.BitmapPath===tPath.BitmapPath&&tPath.BitmapPath) ||
+        (bPath.AttachPath===tPath.AttachPath&&tPath.AttachPath) || (bPath.ExtPath===tPath.ExtPath&&tPath.ExtPath) || (bPath.XmlPath===tPath.XmlPath&&tPath.XmlPath)){
         MessageToast.show("Base and Target Path Can't be Same");
         return;
       }
@@ -61,7 +61,8 @@ sap.ui.define([
       job.CONFIGURATION = {
         JOB_NAME: job.JOB_NAME,
         BASE_SCHEMA: job.BASE_SCHEMA,
-        JOB_TYPE: job.JOB_TYPE
+        JOB_TYPE: job.JOB_TYPE,
+        Attach_Path_Remap_Existing_Documents: job.CONFIGURATION.Attach_Path_Remap_Existing_Documents
       };
       // Job Specific
       if (job.JOB_TYPE === "COPY_COMPANY") {
@@ -93,6 +94,9 @@ sap.ui.define([
     onScheduled: function(oEvent) {
       this.getView().getModel("local").setProperty("/Job/SCHEDULED", oEvent.getParameter("selected") ? 'Y' : 'N');
     },
+    onExistingDocsChange: function(oEvent) {
+      this.getView().getModel("local").setProperty("/Job/CONFIGURATION/Attach_Path_Remap_Existing_Documents", oEvent.getParameter("selected") ? 'Y' : 'N');
+    },
     handleInfoPress: function(){
       MessageToast.show("Hover on it");
     },
@@ -116,6 +120,8 @@ sap.ui.define([
         "START_ON": new Date(),
         "END_ON": new Date()
       });
+      this.getView().getModel("local").setProperty("/BasePaths",{}),
+      this.getView().getModel("local").setProperty("/TargetPaths",{});
       this.getView().byId("groupD").setSelectedIndex(0);
       this.getView().byId("groupC").setSelectedIndex(0);
     }

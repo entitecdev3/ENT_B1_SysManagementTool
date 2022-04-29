@@ -14,6 +14,13 @@ sap.ui.define([
 			}
 			return result;
 		},
+		checkTargetPath: function(base,target){
+			if(base&&target&&base===target){
+				return "Success";
+			}else{
+				return "Error"
+			}
+		},
 		formatNumberToLocale: function(num) {
 			var oCurrencyFormat = NumberFormat.getCurrencyInstance({
 				currencyCode: false
