@@ -1,0 +1,123 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" controllerName="nvid.sample.controller.Security" xmlns:html="http://www.w3.org/1999/xhtml">
+	<App>
+		<pages>
+			<Page title="">
+				<headerContent>
+			<Button class="sapUiSmallMargin" icon="sap-icon://log" text="{i18n>Logout}" type="Negative" tooltip="Logout" press="logOutApp"/>
+		</headerContent>
+				<content>
+					<VBox class="sapUiSmallMargin">
+		<f:Form id="FormDisplay354"
+			editable="true">
+			<f:toolbar>
+				<Toolbar id="TB1">
+					<Title id="Title1" text="Config"/>
+					<ToolbarSpacer />
+					<Button id="edit" text="Edit" enabled="true" press="handleEditPress" />
+				</Toolbar>
+			</f:toolbar>
+			<f:layout>
+				<f:ResponsiveGridLayout
+					labelSpanXL="3"
+					labelSpanL="3"
+					labelSpanM="3"
+					labelSpanS="12"
+					adjustLabelSpan="false"
+					emptySpanXL="4"
+					emptySpanL="4"
+					emptySpanM="4"
+					emptySpanS="0"
+					columnsXL="1"
+					columnsL="1"
+					columnsM="1"
+					singleContainerFullSize="false" />
+			</f:layout>
+			<f:formContainers>
+				<f:FormContainer>
+					<f:formElements>
+						<f:FormElement label="Session Timeout">
+							<f:fields>
+								<Text visible="true" text="{local>/config/security/ENT_SESSION_TIMEOUT} Min" id="serverText"/>
+							</f:fields>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+			</f:formContainers>
+		</f:Form>
+		<f:Form id="FormChange354"
+			editable="true"
+			visible="false">
+			<f:toolbar>
+				<Toolbar>
+					<Title text="B1 SL"/>
+					<ToolbarSpacer />
+					<Button id="save" text="Save" type="Emphasized" visible="false" press="handleSavePress" />
+					<Button id="cancel" text="Cancel" visible="false" press="handleCancelPress" />
+				</Toolbar>
+			</f:toolbar>
+			<f:layout>
+				<f:ResponsiveGridLayout
+					labelSpanXL="3"
+					labelSpanL="3"
+					labelSpanM="3"
+					labelSpanS="12"
+					adjustLabelSpan="false"
+					emptySpanXL="4"
+					emptySpanL="4"
+					emptySpanM="4"
+					emptySpanS="0"
+					columnsXL="1"
+					columnsL="1"
+					columnsM="1"
+					singleContainerFullSize="true" />
+			</f:layout>
+			<f:formContainers>
+				<f:FormContainer>
+					<f:formElements>
+						<f:FormElement label="Service Layer URL">
+							<f:fields>
+								<Input value="{local>/config/security/ENT_SESSION_TIMEOUT}" description="Min" id="b1sUrl" required="true"/>
+							</f:fields>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+			</f:formContainers>
+		</f:Form>
+		<Table id="idUsersTable" growing="true" growingThreshold="10" paste="onPaste" mode="None" delete="onDelete">
+	<headerToolbar>
+				<OverflowToolbar id="otbSubheader">
+					<Title text="Users" level="H2" />
+					<ToolbarSpacer />
+					<Button id="editButton" text="Edit" type="Transparent"
+						press="onEdit" />
+						<Button id="addButton" icon="sap-icon://add" text="Add" type="Transparent"
+							press="onAdd" visible="false" />
+					<Button id="saveButton" text="Save" type="Transparent"
+						press="onSave" visible="false" icon="sap-icon://save"/>
+					<Button id="cancelButton" text="Cancel" type="Transparent"
+						press="onCancel" visible="false" />
+				</OverflowToolbar>
+			</headerToolbar>
+			<columns>
+				<Column minScreenWidth="Tablet">
+					<Text text="Username" />
+				</Column>
+				<Column hAlign="Center">
+					<Text text="Password" />
+				</Column>
+			</columns>
+			<items>
+				<ColumnListItem vAlign="Middle">
+					<cells>
+						<Text text="{local>USERNAME}" />
+						<Text text="******"/>
+					</cells>
+				</ColumnListItem>
+			</items>
+		</Table>
+		</VBox>
+				</content>
+			</Page>
+		</pages>
+	</App>
+</mvc:View>

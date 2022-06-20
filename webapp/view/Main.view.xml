@@ -21,15 +21,24 @@
 		<!--</VBox>-->
 		<MessageStrip text="Apps" type="Information" class="sapUiTinyMarginBegin sapUiTinyMarginEnd sapUiMediumMarginBottom sapUiMediumMarginTop"></MessageStrip>
 		<Panel>
-			<GenericTile class="sapUiSmallMarginBegin tileLayout" header="DataBase Schema" id="schemas" subheader="" press="press" visible="false">
+			<GenericTile class="sapUiSmallMarginBegin tileLayout" header="B1 Service Status" id="ServiceStatus" subheader="" press="press" visible="true">
 				<TileContent>
-					<ImageContent src="sap-icon://customer-view"/>
+					<!-- <ImageContent src="sap-icon://customer-view"/> -->
+					<!-- <NumericContent value="1762" withMargin="false" /> -->
+					<NumericContent icon="sap-icon://line-charts" scale="{=${local>/ServicesOnOffCount/warnings}===0?'':'Alert'}" value="{=${local>/ServicesOnOffCount/warnings}===0?'OK':${local>/ServicesOnOffCount/warnings}}" valueColor="{=${local>/ServicesOnOffCount/warnings}===0?'Good':'Critical'}" indicator="" withMargin="false" />
 				</TileContent>
 			</GenericTile>
 			<GenericTile class="sapUiSmallMarginBegin sapUiSmallMarginBottom tileLayout" header="Copy Company Jobs" id="Jobs" subheader=""
 				press="press">
 				<TileContent unit="">
 					<ImageContent src="sap-icon://manager-insight"/>
+				</TileContent>
+			</GenericTile>
+			<GenericTile class="sapUiSmallMarginBegin sapUiSmallMarginBottom tileLayout" header="Configuration" id="Configuration" subheader=""
+				press="press">
+				<TileContent >
+					<NumericContent icon="sap-icon://customize" scale="{=${local>/configStatus/warnings}===0?'':'Alert'}" value="{=${local>/configStatus/warnings}===0?'OK':${local>/configStatus/warnings}}" valueColor="{=${local>/configStatus/warnings}===0?'Good':'Critical'}" indicator="" withMargin="false" />
+					<!-- <ImageContent src="sap-icon://customize"/> -->
 				</TileContent>
 			</GenericTile>
 			<!-- <GenericTile class="sapUiSmallMarginBegin sapUiSmallMarginBottom tileLayout" header="Analisi Clienti" id="salesrepbybp" subheader=""

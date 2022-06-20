@@ -63,11 +63,39 @@
           "pattern": "Main",
           "name": "Main",
           "target": "Main"
+        }, {
+          "pattern": "ServiceStatus",
+          "name": "ServiceStatus",
+          "target": "ServiceStatus"
         },{
 				"pattern": "Jobs",
 				"name": "Jobs",
 				"target": ["donald", "trumph"]
-			}, {
+  			},{
+        "pattern": "Configuration",
+        "name": "Configuration",
+        "target": ["Configuration", "Servers"]
+        },{
+        "pattern": "SLConfig",
+        "name": "SLConfig",
+        "target": ["Configuration", "SLConfig"]
+        },{
+        "pattern": "Servers",
+        "name": "Servers",
+        "target": ["Configuration", "Servers"]
+        },{
+        "pattern": "ManageMails",
+        "name": "ManageMails",
+        "target": ["Configuration", "ManageMails"]
+        },{
+        "pattern": "MailConfig",
+        "name": "MailConfig",
+        "target": ["Configuration", "MailConfig"]
+        },{
+        "pattern": "Security",
+        "name": "Security",
+        "target": ["Configuration", "Security"]
+        },{
 				"name": "detail",
 				"pattern": "Job/{navya}",
 				"titleTarget": "",
@@ -80,6 +108,10 @@
           "viewName": "MainApp",
           "id": "idMainApp"
         },
+        "ServiceStatus": {
+					"viewName": "ServiceStatus",
+					"viewId": "idServiceStatus"
+        },
         "Main": {
 					"viewName": "Main",
 					"viewId": "idMain"
@@ -87,6 +119,53 @@
 				"App": {
 					"viewName": "App",
 					"viewId": "idAppCon"
+        },
+        "Configuration": {
+          "viewName": "Configuration",
+          "id": "idConfiguration",
+					"parent": "App",
+          "controlId": "idAppCon",
+          "controlAggregation": "masterPages"
+        },
+        "Servers": {
+          "viewName": "Servers",
+          "id": "idServers",
+					"parent": "App",
+          "controlId": "idAppCon",
+          "controlAggregation": "detailPages",
+          "viewLevel": 1
+        },
+        "SLConfig": {
+          "viewName": "SLConfig",
+          "id": "idSLConfig",
+					"parent": "App",
+          "controlId": "idAppCon",
+          "controlAggregation": "detailPages",
+          "viewLevel": 1
+        },
+        "ManageMails": {
+          "viewName": "ManageMails",
+          "id": "idManageMails",
+					"parent": "App",
+          "controlId": "idAppCon",
+          "controlAggregation": "detailPages",
+          "viewLevel": 1
+        },
+        "MailConfig": {
+          "viewName": "MailConfig",
+          "id": "idMailConfig",
+					"parent": "App",
+          "controlId": "idAppCon",
+          "controlAggregation": "detailPages",
+          "viewLevel": 1
+        },
+        "Security": {
+          "viewName": "Security",
+          "id": "idSecurity",
+					"parent": "App",
+          "controlId": "idAppCon",
+          "controlAggregation": "detailPages",
+          "viewLevel": 1
         },
         "donald": {
           "viewName": "View1",

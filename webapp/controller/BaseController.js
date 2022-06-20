@@ -39,6 +39,7 @@ sap.ui.define([
     },
     loadJobs: function() {
       var that = this;
+      that.getView().setBusy(true);
       dbAPI.callMiddleWare("/jobs", "GET").then(function(oData) {
         oData.forEach(function(item, index) {
           try {
@@ -54,22 +55,80 @@ sap.ui.define([
           }
         });
         that.getOwnerComponent().getModel("local").setProperty("/Jobs", oData);
+        that.getView().setBusy(false);
       }).catch(function(oError) {
         dbAPI.errorHandler(oError, that);
       });
     },
 		loadLogs: function() {
       var that = this;
+      that.getView().setBusy(true);
       dbAPI.callMiddleWare("/logs", "GET").then(function(oData) {
         that.getOwnerComponent().getModel("local").setProperty("/Logs", oData);
+        that.getView().setBusy(false);
       }).catch(function(oError) {
         dbAPI.errorHandler(oError, that);
       });
     },
     loadCompaniesList: function() {
       var that = this;
+      that.getView().setBusy(true);
       dbAPI.callMiddleWare("/getCompanies", "GET").then(function(oData) {
         that.getOwnerComponent().getModel("local").setProperty("/Companies", oData);
+        that.getView().setBusy(false);
+      }).catch(function(oError) {
+        dbAPI.errorHandler(oError, that);
+      });
+    },
+    loadConfig: function() {
+      var that = this;
+      that.getView().setBusy(true);
+      dbAPI.callMiddleWare("/config", "GET").then(function(oData) {
+        that.getOwnerComponent().getModel("local").setProperty("/config", oData);
+        that.getView().setBusy(false);
+      }).catch(function(oError) {
+        dbAPI.errorHandler(oError, that);
+      });
+    },
+    loadConfigStatus: function() {
+      var that = this;
+      that.getView().setBusy(true);
+      dbAPI.callMiddleWare("/configStatus", "GET").then(function(oData) {
+        that.getOwnerComponent().getModel("local").setProperty("/configStatus", oData);
+        that.getView().setBusy(false);
+      }).catch(function(oError) {
+        dbAPI.errorHandler(oError, that);
+      });
+    },
+    loadUsers: function() {
+      var that = this;
+      that.getView().setBusy(true);
+      dbAPI.callMiddleWare("/users", "GET").then(function(oData) {
+        that.getOwnerComponent().getModel("local").setProperty("/users", oData);
+        that.getView().setBusy(false);
+      }).catch(function(oError) {
+        dbAPI.errorHandler(oError, that);
+      });
+    },
+    loadServices: function() {
+      var that = this;
+      that.getView().setBusy(true);
+      dbAPI.callMiddleWare("/getServices", "GET").then(function(oData) {
+        that.getOwnerComponent().getModel("local").setProperty("/Services", oData);
+        that.getView().setBusy(false);
+        if(that.getView().byId("idLogRefreshTime")){
+          that.getView().byId("idLogRefreshTime").setDateValue(new Date())
+        }
+      }).catch(function(oError) {
+        dbAPI.errorHandler(oError, that);
+      });
+    },
+    loadServicesOnOffCount: function() {
+      var that = this;
+      that.getView().setBusy(true);
+      dbAPI.callMiddleWare("/getServices?count=true", "GET").then(function(oData) {
+        that.getOwnerComponent().getModel("local").setProperty("/ServicesOnOffCount", oData);
+        that.getView().setBusy(false);
       }).catch(function(oError) {
         dbAPI.errorHandler(oError, that);
       });

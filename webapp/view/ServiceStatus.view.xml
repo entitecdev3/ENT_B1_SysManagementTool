@@ -1,0 +1,68 @@
+<mvc:View controllerName="nvid.sample.controller.ServiceStatus" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m">
+	<Page title="Services" id="idServiceStatus" showNavButton="true" navButtonPress="onNavBack">
+		<headerContent>
+			<Text id="idUserName" text="{i18n>Email} : {local>/UserName}" visible="false"/>
+			<Button class="sapUiSmallMargin" icon="sap-icon://log" text="{i18n>Logout}" type="Negative" tooltip="Logout" press="logOutApp"/>
+		</headerContent>
+		<Table class="sapUiSmallMarginBegin" id="idServicesTable"
+		inset="false"
+		alternateRowColors="true"
+		mode="MultiSelect"
+		selectionChange="onTableSelectionChange"
+		items="{
+			path: 'local>/Services',
+			sorter: [{ path: 'SLD_ServerLocation', descending: false, group:true},{ path: 'VisualOrder', descending: false}]
+		}">
+		<headerToolbar>
+			<OverflowToolbar id="otbSubheader" class="sapUiSmallMarginEnd">
+				<Title text="" level="H2" />
+				<Button id="startButton" icon="sap-icon://begin" text="Start" type="Accept"
+					press="onStart" enabled="false"/>
+				<Button id="stopButton" icon="sap-icon://stop" text="Stop" type="Reject"
+					press="onStop" visible="true" enabled="false" />
+				<Button id="restartButton" icon="sap-icon://restart" text="Restart" type="Attention"
+					press="onRestart" visible="true" enabled="false" />
+				<ToolbarSpacer />
+				<Button id="refreshButton" icon="sap-icon://refresh" text="" type="Accept"
+					press="onRefresh" visible="true" />
+					<DateTimePicker id="idLogRefreshTime" width="160px" valueFormat="yyyy-MM-dd HH:mm:ss" displayFormat="yyyy-MM-dd HH:mm:ss" class="sapUiSmallMarginBegin sapUiSmallMarginEnd" editable="false"/>
+			</OverflowToolbar>
+		</headerToolbar>
+		<columns>
+			<Column
+				minScreenWidth="Desktop"
+				demandPopin="true"
+				mergeDuplicates="true"
+				hAlign="Begin">
+				<Text text="Server Location" />
+			</Column>
+			<Column
+				hAlign="Begin">
+				<Text text="Status" />
+			</Column>
+			<Column
+				minScreenWidth="Tablet"
+				hAlign="Begin"
+				demandPopin="true">
+				<Text text="Service Name" />
+			</Column>
+			<Column hAlign="Begin">
+				<Text text="Service URL" />
+			</Column>
+
+		</columns>
+		<items>
+			<ColumnListItem vAlign="Middle" highlight="{parts:[{path:'local>ActualStatus'}, {path:'local>FormalStatus'}], formatter:'.formatter.getState'}">
+				<cells>
+					<Button icon="sap-icon://edit" text="{local>SLD_ServerLocation}" press="onServerLocationPress"/>
+					<ObjectStatus active="true" press="onStatus" icon="{parts:[{path:'local>ActualStatus'}, {path:'local>FormalStatus'}], formatter:'.formatter.getStatusIcon'}" text="{parts:[{path:'local>ActualStatus'}, {path:'local>FormalStatus'}], formatter:'.formatter.getStatus'}" state="{parts:[{path:'local>ActualStatus'}, {path:'local>FormalStatus'}], formatter:'.formatter.getState'}" tooltip="Actual Status: {local>ActualStatus} | Formal Status: {local>FormalStatus}"/>
+					<ObjectIdentifier
+						title="{local>ServiceName}"
+						text=""/>
+					<Link text="{local>SLD_AccessURL}" href="{local>SLD_AccessURL}" target="_blank"/>
+				</cells>
+			</ColumnListItem>
+		</items>
+	</Table>
+	</Page>
+</mvc:View>

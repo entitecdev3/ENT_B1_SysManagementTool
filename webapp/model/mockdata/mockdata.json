@@ -21,6 +21,26 @@
       "CODE": "COPY_COMPANY",
       "NAME": "Copy Company"
     }
-
-  ]
+  ],
+  "b1-sl-config": {
+  "SLD_AccessURL": null
+    },
+    "mail-config": {
+    "userid": null,
+    "password": null,
+    "from": null,
+    "host": null,
+    "port": "465",
+    "tls": true,
+    "secure": true,
+    "portal_url": null,
+    "to": null
+    },
+    "hana-db-connection": {
+    "userName": null,
+    "password": null,
+    "server": null,
+    "port": null,
+    "dedicated_config_override": true
+    }
 }

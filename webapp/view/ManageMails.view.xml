@@ -1,0 +1,132 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" controllerName="nvid.sample.controller.ManageMails" xmlns:html="http://www.w3.org/1999/xhtml">
+	<App>
+		<pages>
+			<Page title="">
+				<headerContent>
+			<Button class="sapUiSmallMargin" icon="sap-icon://log" text="{i18n>Logout}" type="Negative" tooltip="Logout" press="logOutApp"/>
+		</headerContent>
+				<content>
+					<VBox class="sapUiSmallMargin">
+		<f:Form id="FormDisplay354"
+			editable="true">
+
+			<f:toolbar>
+				<Toolbar id="TB1">
+					<Title id="Title1" text="Hana DB"/>
+					<ToolbarSpacer />
+					<Button id="edit" text="Edit" enabled="true" press="handleEditPress" />
+				</Toolbar>
+			</f:toolbar>
+			<f:layout>
+				<f:ResponsiveGridLayout
+					labelSpanXL="3"
+					labelSpanL="3"
+					labelSpanM="3"
+					labelSpanS="12"
+					adjustLabelSpan="false"
+					emptySpanXL="4"
+					emptySpanL="4"
+					emptySpanM="4"
+					emptySpanS="0"
+					columnsXL="1"
+					columnsL="1"
+					columnsM="1"
+					singleContainerFullSize="false" />
+			</f:layout>
+			<f:formContainers>
+				<f:FormContainer>
+					<f:formElements>
+						<f:FormElement label="Server">
+							<f:fields>
+								<Text text="{local>/config/hana-db-connection/server}" id="serverText"  />
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="Port">
+							<f:fields>
+								<Text text="{local>/config/hana-db-connection/port}" />
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="Username">
+							<f:fields>
+								<Text text="{local>/config/hana-db-connection/userName}" />
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="Password">
+							<f:fields>
+								<Text text="******" id="passwordText" />
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement class="sapUiSmallMarginTop" label="">
+							<f:fields>
+								<Button icon="sap-icon://synchronize"  type="Emphasized" text="Test" press="onTestPress"/>
+							</f:fields>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+			</f:formContainers>
+		</f:Form>
+		<f:Form id="FormChange354"
+			editable="true"
+			visible="false">
+			<f:toolbar>
+				<Toolbar>
+					<Title text="Hana DB"/>
+					<ToolbarSpacer />
+					<Button id="save" text="Save" type="Emphasized" visible="false" press="handleSavePress" />
+					<Button id="cancel" text="Cancel" visible="false" press="handleCancelPress" />
+				</Toolbar>
+			</f:toolbar>
+			<f:layout>
+				<f:ResponsiveGridLayout
+					labelSpanXL="3"
+					labelSpanL="3"
+					labelSpanM="3"
+					labelSpanS="12"
+					adjustLabelSpan="false"
+					emptySpanXL="4"
+					emptySpanL="4"
+					emptySpanM="4"
+					emptySpanS="0"
+					columnsXL="1"
+					columnsL="1"
+					columnsM="1"
+					singleContainerFullSize="false" />
+			</f:layout>
+			<f:formContainers>
+				<f:FormContainer>
+					<f:formElements>
+						<f:FormElement label="Server">
+							<f:fields>
+								<Input value="{local>/config/hana-db-connection/server}" id="server"  />
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="Port">
+							<f:fields>
+								<Input value="{local>/config/hana-db-connection/port}" />
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="Username">
+							<f:fields>
+								<Input value="{local>/config/hana-db-connection/userName}" />
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="Password">
+							<f:fields>
+								<Input type="Password" value="{local>/config/hana-db-connection/password}" id="password" />
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement class="sapUiSmallMarginTop" label="">
+							<f:fields>
+								<Button icon="sap-icon://validate"  type="Emphasized" text="Validate" press="onEditTestPress"/>
+							</f:fields>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+			</f:formContainers>
+		</f:Form>
+	</VBox>
+				</content>
+			</Page>
+		</pages>
+	</App>
+</mvc:View>

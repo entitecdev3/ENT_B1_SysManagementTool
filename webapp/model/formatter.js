@@ -14,6 +14,18 @@ sap.ui.define([
 			}
 			return result;
 		},
+		getStatus: function(actual, formal){
+			return actual==='Online' && formal==='Online' ? "Online" : actual==='Offline' && formal==='Offline' ? "Offline" : "Warning"
+			// actual=false or formal=false then "Warning"
+		},
+		getState: function(actual, formal){
+			return actual==='Online' && formal==='Online' ? "Success" : actual==='Offline' && formal==='Offline' ? "Error" : "Warning"
+			// actual=false or formal=false then "Warning"
+		},
+		getStatusIcon: function(actual, formal){
+			return actual==='Online' && formal==='Online' ? "sap-icon://circle-task-2" : actual==='Offline' && formal==='Offline' ? "sap-icon://appear-offline" : "sap-icon://message-warning"
+			// actual=false or formal=false then "Warning"
+		},
 		checkTargetPath: function(base,target){
 			if(base&&target&&base===target){
 				return "Success";

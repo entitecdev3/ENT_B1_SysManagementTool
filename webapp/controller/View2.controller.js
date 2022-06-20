@@ -16,7 +16,6 @@ sap.ui.define([
      */
     onInit: function() {
       this.oRouter = this.getOwnerComponent().getRouter();
-      //this.oRouter.attachRoutePatternMatched(this.herculis, this);
       this.oRouter.getRoute("detail").attachMatched(this.herculis, this);
     },
 

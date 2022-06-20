@@ -1,0 +1,27 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:tnt="sap.tnt"
+    xmlns:layout="sap.ui.layout">
+  <Dialog title="Status information" id="idStatusDetailsDialog" contentWidth="40%" contentHeight="60%">
+    <content >
+      <IconTabBar id="idIconTabBar">
+				<items>
+					<IconTabFilter text="Actual Status" key="actual" icon="sap-icon://task">
+						<content>
+              <Text text="{dialog>/ActualStatusTxt}"/>
+						</content>
+					</IconTabFilter>
+					<IconTabFilter text="Formal Status" key="formal" icon="sap-icon://activity-items">
+						<content>
+              <Text text="{dialog>/FormalStatusTxt}"/>
+						</content>
+					</IconTabFilter>
+				</items>
+			</IconTabBar>
+    </content>
+    <endButton>
+      <Button text="Close" type="Reject" press="onStatusDetailsClose"/>
+    </endButton>
+  </Dialog>
+</core:FragmentDefinition>

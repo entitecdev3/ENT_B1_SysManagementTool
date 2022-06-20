@@ -1,0 +1,36 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="nvid.sample.controller.Configuration" xmlns:html="http://www.w3.org/1999/xhtml">
+	<Page id="idConfiguration" title="Configurations" showNavButton="true" navButtonPress="onNavBack">
+		<content>
+			<!--<Button text="Go To Next" press="onNext"></Button>-->
+			<!-- <SearchField id="idSearch" search="onSearch" liveChange="onSearch"></SearchField> -->
+			<List mode="SingleSelectMaster" delete="onDelete" selectionChange="onActionPress">
+				<!-- <ActionListItem class="sapUiSmallMarginTop" id="" text="Config" press="onActionPress" icon="sap-icon://write-new"/>
+				<ActionListItem class="sapUiSmallMarginTop" id="Servers" text="Servers" press="onActionPress"/>
+				<ActionListItem class="sapUiSmallMarginTop" id="ManageMails" text="Manage-Emails" press="onActionPress"/> -->
+				<StandardListItem id="Servers" icon="sap-icon://it-system" title="Servers" iconDensityAware="false" iconInset="false" description=" " navigated="true" type="Navigation"/>
+				<StandardListItem id="ManageMails" icon="sap-icon://database" title="Hana DB Config" iconDensityAware="false" iconInset="false" description=" " navigated="true"
+					type="Navigation" info="{=${local>/configStatus/hana-db-connection}?'Completed':'Incomplete'}" infoState="{=${local>/configStatus/hana-db-connection}?'Success':'Error'}" infoStateInverted="true"/>
+				<StandardListItem id="SLConfig" icon="sap-icon://developer-settings" title="B1 SL Config" iconDensityAware="false" iconInset="false"
+						description=" " navigated="true" type="Navigation" info="{=${local>/configStatus/b1-sl-config}?'Completed':'Incomplete'}" infoState="{=${local>/configStatus/b1-sl-config}?'Success':'Error'}" infoStateInverted="true"/>
+				<StandardListItem id="MailConfig" icon="sap-icon://email" title="Mail Config" iconDensityAware="false" iconInset="false"
+						description=" " navigated="true" type="Navigation" info="{=${local>/configStatus/mail-config}?'Completed':'Incomplete'}" infoState="{=${local>/configStatus/mail-config}?'Success':'Error'}" infoStateInverted="true"/>
+				<StandardListItem id="Security" icon="sap-icon://user-settings" title="Security" iconDensityAware="false" iconInset="false"
+						description=" " navigated="true" type="Navigation"/>
+					<!-- <StandardListItem id="Template" icon="sap-icon://documents" title="{i18n>Template}" iconDensityAware="false" iconInset="false" description=" " navigated="true"
+						type="Navigation"></StandardListItem>
+					<StandardListItem id="TemplateEmail" icon="sap-icon://email" title="{i18n>TemplateEmail}" iconDensityAware="false" iconInset="false" description=" " navigated="true"
+						type="Navigation"></StandardListItem> -->
+			</List>
+		</content>
+		<!-- <footer>
+			<Toolbar>
+				<ToolbarSpacer/>
+				<Button text="Create" icon="sap-icon://write-new" press="onCreateJob" type="Accept"></Button>
+			</Toolbar>
+		</footer> -->
+		<headerContent>
+			<!-- <Button icon="sap-icon://action" press="onNext"></Button> -->
+		</headerContent>
+	</Page>
+
+</mvc:View>

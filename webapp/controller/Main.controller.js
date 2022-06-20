@@ -15,10 +15,8 @@ sap.ui.define([
 			this.getOwnerComponent().getRouter().getRoute("Main").attachMatched(this._onRouteMatched, this);
 		},
 		_onRouteMatched: function _onRouteMatched(oEvent) {
-			this.getView().getModel("local").setProperty("/Date", {
-				"START_ON": new Date(),
-				"END_ON": new Date()
-			});
+			this.loadServicesOnOffCount();
+			this.loadConfigStatus();
 		},
 		press: function(oEvent) {
 			this.getOwnerComponent().getRouter().navTo(oEvent.getSource().getId().split("--")[oEvent.getSource().getId().split("--").length - 1]);
