@@ -187,6 +187,40 @@
 						</HBox>
 					</content>
 				</Panel>
+				<Panel expandable="true" headerText="Custom SQL Queries" width="100%" class="sapUiResponsiveMargin">
+					<Table id="idQueriesTable" growing="true" growingThreshold="10" paste="onPaste" mode="Delete" delete="onQueriesDelete">
+				<headerToolbar>
+							<OverflowToolbar id="otbSubheader">
+								<!-- <Title text="Queries" level="H2" /> -->
+								<ToolbarSpacer />
+								<Button id="editButton" text="Edit" type="Transparent"
+									press="onQueriesEdit" visible="false"/>
+									<Button id="addButton" icon="sap-icon://add" text="Add" type="Transparent"
+										press="onQueriesAdd" visible="true" />
+								<Button id="saveButton" text="Save" type="Transparent"
+									press="onQueriesSave" visible="false" icon="sap-icon://save"/>
+								<Button id="cancelButton" text="Cancel" type="Transparent"
+									press="onQueriesCancel" visible="false" />
+							</OverflowToolbar>
+						</headerToolbar>
+						<columns>
+							<Column minScreenWidth="Tablet" width="30%">
+								<Text text="Name" />
+							</Column>
+							<Column hAlign="Begin"  width="70%">
+								<Text text="Query" />
+							</Column>
+						</columns>
+						<items>
+							<ColumnListItem vAlign="Middle">
+								<cells>
+									<Input value="{local>Name}" placeholder="Name"/>
+									<Input value="{local>Query}" placeholder="Query"/>
+								</cells>
+							</ColumnListItem>
+						</items>
+					</Table>
+				</Panel>
 				</content>
 				<footer>
 					<Toolbar>

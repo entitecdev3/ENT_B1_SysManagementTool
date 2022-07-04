@@ -40,6 +40,7 @@
         }
       }
     },
+    "handleValidation": true,
     "rootView": {
       "viewName": "nvid.sample.view.MainApp",
       "type": "XML"

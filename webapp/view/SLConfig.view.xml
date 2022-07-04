@@ -37,7 +37,7 @@
 					<f:formElements>
 						<f:FormElement label="Service Layer URL">
 							<f:fields>
-								<Text visible="true" text="{local>/config/b1-sl-config/SLD_AccessURL}" id="serverText"/>
+								<Text visible="true" text="{local>/config/b1-sl-config/serviceLayerUrl}" id="serverText"/>
 							</f:fields>
 						</f:FormElement>
 						<f:FormElement class="sapUiSmallMarginTop" label="">
@@ -81,7 +81,7 @@
 					<f:formElements>
 						<f:FormElement label="Service Layer URL">
 							<f:fields>
-								<Input value="{local>/config/b1-sl-config/SLD_AccessURL}" id="b1sUrl" required="true"/>
+								<Input value="{local>/config/b1-sl-config/serviceLayerUrl}" id="b1sUrl" required="true"/>
 								<Button icon="sap-icon://synchronize" tooltip="Fetch URL from B1 SLD" text="Fetch from B1 SLD" press="onFetchUrl"/>
 							</f:fields>
 						</f:FormElement>

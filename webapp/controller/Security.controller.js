@@ -6,7 +6,7 @@ sap.ui.define([
   'sap/m/ColumnListItem',
 	'sap/m/Input',
   "sap/m/MessageToast"
-], function(BaseController, dbAPI, ColumnListItem, Input, deepExtend, JSONModel, MessageToast) {
+], function(BaseController, dbAPI, deepExtend, JSONModel, ColumnListItem, Input, MessageToast) {
   "use strict";
 
   return BaseController.extend("nvid.sample.controller.Security", {
@@ -24,33 +24,24 @@ sap.ui.define([
   			this.oEditableTemplate = new ColumnListItem({
   				cells: [
             new Input({
-  						value: "{local>USERNAME}"
-  					}), new Input({
-              type: "Password",
-  						value: "{local>PASSWORD}"
-  					})
+             value: "{local>USERNAME}",
+             editable:"{=${local>USERNAME}==='B1SiteUser'?false:true}"
+           }), new Input({
+             type: "Password",
+             value: "{local>PASSWORD}"
+           })
   				]
   			});
         that.rebindTable(that.oReadOnlyTemplate, "Navigation");
-        // that.getView().setBusy(true);
-        // dbAPI.callMiddleWare("/users", "GET").then(function(oData) {
-        //   that.oModel = new JSONModel({users:oData});
-        //   that.getView().setModel(that.oModel);
-        //   that.rebindTable(that.oReadOnlyTemplate, "Navigation");
-  			// 	that.getView().setBusy(false);
-        // }).catch(function(oError) {
-        //   dbAPI.errorHandler(oError, that);
-        // });
-    	},
-      rebindTable: function(oTemplate, sKeyboardMode) {
+        this.deletedUsers = [];
+    },
+    rebindTable: function(oTemplate, sKeyboardMode) {
 			this.oTable.bindItems({
-				path: "local>/users",
-				template: oTemplate,
-				templateShareable: true,
-				key: "USER_ID"
-			}).setKeyboardMode(sKeyboardMode);
+				path: "local>/Users",
+				template: oTemplate
+			});
 		},
-      handleEditPress : function () {
+    handleEditPress : function () {
 
 			this._toggleButtonsAndView(true);
 
@@ -82,13 +73,13 @@ sap.ui.define([
 		},
 
 		onEdit: function() {
-			// this.aProductCollection = deepExtend([], this.oModel.getProperty("/users"));
+			this.aUserCollection = deepExtend([], this.oModel.getProperty("/Users"));
 			this.byId("editButton").setVisible(false);
       this.byId("addButton").setVisible(true);
 			this.byId("saveButton").setVisible(true);
 			this.byId("cancelButton").setVisible(true);
       this.oTable.setMode('Delete');
-      // this.rebindTable(this.oEditableTemplate, "Edit");
+      this.rebindTable(this.oEditableTemplate, "Edit");
 		},
 
 		onSave: function() {
@@ -96,29 +87,31 @@ sap.ui.define([
       this.byId("addButton").setVisible(false);
 			this.byId("cancelButton").setVisible(false);
 			this.byId("editButton").setVisible(true);
-			this.rebindTable(this.oReadOnlyTemplate, "Navigation");
       this.oTable.setMode('None');
+      var that = this;
+      var payload = {
+        upsert : this.oModel.getProperty("/Users"),
+        delete : this.deletedUsers};
+      dbAPI.callMiddleWare("/users", "POST", payload).then(function(oData) {
+        that.getView().setBusy(false);
+        that.deletedUsers = [];
+        that.rebindTable(that.oReadOnlyTemplate, "Navigation");
+        MessageToast.show("Saved")
+      }).catch(function(oError) {
+        dbAPI.errorHandler(oError, that);
+      });
 		},
 
 		onCancel: function() {
       var that=this;
+      this.deletedUsers = [];
 			this.byId("cancelButton").setVisible(false);
       this.byId("addButton").setVisible(false);
 			this.byId("saveButton").setVisible(false);
 			this.byId("editButton").setVisible(true);
-			// this.oModel.setProperty("/ProductCollection", this.aProductCollection);
-			// this.rebindTable(this.oReadOnlyTemplate, "Navigation");
+			this.oModel.setProperty("/Users", this.aUserCollection);
+			this.rebindTable(this.oReadOnlyTemplate, "Navigation");
       this.oTable.setMode('None');
-      that.getView().setBusy(true);
-      dbAPI.callMiddleWare("/users", "GET").then(function(oData) {
-        // that.oModel = new JSONModel({serverCollection:oData});
-        // that.getView().setModel(that.oModel);
-        that.getView().getModel("local").setProperty("/users", oData);
-        that.rebindTable(that.oReadOnlyTemplate, "Navigation");
-        that.getView().setBusy(false);
-      }).catch(function(oError) {
-        dbAPI.errorHandler(oError, that);
-      });
 		},
     onDelete: function(oEvent){
       let sPath = oEvent.getParameter('listItem').getBindingContextPath();
@@ -126,14 +119,17 @@ sap.ui.define([
         MessageToast.show("It's a system user, can't be deleted")
         return;
       }
-      this.getView().getModel().getProperty('/serverCollection').splice(parseInt(sPath.split('/')[2]),1);
-      this.getView().getModel().refresh();
+      const delItem = this.getView().getModel('local').getProperty('/Users').splice(parseInt(sPath.split('/')[2]),1);
+      if(delItem[0].USER_ID){
+        this.deletedUsers.push(delItem[0].USER_ID);
+      }
+      this.getView().getModel('local').refresh();
       // this.getView().getModel().setProperty('/serverCollection',servers);
     },
     onAdd: function(oEvent){
-      let users = this.getView().getModel('local').getProperty('/users');
+      let users = this.getView().getModel('local').getProperty('/Users');
       users.push({})
-      this.getView().getModel('local').setProperty('/users',users);
+      this.getView().getModel('local').setProperty('/Users',users);
     }
     /**
      * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered

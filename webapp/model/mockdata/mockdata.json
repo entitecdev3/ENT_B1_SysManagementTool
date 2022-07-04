@@ -12,7 +12,8 @@
     "STATUS": "A",
     "JOB_TYPE": "COPY_COMPANY",
     "CONFIGURATION": {
-      "Attach_Path_Remap_Existing_Documents": "N"
+      "Attach_Path_Remap_Existing_Documents": "N",
+      "Custom_SQL_Queries":[]
     },
     "CREATED_ON": null
   },

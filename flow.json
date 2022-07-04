@@ -21,6 +21,14 @@
         "info": ""
     },
     {
+        "id": "deb00af94856228f",
+        "type": "tab",
+        "label": "Logout",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "dcad3eb1.e262e",
         "type": "tab",
         "label": "GET Companies List",
@@ -49,17 +57,17 @@
         "info": ""
     },
     {
-        "id": "20a520fa336da0fb",
+        "id": "3e2f123667197722",
         "type": "tab",
-        "label": "Base_Path",
+        "label": "Send_Email",
         "disabled": false,
         "info": "",
         "env": []
     },
     {
-        "id": "3e2f123667197722",
+        "id": "20a520fa336da0fb",
         "type": "tab",
-        "label": "Send_Email",
+        "label": "Base_Path",
         "disabled": false,
         "info": "",
         "env": []
@@ -99,6 +107,14 @@
         "id": "97998734b41b7fbf",
         "type": "tab",
         "label": "Configuration",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "680f23997f7dfd3d",
+        "type": "tab",
+        "label": "Security",
         "disabled": false,
         "info": "",
         "env": []
@@ -589,7 +605,7 @@
         "type": "function",
         "z": "7ee266ca63cceab4",
         "name": "",
-        "func": "var payload={};\n\nif(!msg.flowInfo)\n    msg.flowInfo={}\n\nmsg.payload.forEach(item=>{\n    payload[item.KEY]=JSON.parse(item.VALUE);\n});\n\nif(env.get(\"hana-db-connection\"))\n    msg.configOverrideHana = payload['hana-db-connection'];\nif(env.get(\"b1-sl-config'\"))\n    msg.configOverride = payload['b1-sl-config'];\n    \nmsg.flowInfo.config = payload;\n\nreturn msg;",
+        "func": "var payload={};\n\nif(!msg.flowInfo)\n    msg.flowInfo={}\n\nmsg.payload.forEach(item=>{\n    try{\n        payload[item.KEY]=JSON.parse(item.VALUE);\n    }catch(err){\n        payload[item.KEY]=item.VALUE;\n    }\n});\n\nif(env.get(\"hana-db-connection\"))\n    msg.configOverrideHana = payload['hana-db-connection'];\nif(env.get(\"b1-sl-config'\"))\n    msg.configOverride = payload['b1-sl-config'];\n    \nmsg.flowInfo.config = payload;\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -641,7 +657,7 @@
         "type": "function",
         "z": "19a1d236fd159ab3",
         "name": "session check",
-        "func": "const sessionInfo = global.get('sessionInfo');\n// msg.sessionInfo\nconst { entSessionId } = msg.req.cookies; \nconst  flowStartTimestamp  = new Date();\n\nconst isReqSession = (elem) => {\n    return (\n        elem.entSessionId === entSessionId\n    )\n}\nmsg.serviceLayer = msg.serviceLayer ? msg.serviceLayer : {};\n\nif (sessionInfo) {\n    const reqSession = sessionInfo.filter(isReqSession);\n    // const reqSession = [ sessionInfo[sessionInfo.length - 1] ];\n    // node.warn(reqSession)\n    if (reqSession.length > 0) {\n        const reqSessionInfo = reqSession[0];\n        // const reqDatabase = reqSessionInfo.database;\n        // const reqUserName = reqSessionInfo.username;\n        // const reqb1SessionId = reqSessionInfo.b1SessionId;\n        const reqEntSessionTimeout = reqSessionInfo.entSessionTimeout;\n        const reqLastAccessTimestamp = reqSessionInfo.lastAccessTimestamp;\n        \n        const timeDifferenceMs = flowStartTimestamp - reqLastAccessTimestamp;\n        const clientTimeoutMs = parseInt(reqEntSessionTimeout) * 60 * 1000;\n        \n        if (clientTimeoutMs - timeDifferenceMs > 0) {\n            // node.warn(clientTimeoutMs - timeDifferenceMs)\n            // msg.serviceLayer.sessionId = reqb1SessionId;\n            const sessionIndex = sessionInfo.findIndex(isReqSession);\n            sessionInfo[sessionIndex].lastAccessTimestamp = flowStartTimestamp;\n            msg.reqSession = sessionInfo[sessionIndex];\n            msg.currentSession = msg.reqSession;\n            \n            msg.payload = sessionInfo[sessionIndex];\n            return [msg, null];\n        } else {\n            msg.statusCode = 401;\n            msg.payload = { error: 'Session expired.' }\n            return [null, msg];\n        }\n    }\n}\n\nmsg.statusCode = 401;\nmsg.payload = { error: 'User not authenticated.' }\nreturn [null, msg];",
+        "func": "const sessionInfo = global.get('sessionInfo');\n// msg.sessionInfo\nconst { entSessionId } = msg.req.cookies; \nconst  flowStartTimestamp  = new Date();\n\nconst isReqSession = (elem) => {\n    return (\n        elem.entSessionId === entSessionId\n    )\n}\nmsg.serviceLayer = msg.serviceLayer ? msg.serviceLayer : {};\n\nif (sessionInfo) {\n    const reqSession = sessionInfo.filter(isReqSession);\n    // const reqSession = [ sessionInfo[sessionInfo.length - 1] ];\n    // node.warn(reqSession)\n    if (reqSession.length > 0) {\n        const reqSessionInfo = reqSession[0];\n        // const reqDatabase = reqSessionInfo.database;\n        // const reqUserName = reqSessionInfo.username;\n        // const reqb1SessionId = reqSessionInfo.b1SessionId;\n        const reqEntSessionTimeout = reqSessionInfo.entSessionTimeout;\n        const reqLastAccessTimestamp = reqSessionInfo.lastAccessTimestamp;\n        \n        const timeDifferenceMs = flowStartTimestamp - reqLastAccessTimestamp;\n        const clientTimeoutMs = parseInt(reqEntSessionTimeout) * 60 * 1000;\n        const sessionIndex = sessionInfo.findIndex(isReqSession);\n\n        if (clientTimeoutMs - timeDifferenceMs > 0) {\n            // node.warn(clientTimeoutMs - timeDifferenceMs)\n            // msg.serviceLayer.sessionId = reqb1SessionId;\n            sessionInfo[sessionIndex].lastAccessTimestamp = flowStartTimestamp;\n            msg.reqSession = sessionInfo[sessionIndex];\n            msg.currentSession = msg.reqSession;\n            \n            msg.payload = sessionInfo[sessionIndex];\n            return [msg, null];\n        } else {\n            // sessionInfo.splice(sessionIndex,1);\n            msg.statusCode = 401;\n            msg.payload = 'Session expired.'\n            return [null, msg];\n        }\n    }\n}\n\nmsg.statusCode = 401;\nmsg.payload = 'User not authenticated.'\nreturn [null, msg];",
         "outputs": 2,
         "noerr": 0,
         "initialize": "",
@@ -2251,7 +2267,7 @@
         "id": "9f5fd25a4cdbe44f",
         "type": "inject",
         "z": "c0763147.55f79",
-        "name": "INSERT_ENT_SERVERS",
+        "name": "INSERT_ENT_CONFIG",
         "props": [
             {
                 "p": "payload"
@@ -2268,11 +2284,11 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 250,
+        "x": 240,
         "y": 780,
         "wires": [
             [
-                "2df1067c1431dabf"
+                "f59a208e885d11d8"
             ]
         ]
     },
@@ -2343,6 +2359,25 @@
         "finalize": "",
         "libs": [],
         "x": 660,
+        "y": 820,
+        "wires": [
+            [
+                "e7cf0bd59b74a77c"
+            ]
+        ]
+    },
+    {
+        "id": "f59a208e885d11d8",
+        "type": "function",
+        "z": "c0763147.55f79",
+        "name": "pathforExportImport",
+        "func": "\n'CREATE TABLE ENT_CONFIG(SERVER_ID PRIMARY KEY, HOSTNAME TEXT NOT NULL, PORT INTEGER DEFAULT 22, USERNAME TEXT NOT NULL, PASSWORD TEXT NOT NULL, CREATED_ON DATETIME NOT NULL);'\n\nmsg.topic = `INSERT INTO ENT_CONFIG (CONFIG_ID, KEY, VALUE, CREATED_ON)\n            VALUES ('a46b54dc-7c51-40f9-9b8f-0f10a2c1f540', 'path-for-export-import', 'Test', datetime('now', 'localtime'));`;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 860,
         "y": 820,
         "wires": [
             [
@@ -2625,6 +2660,85 @@
         "x": 950,
         "y": 380,
         "wires": []
+    },
+    {
+        "id": "9ad8dbca52938aee",
+        "type": "http in",
+        "z": "deb00af94856228f",
+        "name": "logout",
+        "url": "/api/logout",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 170,
+        "y": 140,
+        "wires": [
+            [
+                "6e6bb52bc6957a66"
+            ]
+        ]
+    },
+    {
+        "id": "946052a80e818814",
+        "type": "debug",
+        "z": "deb00af94856228f",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 550,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "301bf89c7b161308",
+        "type": "http response",
+        "z": "deb00af94856228f",
+        "name": "",
+        "statusCode": "401",
+        "headers": {},
+        "x": 560,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "b70516345e0e2501",
+        "type": "http response",
+        "z": "deb00af94856228f",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 560,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "6e6bb52bc6957a66",
+        "type": "function",
+        "z": "deb00af94856228f",
+        "name": "session check",
+        "func": "const sessionInfo = global.get('sessionInfo');\n// msg.sessionInfo=sessionInfo;\nconst { entSessionId } = msg.req.cookies; \n\nconst isReqSession = (elem) => {\n    return (\n        elem.entSessionId === entSessionId\n    )\n}\n\nif (sessionInfo) {\n    const reqSession = sessionInfo.filter(isReqSession);\n    if (reqSession.length > 0) {\n        const sessionIndex = sessionInfo.findIndex(isReqSession);\n        sessionInfo.splice(sessionIndex,1)\n        msg.sessionInfo = global.get('sessionInfo');\n        msg.payload = 'Logout Successfull';\n        return [msg, null];\n    }\n}\n\nmsg.statusCode = 401;\nmsg.payload = 'User not authenticated.'\nreturn [null, msg];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 140,
+        "wires": [
+            [
+                "b70516345e0e2501",
+                "946052a80e818814"
+            ],
+            [
+                "301bf89c7b161308"
+            ]
+        ]
     },
     {
         "id": "3eded5ac.09d2da",
@@ -4249,9 +4363,7 @@
         "x": 170,
         "y": 100,
         "wires": [
-            [
-                "d32ae5b9.640118"
-            ]
+            []
         ]
     },
     {
@@ -4436,7 +4548,7 @@
             "64f94c54.4ba714",
             "9b12ea1d.ef2d18"
         ],
-        "x": 235,
+        "x": 105,
         "y": 500,
         "wires": [
             [
@@ -4451,7 +4563,8 @@
         "name": "",
         "links": [
             "b3226777.67bb78",
-            "f9dcd32b.d33f9"
+            "f9dcd32b.d33f9",
+            "7b39e2e278639562"
         ],
         "x": 935,
         "y": 620,
@@ -4695,7 +4808,7 @@
         "links": [
             "276ba7ff.7c8ca8"
         ],
-        "x": 545,
+        "x": 985,
         "y": 500,
         "wires": []
     },
@@ -4758,7 +4871,7 @@
         "type": "subflow:5717a347.80f76c",
         "z": "58b888b4.6c1618",
         "name": "",
-        "x": 390,
+        "x": 260,
         "y": 460,
         "wires": [
             [
@@ -4779,7 +4892,7 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 590,
+        "x": 460,
         "y": 460,
         "wires": []
     },
@@ -4788,19 +4901,61 @@
         "type": "subflow:7ee266ca63cceab4",
         "z": "58b888b4.6c1618",
         "name": "",
-        "env": [
-            {
-                "name": "hana-db-connection",
-                "type": "bool",
-                "value": "false"
-            },
-            {
-                "name": "b1-sl-config",
-                "type": "bool",
-                "value": "false"
-            }
-        ],
-        "x": 400,
+        "x": 240,
+        "y": 500,
+        "wires": [
+            [
+                "588c990ba64d78fe"
+            ]
+        ]
+    },
+    {
+        "id": "a75140acf3770af0",
+        "type": "sqlite",
+        "z": "58b888b4.6c1618",
+        "mydb": "e7336e81.c32bc",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 640,
+        "y": 500,
+        "wires": [
+            [
+                "649d928cec6e6ea2"
+            ]
+        ]
+    },
+    {
+        "id": "588c990ba64d78fe",
+        "type": "function",
+        "z": "58b888b4.6c1618",
+        "name": "Host Info SQL",
+        "func": "\nmsg.topic = `\nSELECT * FROM ENT_SERVERS;   \n`;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 500,
+        "wires": [
+            [
+                "a75140acf3770af0"
+            ]
+        ]
+    },
+    {
+        "id": "649d928cec6e6ea2",
+        "type": "function",
+        "z": "58b888b4.6c1618",
+        "name": "credentials_linux",
+        "func": "msg.flowInfo.config.credentials_linux = msg.payload;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 850,
         "y": 500,
         "wires": [
             [
@@ -4829,7 +4984,7 @@
         "type": "function",
         "z": "14adbe7e.88fa32",
         "name": "Standard export WITH NO dependencies",
-        "func": "const {BASE_SCHEMA, TARGET_SCHEMA, CONFIGURATION} = msg.item;\nvar d = new Date(),\n    dformat = [d.getFullYear(),\n               d.getMonth()+1,\n               d.getDate()].join('')+'_'+\n              [d.getHours(),\n               d.getMinutes(),\n               d.getSeconds()].join('');\n               \nconst path_for_export_import = msg.flowInfo.config[\"path-for-export-import\"];\nmsg.file_path = `${path_for_export_import}/${BASE_SCHEMA}/bck_${dformat}`;//yyyymmdd_hhssmm\n\nmsg.configOverride = {};\nif(!msg.flowInfo){\n    msg.flowInfo = {};\n}\n\nmsg.flowInfo.sql = `export ${BASE_SCHEMA}.\"*\" as binary\ninto '${msg.file_path}'\nwith threads 4 no dependencies;`;\n\nreturn msg;",
+        "func": "const {BASE_SCHEMA, TARGET_SCHEMA, CONFIGURATION} = msg.item;\nvar d = new Date(),\n    dformat = [d.getFullYear(),\n               d.getMonth()+1,\n               d.getDate()].join('')+'_'+\n              [d.getHours(),\n               d.getMinutes(),\n               d.getSeconds()].join('');\n               \nconst path_for_export_import = msg.flowInfo.config[\"path-for-export-import\"];\nmsg.file_path = `${path_for_export_import}/${BASE_SCHEMA}/bck_${dformat}`;//yyyymmdd_hhssmm\n\n// msg.configOverride = {};\n// if(!msg.flowInfo){\n//     msg.flowInfo = {};\n// }\n\nmsg.configOverrideHana = msg.flowInfo.config['hana-db-connection'];\n\nmsg.flowInfo.sql = `export ${BASE_SCHEMA}.\"*\" as binary\ninto '${msg.file_path}'\n\nwith threads 4 no dependencies;`;\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -4896,11 +5051,10 @@
         "sqlquery": "msg.topic",
         "sql": "",
         "name": "",
-        "x": 780,
-        "y": 1140,
+        "x": 820,
+        "y": 1320,
         "wires": [
             [
-                "61519ae8.0cc544",
                 "7676efc3e425d7c4"
             ]
         ]
@@ -4917,7 +5071,7 @@
         "finalize": "",
         "libs": [],
         "x": 580,
-        "y": 1160,
+        "y": 1320,
         "wires": [
             [
                 "3cfb5aa4.d588a6",
@@ -4933,12 +5087,12 @@
         "sqlquery": "msg.topic",
         "sql": "",
         "name": "",
-        "x": 480,
-        "y": 1320,
+        "x": 720,
+        "y": 1500,
         "wires": [
             [
                 "bf6192ef.5a68a",
-                "fe0e5d030fc49bce"
+                "978254fcbccd1753"
             ]
         ]
     },
@@ -4947,14 +5101,14 @@
         "type": "function",
         "z": "14adbe7e.88fa32",
         "name": "Log - Job  Error",
-        "func": "\nconst { JOB_ID } = msg.item;\nmsg.topic = `\nUPDATE ENT_JOB_LOGS SET STATUS = 'E', MSG = '${msg.error}', ENDED_ON = datetime('now', 'localtime') WHERE LOG_ID = '${msg.LOG_ID}';   \n`;\nreturn msg;",
+        "func": "\nconst { JOB_ID } = msg.item;\nmsg.topic = `\nUPDATE ENT_JOB_LOGS SET STATUS = 'E', MSG = '${typeof(msg.error)==='object'? JSON.stringify(msg.error) : msg.error}', ENDED_ON = datetime('now', 'localtime') WHERE LOG_ID = '${msg.LOG_ID}';   \n`;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 260,
-        "y": 1320,
+        "x": 500,
+        "y": 1500,
         "wires": [
             [
                 "4e8f3ea8.dcffc",
@@ -4985,13 +5139,14 @@
             "759a117e752feb6a",
             "95082cbb15af8493",
             "8c33fbf4bb55103b",
-            "f84d5f38def61f77"
+            "f84d5f38def61f77",
+            "270ca5dd4bd3d0cd"
         ],
-        "x": 95,
-        "y": 1320,
+        "x": 115,
+        "y": 1480,
         "wires": [
             [
-                "10ea7b71.9a6e55"
+                "fe0e5d030fc49bce"
             ]
         ]
     },
@@ -5030,23 +5185,6 @@
         "wires": []
     },
     {
-        "id": "61519ae8.0cc544",
-        "type": "debug",
-        "z": "14adbe7e.88fa32",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 870,
-        "y": 1060,
-        "wires": []
-    },
-    {
         "id": "a9bc894a.a1c9e8",
         "type": "link out",
         "z": "14adbe7e.88fa32",
@@ -5071,8 +5209,8 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 670,
-        "y": 1360,
+        "x": 930,
+        "y": 1540,
         "wires": []
     },
     {
@@ -5111,8 +5249,8 @@
         "z": "14adbe7e.88fa32",
         "name": "Write Error",
         "info": "",
-        "x": 80,
-        "y": 1280,
+        "x": 100,
+        "y": 1440,
         "wires": []
     },
     {
@@ -5162,8 +5300,8 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 750,
-        "y": 1180,
+        "x": 790,
+        "y": 1360,
         "wires": []
     },
     {
@@ -5179,8 +5317,8 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 470,
-        "y": 1280,
+        "x": 690,
+        "y": 1460,
         "wires": []
     },
     {
@@ -5231,8 +5369,8 @@
         "name": "",
         "scope": null,
         "uncaught": false,
-        "x": 160,
-        "y": 1420,
+        "x": 180,
+        "y": 1580,
         "wires": [
             [
                 "6a671a80.ea0f24",
@@ -5253,8 +5391,8 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 370,
-        "y": 1420,
+        "x": 390,
+        "y": 1580,
         "wires": []
     },
     {
@@ -5426,8 +5564,8 @@
         "y": 1180,
         "wires": [
             [
-                "3f86ad81.41aed2",
-                "33eadede40900e74"
+                "33eadede40900e74",
+                "fced1a75bb32bbb9"
             ],
             [
                 "dc96e009.c3edd"
@@ -5447,8 +5585,8 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 530,
-        "y": 1160,
+        "x": 550,
+        "y": 1140,
         "wires": []
     },
     {
@@ -5457,8 +5595,8 @@
         "z": "14adbe7e.88fa32",
         "name": "Catch",
         "info": "",
-        "x": 70,
-        "y": 1380,
+        "x": 90,
+        "y": 1540,
         "wires": []
     },
     {
@@ -6283,7 +6421,7 @@
         "type": "function",
         "z": "14adbe7e.88fa32",
         "name": "update Log",
-        "func": "const { JOB_ID } = msg.item;\nconst MSG = \"Current task: 999. Test Service Layer Login\"\nmsg.topic = `\nUPDATE ENT_JOB_LOGS SET STATUS = 'I', MSG = '${MSG}', ENDED_ON = datetime('now', 'localtime') WHERE LOG_ID = '${msg.LOG_ID}' AND JOB_ID = '${JOB_ID}';   \n`;\nreturn msg;",
+        "func": "const { JOB_ID } = msg.item;\nconst MSG = \"Current task: 60. Test Service Layer Login\"\nmsg.topic = `\nUPDATE ENT_JOB_LOGS SET STATUS = 'I', MSG = '${MSG}', ENDED_ON = datetime('now', 'localtime') WHERE LOG_ID = '${msg.LOG_ID}' AND JOB_ID = '${JOB_ID}';   \n`;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -6306,8 +6444,8 @@
         "links": [
             "5ed9e293e5edcb51"
         ],
-        "x": 965,
-        "y": 1280,
+        "x": 885,
+        "y": 1500,
         "wires": []
     },
     {
@@ -6377,7 +6515,7 @@
         "type": "function",
         "z": "14adbe7e.88fa32",
         "name": "prep ssh",
-        "func": "\nconst {server} =  msg.flowInfo.config['hana-db-connection'];\nconst {credentials_linux} = msg.flowInfo.config;\nconst {BASE_SCHEMA, CONFIGURATION} = msg.item;\n\n\ncredentials_linux.forEach(item=>{\n    if(item.hostname===server){\n        msg.linux_credentials = item;\n    }\n});\nconst path_for_export_import = msg.flowInfo.config[\"path-for-export-import\"];\nmsg.payload = `mkdir -p -m 777 \"${path_for_export_import}/${BASE_SCHEMA}\"`;\n\nreturn msg;",
+        "func": "\nconst {server} =  msg.flowInfo.config['hana-db-connection'];\nconst {credentials_linux} = msg.flowInfo.config;\nconst {BASE_SCHEMA, CONFIGURATION} = msg.item;\n\n\ncredentials_linux.forEach(item=>{\n    if(item.HOSTNAME===server){\n        msg.linux_credentials = {\n\t\t\t\"hostname\": item.HOSTNAME,\n\t\t\t\"port\": item.PORT,\n\t\t\t\"username\": item.USERNAME , \n\t\t\t\"password\" : item.PASSWORD\n\t    };\n    }\n});\nconst path_for_export_import = msg.flowInfo.config[\"path-for-export-import\"];\nmsg.payload = `mkdir -p -m 777 \"${path_for_export_import}/${BASE_SCHEMA}\"`;\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -6400,8 +6538,8 @@
         "y": 120,
         "wires": [
             [
-                "8f386d67.52245",
-                "374f3295e0993cce"
+                "374f3295e0993cce",
+                "8f386d67.52245"
             ]
         ]
     },
@@ -6429,14 +6567,14 @@
         "type": "function",
         "z": "14adbe7e.88fa32",
         "name": "prep ssh",
-        "func": "\nconst {server} =  msg.flowInfo.config['hana-db-connection'];\nconst {credentials_linux} = msg.flowInfo.config;\n// const {BASE_SCHEMA, CONFIGURATION} = msg.item;\n\n\ncredentials_linux.forEach(item=>{\n    if(item.hostname===server){\n        msg.linux_credentials = item;\n    }\n});\n\nconst path_for_export_import = msg.flowInfo.config[\"path-for-export-import\"];\n\nif(path_for_export_import && path_for_export_import.length>10){\n    msg.payload = `find \"${path_for_export_import}\"/* -maxdepth 1 -type d -mtime +0 -exec rm -rf {} \\;`;\n    return [msg, null]\n}\n\nreturn [null, msg];",
+        "func": "\n// const {server} =  msg.flowInfo.config['hana-db-connection'];\n// const {credentials_linux} = msg.flowInfo.config;\n// const {BASE_SCHEMA, CONFIGURATION} = msg.item;\n\n\n// credentials_linux.forEach(item=>{\n//     if(item.HOSTNAME===server){\n//         msg.linux_credentials = item;\n//     }\n// });\n\nconst path_for_export_import = msg.flowInfo.config[\"path-for-export-import\"];\n\nif(path_for_export_import && path_for_export_import.length>10){\n    msg.payload = `find \"${path_for_export_import}\"/* -maxdepth 1 -type d -mtime +0 -exec rm -rf {} \\;`;\n    return [msg, null]\n}\n\nreturn [null, msg];",
         "outputs": 2,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 680,
-        "y": 1320,
+        "x": 230,
+        "y": 1480,
         "wires": [
             [
                 "b560f00f561b9f4a"
@@ -6451,11 +6589,11 @@
         "type": "ssh-v3",
         "z": "14adbe7e.88fa32",
         "name": "",
-        "x": 850,
-        "y": 1280,
+        "x": 400,
+        "y": 1440,
         "wires": [
             [
-                "978254fcbccd1753"
+                "10ea7b71.9a6e55"
             ]
         ]
     },
@@ -6468,8 +6606,8 @@
         "links": [
             "5ed9e293e5edcb51"
         ],
-        "x": 815,
-        "y": 1340,
+        "x": 365,
+        "y": 1500,
         "wires": []
     },
     {
@@ -6485,8 +6623,8 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1050,
-        "y": 1060,
+        "x": 1090,
+        "y": 1240,
         "wires": []
     },
     {
@@ -6498,8 +6636,8 @@
         "links": [
             "5ed9e293e5edcb51"
         ],
-        "x": 1245,
-        "y": 1100,
+        "x": 1265,
+        "y": 1300,
         "wires": []
     },
     {
@@ -6507,14 +6645,14 @@
         "type": "function",
         "z": "14adbe7e.88fa32",
         "name": "prep ssh",
-        "func": "\nconst {server} =  msg.flowInfo.config['hana-db-connection'];\nconst {credentials_linux} = msg.flowInfo.config;\n// const {BASE_SCHEMA, CONFIGURATION} = msg.item;\n\n\ncredentials_linux.forEach(item=>{\n    if(item.hostname===server){\n        msg.linux_credentials = item;\n    }\n});\n\nconst path_for_export_import = msg.flowInfo.config[\"path-for-export-import\"];\n\nif(path_for_export_import && path_for_export_import.length>10){\n    msg.payload = `find \"${path_for_export_import}\"/* -maxdepth 1 -type d -mtime +0 -exec rm -rf {} \\;`;\n    return [msg, null]\n}\n\nreturn [null, msg];",
+        "func": "\n// const {server} =  msg.flowInfo.config['hana-db-connection'];\n// const {credentials_linux} = msg.flowInfo.config;\n// const {BASE_SCHEMA, CONFIGURATION} = msg.item;\n\n\n// credentials_linux.forEach(item=>{\n//     if(item.hostname===server){\n//         msg.linux_credentials = item;\n//     }\n// });\n\nconst path_for_export_import = msg.flowInfo.config[\"path-for-export-import\"];\n\nif(path_for_export_import && path_for_export_import.length>10){\n    msg.payload = `find \"${path_for_export_import}\"/* -maxdepth 1 -type d -mtime +0 -exec rm -rf {} \\;`;\n    return [msg, null]\n}\n\nreturn [null, msg];",
         "outputs": 2,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 960,
-        "y": 1140,
+        "x": 1000,
+        "y": 1320,
         "wires": [
             [
                 "190d65edb7cb3ee2",
@@ -6530,8 +6668,8 @@
         "type": "ssh-v3",
         "z": "14adbe7e.88fa32",
         "name": "",
-        "x": 1130,
-        "y": 1120,
+        "x": 1170,
+        "y": 1300,
         "wires": [
             [
                 "9d70b1e897cbd54a"
@@ -6547,9 +6685,424 @@
         "links": [
             "5ed9e293e5edcb51"
         ],
-        "x": 1095,
-        "y": 1160,
+        "x": 1135,
+        "y": 1340,
         "wires": []
+    },
+    {
+        "id": "0d38936a81c6b555",
+        "type": "HanaClient-request",
+        "z": "14adbe7e.88fa32",
+        "server": "d92dfc92c370a6d4",
+        "sql": "",
+        "x": 550,
+        "y": 1280,
+        "wires": [
+            [
+                "4f8243af72e181cd"
+            ],
+            [
+                "21933813dfff062d"
+            ]
+        ]
+    },
+    {
+        "id": "4f8243af72e181cd",
+        "type": "subflow:5ddb2001.76d37",
+        "z": "14adbe7e.88fa32",
+        "name": "",
+        "env": [
+            {
+                "name": "inputVarName",
+                "value": "customSQLQueries",
+                "type": "str"
+            },
+            {
+                "name": "currentObjectName",
+                "value": "customSQL",
+                "type": "str"
+            }
+        ],
+        "x": 170,
+        "y": 1300,
+        "wires": [
+            [
+                "2bc9d59710ec43bd"
+            ],
+            [
+                "c8a2487f22128433"
+            ]
+        ]
+    },
+    {
+        "id": "bdd9e385369ad3e1",
+        "type": "function",
+        "z": "14adbe7e.88fa32",
+        "name": "Custom_SQL_Queries",
+        "func": "          \nconst {BASE_SCHEMA, TARGET_SCHEMA, CONFIGURATION} = msg.item;\n\nconst {Custom_SQL_Queries} = JSON.parse(CONFIGURATION);\n\nmsg.customSQLQueries = Custom_SQL_Queries;\nmsg.customSQLError=[];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 980,
+        "y": 1140,
+        "wires": [
+            [
+                "4f8243af72e181cd"
+            ]
+        ]
+    },
+    {
+        "id": "2bc9d59710ec43bd",
+        "type": "function",
+        "z": "14adbe7e.88fa32",
+        "name": "Exc: SQL",
+        "func": "\nif(!msg.flowInfo){\n    msg.flowInfo={};\n}\n\nmsg.flowInfo.sql = msg.customSQL.Query;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 1280,
+        "wires": [
+            [
+                "0d38936a81c6b555"
+            ]
+        ]
+    },
+    {
+        "id": "21933813dfff062d",
+        "type": "function",
+        "z": "14adbe7e.88fa32",
+        "name": "sqlError",
+        "func": "\nmsg.customSQLError.push({\n    \"Query Name\": msg.customSQL.Name,\n    \"Error\": msg.error\n});\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 1280,
+        "wires": [
+            [
+                "4f8243af72e181cd"
+            ]
+        ]
+    },
+    {
+        "id": "f65a7f0ed8abfe92",
+        "type": "sqlite",
+        "z": "14adbe7e.88fa32",
+        "mydb": "e7336e81.c32bc",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 740,
+        "y": 1140,
+        "wires": [
+            [
+                "bdd9e385369ad3e1"
+            ]
+        ]
+    },
+    {
+        "id": "fced1a75bb32bbb9",
+        "type": "function",
+        "z": "14adbe7e.88fa32",
+        "name": "update Log",
+        "func": "const { JOB_ID } = msg.item;\nconst MSG = \"Current task: 999. Executing Custom Quries\";\nmsg.topic = `\nUPDATE ENT_JOB_LOGS SET STATUS = 'I', MSG = '${MSG}', ENDED_ON = datetime('now', 'localtime') WHERE LOG_ID = '${msg.LOG_ID}' AND JOB_ID = '${JOB_ID}';   \n`;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 1140,
+        "wires": [
+            [
+                "f65a7f0ed8abfe92"
+            ]
+        ]
+    },
+    {
+        "id": "c8a2487f22128433",
+        "type": "function",
+        "z": "14adbe7e.88fa32",
+        "name": "Res: SQL",
+        "func": "if(!msg.customSQLError.length){\n    return [msg, null];\n}else{\n    msg.error = 'Job Successfully Completed,\\n' + 'Custom Queries Error: '+JSON.stringify(msg.customSQLError);\n    return [null, msg];\n}\n",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 1340,
+        "wires": [
+            [
+                "3f86ad81.41aed2"
+            ],
+            [
+                "270ca5dd4bd3d0cd"
+            ]
+        ]
+    },
+    {
+        "id": "270ca5dd4bd3d0cd",
+        "type": "link out",
+        "z": "14adbe7e.88fa32",
+        "name": "",
+        "links": [
+            "a8ecb5ed.6ad148"
+        ],
+        "x": 495,
+        "y": 1360,
+        "wires": []
+    },
+    {
+        "id": "d0d457e348c9b7a9",
+        "type": "e-mail",
+        "z": "3e2f123667197722",
+        "server": "smtp.gmail.com",
+        "port": "465",
+        "secure": true,
+        "tls": true,
+        "name": "",
+        "dname": "",
+        "x": 770,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "e772305f0ab42166",
+        "type": "function",
+        "z": "3e2f123667197722",
+        "name": "prep_body",
+        "func": "\nif(msg.payload[0].CONFIGURATION)\n    var temp = JSON.parse(msg.payload[0].CONFIGURATION)\n    if(temp.Password){\n        temp.Password=\"*****\";\n}\nmsg.payload[0].CONFIGURATION = JSON.stringify(temp);\n\nconst {STARTED_ON, ENDED_ON, STATUS, RUN_TYPE, MSG, CONFIGURATION} = msg.payload[0];\n\nmsg.templateBody = msg.templateBody.replace('$$STARTED_ON$$', STARTED_ON).replace('$$ENDED_ON$$', ENDED_ON?ENDED_ON:'-').replace('$$STATUS$$', STATUS==='I' ? 'In-Progress' : STATUS==='S' ? 'Success' : 'Error')\n.replace('$$RUN_TYPE$$', RUN_TYPE==='M'?'Manual':RUN_TYPE==='S'?'Scheduled':'Not Found').replace('$$MSG$$', MSG).replace('$$CONFIGURATION$$', CONFIGURATION);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 770,
+        "y": 240,
+        "wires": [
+            [
+                "6dba2a94801c0091"
+            ]
+        ]
+    },
+    {
+        "id": "5ed9e293e5edcb51",
+        "type": "link in",
+        "z": "3e2f123667197722",
+        "name": "",
+        "links": [
+            "1e4c2e702f2c944a",
+            "978254fcbccd1753",
+            "7606a1256efe28d1",
+            "68e57ab94396f0dd",
+            "9d70b1e897cbd54a",
+            "47c78d683f85d7f3"
+        ],
+        "x": 225,
+        "y": 120,
+        "wires": [
+            [
+                "ccc4b03ba8715ede"
+            ]
+        ]
+    },
+    {
+        "id": "3bfc367e0b06c2ec",
+        "type": "sqlite",
+        "z": "3e2f123667197722",
+        "mydb": "e7336e81.c32bc",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 660,
+        "y": 120,
+        "wires": [
+            [
+                "5d15e291d34e3d65"
+            ]
+        ]
+    },
+    {
+        "id": "ccc4b03ba8715ede",
+        "type": "function",
+        "z": "3e2f123667197722",
+        "name": "SQL_Get_Template",
+        "func": "const {JOB_TYPE} = msg.item;\n// const JOB_TYPE = \"COPY_COMPANY\"\n\nmsg.topic = `SELECT * FROM  ENT_EMAIL_TEMPLATE WHERE CODE ='${JOB_TYPE}'`;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 120,
+        "wires": [
+            [
+                "3bfc367e0b06c2ec"
+            ]
+        ]
+    },
+    {
+        "id": "25c3b8684d040f61",
+        "type": "sqlite",
+        "z": "3e2f123667197722",
+        "mydb": "e7336e81.c32bc",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 580,
+        "y": 240,
+        "wires": [
+            [
+                "136c2bf227465625",
+                "e772305f0ab42166"
+            ]
+        ]
+    },
+    {
+        "id": "5d15e291d34e3d65",
+        "type": "function",
+        "z": "3e2f123667197722",
+        "name": "SQL_Get_ENT_JOB_LOGS",
+        "func": "\nmsg.templateBody = msg.payload[0].TEXT_HTML;\n\n// msg.LOG_ID = '6580a497-640c-47e8-9c88-56422f2459be';\n\nmsg.topic = `SELECT * FROM  ENT_JOB_LOGS WHERE LOG_ID ='${msg.LOG_ID}'`;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 280,
+        "y": 240,
+        "wires": [
+            [
+                "25c3b8684d040f61"
+            ]
+        ]
+    },
+    {
+        "id": "136c2bf227465625",
+        "type": "debug",
+        "z": "3e2f123667197722",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 750,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "295d8ea8.7cf3d2",
+        "type": "function",
+        "z": "3e2f123667197722",
+        "name": "mail-content",
+        "func": "const {userid, from, password, host, port, tls, secure, portal_url, to} = msg.flowInfo.config['mail-config'];\n\nmsg.userid = userid;\nmsg.password = password;\nmsg.from = from;\nmsg.host = host;\nmsg.port = port;\nmsg.tls = tls;\nmsg.secure = secure;\nmsg.to = to;\nmsg.topic = 'B1 System Management';//msg.req.body.emailTitle;\nmsg.payload = msg.templateBody;//msg.req.body.mailBody\n// msg.payload = (msg.payload).replace(\"$$LINK$$\", portal_url);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 380,
+        "wires": [
+            [
+                "d0d457e348c9b7a9",
+                "690f0cbd3225e2f7"
+            ]
+        ]
+    },
+    {
+        "id": "690f0cbd3225e2f7",
+        "type": "debug",
+        "z": "3e2f123667197722",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 770,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "1bc032aacca527f7",
+        "type": "catch",
+        "z": "3e2f123667197722",
+        "name": "",
+        "scope": null,
+        "uncaught": false,
+        "x": 260,
+        "y": 580,
+        "wires": [
+            [
+                "6c743ac78edb3ecc"
+            ]
+        ]
+    },
+    {
+        "id": "6c743ac78edb3ecc",
+        "type": "debug",
+        "z": "3e2f123667197722",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 470,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "41b6b61e9075ed82",
+        "type": "comment",
+        "z": "3e2f123667197722",
+        "name": "Catch Block",
+        "info": "",
+        "x": 170,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "7e64b9461dcbcbd2",
+        "type": "comment",
+        "z": "3e2f123667197722",
+        "name": "Send Email",
+        "info": "",
+        "x": 170,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "6dba2a94801c0091",
+        "type": "subflow:7ee266ca63cceab4",
+        "z": "3e2f123667197722",
+        "name": "",
+        "x": 500,
+        "y": 300,
+        "wires": [
+            [
+                "295d8ea8.7cf3d2"
+            ]
+        ]
     },
     {
         "id": "bdbd1fe121b09e75",
@@ -6922,250 +7475,6 @@
         "wires": [
             [
                 "5522d8b0490c41af"
-            ]
-        ]
-    },
-    {
-        "id": "d0d457e348c9b7a9",
-        "type": "e-mail",
-        "z": "3e2f123667197722",
-        "server": "smtp.gmail.com",
-        "port": "465",
-        "secure": true,
-        "tls": true,
-        "name": "",
-        "dname": "",
-        "x": 770,
-        "y": 400,
-        "wires": []
-    },
-    {
-        "id": "e772305f0ab42166",
-        "type": "function",
-        "z": "3e2f123667197722",
-        "name": "prep_body",
-        "func": "\nif(msg.payload[0].CONFIGURATION)\n    var temp = JSON.parse(msg.payload[0].CONFIGURATION)\n    if(temp.Password){\n        temp.Password=\"*****\";\n}\nmsg.payload[0].CONFIGURATION = JSON.stringify(temp);\n\nconst {STARTED_ON, ENDED_ON, STATUS, RUN_TYPE, MSG, CONFIGURATION} = msg.payload[0];\n\nmsg.templateBody = msg.templateBody.replace('$$STARTED_ON$$', STARTED_ON).replace('$$ENDED_ON$$', ENDED_ON?ENDED_ON:'-').replace('$$STATUS$$', STATUS==='I' ? 'In-Progress' : STATUS==='S' ? 'Success' : 'Error')\n.replace('$$RUN_TYPE$$', RUN_TYPE==='M'?'Manual':RUN_TYPE==='S'?'Scheduled':'Not Found').replace('$$MSG$$', MSG).replace('$$CONFIGURATION$$', CONFIGURATION);\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 770,
-        "y": 240,
-        "wires": [
-            [
-                "6dba2a94801c0091"
-            ]
-        ]
-    },
-    {
-        "id": "5ed9e293e5edcb51",
-        "type": "link in",
-        "z": "3e2f123667197722",
-        "name": "",
-        "links": [
-            "1e4c2e702f2c944a",
-            "978254fcbccd1753",
-            "7606a1256efe28d1",
-            "68e57ab94396f0dd",
-            "9d70b1e897cbd54a",
-            "47c78d683f85d7f3"
-        ],
-        "x": 225,
-        "y": 120,
-        "wires": [
-            [
-                "ccc4b03ba8715ede"
-            ]
-        ]
-    },
-    {
-        "id": "3bfc367e0b06c2ec",
-        "type": "sqlite",
-        "z": "3e2f123667197722",
-        "mydb": "e7336e81.c32bc",
-        "sqlquery": "msg.topic",
-        "sql": "",
-        "name": "",
-        "x": 660,
-        "y": 120,
-        "wires": [
-            [
-                "5d15e291d34e3d65"
-            ]
-        ]
-    },
-    {
-        "id": "ccc4b03ba8715ede",
-        "type": "function",
-        "z": "3e2f123667197722",
-        "name": "SQL_Get_Template",
-        "func": "const {JOB_TYPE} = msg.item;\n// const JOB_TYPE = \"COPY_COMPANY\"\n\nmsg.topic = `SELECT * FROM  ENT_EMAIL_TEMPLATE WHERE CODE ='${JOB_TYPE}'`;\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 430,
-        "y": 120,
-        "wires": [
-            [
-                "3bfc367e0b06c2ec"
-            ]
-        ]
-    },
-    {
-        "id": "25c3b8684d040f61",
-        "type": "sqlite",
-        "z": "3e2f123667197722",
-        "mydb": "e7336e81.c32bc",
-        "sqlquery": "msg.topic",
-        "sql": "",
-        "name": "",
-        "x": 580,
-        "y": 240,
-        "wires": [
-            [
-                "136c2bf227465625",
-                "e772305f0ab42166"
-            ]
-        ]
-    },
-    {
-        "id": "5d15e291d34e3d65",
-        "type": "function",
-        "z": "3e2f123667197722",
-        "name": "SQL_Get_ENT_JOB_LOGS",
-        "func": "\nmsg.templateBody = msg.payload[0].TEXT_HTML;\n\n// msg.LOG_ID = '6580a497-640c-47e8-9c88-56422f2459be';\n\nmsg.topic = `SELECT * FROM  ENT_JOB_LOGS WHERE LOG_ID ='${msg.LOG_ID}'`;\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 280,
-        "y": 240,
-        "wires": [
-            [
-                "25c3b8684d040f61"
-            ]
-        ]
-    },
-    {
-        "id": "136c2bf227465625",
-        "type": "debug",
-        "z": "3e2f123667197722",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 750,
-        "y": 200,
-        "wires": []
-    },
-    {
-        "id": "295d8ea8.7cf3d2",
-        "type": "function",
-        "z": "3e2f123667197722",
-        "name": "mail-content",
-        "func": "const {userid, from, password, host, port, tls, secure, portal_url, to} = msg.flowInfo.config['mail-config'];\n\nmsg.userid = userid;\nmsg.password = password;\nmsg.from = from;\nmsg.host = host;\nmsg.port = port;\nmsg.tls = tls;\nmsg.secure = secure;\nmsg.to = to;\nmsg.topic = 'B1 System Management';//msg.req.body.emailTitle;\nmsg.payload = msg.templateBody;//msg.req.body.mailBody\n// msg.payload = (msg.payload).replace(\"$$LINK$$\", portal_url);\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 570,
-        "y": 380,
-        "wires": [
-            [
-                "d0d457e348c9b7a9",
-                "690f0cbd3225e2f7"
-            ]
-        ]
-    },
-    {
-        "id": "690f0cbd3225e2f7",
-        "type": "debug",
-        "z": "3e2f123667197722",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 770,
-        "y": 360,
-        "wires": []
-    },
-    {
-        "id": "1bc032aacca527f7",
-        "type": "catch",
-        "z": "3e2f123667197722",
-        "name": "",
-        "scope": null,
-        "uncaught": false,
-        "x": 260,
-        "y": 580,
-        "wires": [
-            [
-                "6c743ac78edb3ecc"
-            ]
-        ]
-    },
-    {
-        "id": "6c743ac78edb3ecc",
-        "type": "debug",
-        "z": "3e2f123667197722",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 470,
-        "y": 580,
-        "wires": []
-    },
-    {
-        "id": "41b6b61e9075ed82",
-        "type": "comment",
-        "z": "3e2f123667197722",
-        "name": "Catch Block",
-        "info": "",
-        "x": 170,
-        "y": 500,
-        "wires": []
-    },
-    {
-        "id": "7e64b9461dcbcbd2",
-        "type": "comment",
-        "z": "3e2f123667197722",
-        "name": "Send Email",
-        "info": "",
-        "x": 170,
-        "y": 40,
-        "wires": []
-    },
-    {
-        "id": "6dba2a94801c0091",
-        "type": "subflow:7ee266ca63cceab4",
-        "z": "3e2f123667197722",
-        "name": "",
-        "x": 500,
-        "y": 300,
-        "wires": [
-            [
-                "295d8ea8.7cf3d2"
             ]
         ]
     },
@@ -7864,8 +8173,8 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 830,
-        "y": 100,
+        "x": 810,
+        "y": 60,
         "wires": []
     },
     {
@@ -9007,7 +9316,7 @@
         "sql": "",
         "name": "",
         "x": 560,
-        "y": 200,
+        "y": 380,
         "wires": [
             [
                 "0af30630b81d5413"
@@ -9026,7 +9335,7 @@
         "finalize": "",
         "libs": [],
         "x": 360,
-        "y": 200,
+        "y": 380,
         "wires": [
             [
                 "09c185937ad21373",
@@ -9044,7 +9353,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 150,
-        "y": 200,
+        "y": 380,
         "wires": [
             [
                 "ac52c41972891a4a"
@@ -9059,7 +9368,7 @@
         "statusCode": "",
         "headers": {},
         "x": 870,
-        "y": 200,
+        "y": 380,
         "wires": []
     },
     {
@@ -9074,7 +9383,7 @@
         "finalize": "",
         "libs": [],
         "x": 720,
-        "y": 200,
+        "y": 380,
         "wires": [
             [
                 "51bd586583e1f17d"
@@ -9095,7 +9404,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 570,
-        "y": 160,
+        "y": 340,
         "wires": []
     },
     {
@@ -9107,7 +9416,7 @@
         "sql": "",
         "name": "",
         "x": 560,
-        "y": 300,
+        "y": 520,
         "wires": [
             [
                 "64c5bf11629c388a"
@@ -9126,7 +9435,7 @@
         "finalize": "",
         "libs": [],
         "x": 360,
-        "y": 300,
+        "y": 520,
         "wires": [
             [
                 "b3ae4404edcea71d",
@@ -9144,7 +9453,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 160,
-        "y": 300,
+        "y": 520,
         "wires": [
             [
                 "6cd2b86bd24c89e8"
@@ -9159,7 +9468,7 @@
         "statusCode": "",
         "headers": {},
         "x": 870,
-        "y": 300,
+        "y": 520,
         "wires": []
     },
     {
@@ -9174,7 +9483,7 @@
         "finalize": "",
         "libs": [],
         "x": 720,
-        "y": 300,
+        "y": 520,
         "wires": [
             [
                 "a84ad6b05ac56b75"
@@ -9195,7 +9504,97 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 570,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "1fb44b65eadf9722",
+        "type": "sqlite",
+        "z": "bc80dc8df2de9bdd",
+        "mydb": "e7336e81.c32bc",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 840,
+        "y": 240,
+        "wires": [
+            [
+                "e91252a4a8af951f"
+            ]
+        ]
+    },
+    {
+        "id": "6873c50b6615d29c",
+        "type": "function",
+        "z": "bc80dc8df2de9bdd",
+        "name": "",
+        "func": "\nmsg.topic = `UPDATE ENT_CONFIG SET VALUE = '${msg.req.body['path-for-export-import']}'  WHERE KEY ='path-for-export-import'`;\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 640,
+        "y": 240,
+        "wires": [
+            [
+                "1fb44b65eadf9722"
+            ]
+        ]
+    },
+    {
+        "id": "e91252a4a8af951f",
+        "type": "http response",
+        "z": "bc80dc8df2de9bdd",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1010,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "817b97a296ccc57b",
+        "type": "http in",
+        "z": "bc80dc8df2de9bdd",
+        "name": "[]POST]pathforExportImport",
+        "url": "api/pathforExportImport",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 200,
         "y": 260,
+        "wires": [
+            [
+                "aa2c5231b01d5df3"
+            ]
+        ]
+    },
+    {
+        "id": "aa2c5231b01d5df3",
+        "type": "subflow:19a1d236fd159ab3",
+        "z": "bc80dc8df2de9bdd",
+        "name": "",
+        "x": 460,
+        "y": 260,
+        "wires": [
+            [
+                "6873c50b6615d29c"
+            ],
+            [
+                "972b73745c4dfc06"
+            ]
+        ]
+    },
+    {
+        "id": "972b73745c4dfc06",
+        "type": "http response",
+        "z": "bc80dc8df2de9bdd",
+        "name": "KO",
+        "statusCode": "",
+        "headers": {},
+        "x": 470,
+        "y": 300,
         "wires": []
     },
     {
@@ -9315,7 +9714,7 @@
         "type": "function",
         "z": "97998734b41b7fbf",
         "name": "",
-        "func": "var payload={};\n\nmsg.payload.forEach(item=>{\n    payload[item.KEY]=JSON.parse(item.VALUE);\n});\n\nif(msg.req.query.configStatus){\n    var configStatus= {\n        'b1-sl-config':true,\n        'mail-config':true,\n        'hana-db-connection':true,\n        'warnings':0\n    };\n    \n    var b1_sl_config=['SLD_AccessURL'],\n        mail_config=['userid','password','from','host','port','portal_url','to'],\n        hana_db_connection=['userName','password','server','port','dedicated_config_override'];\n        for(var item of b1_sl_config){\n            if(!payload['b1-sl-config'][item]){\n                configStatus['b1-sl-config']=false;\n                configStatus['warnings']+=1;\n                break;\n            }\n        }\n        for(item of mail_config){\n            if(!payload['mail-config'][item]){\n                configStatus['mail-config']=false;\n                configStatus['warnings']+=1;\n                break;\n            }\n        }\n        for(item of hana_db_connection){\n            if(!payload['hana-db-connection'][item]){\n                configStatus['hana-db-connection']=false;\n                configStatus['warnings']+=1;\n                break;\n            }\n        }\n        msg.payload=configStatus;\n        return msg;\n}\n\nmsg.payload=payload;\nreturn msg;",
+        "func": "var payload={};\n\nmsg.payload.forEach(item=>{\n    try{\n        payload[item.KEY]=JSON.parse(item.VALUE);\n    }catch(err){\n        payload[item.KEY]=item.VALUE;\n    }\n});\n\nif(msg.req.query.configStatus){\n    var configStatus= {\n        'b1-sl-config':true,\n        'mail-config':true,\n        'hana-db-connection':true,\n        'warnings':0\n    };\n    \n    var b1_sl_config=['SLD_AccessURL'],\n        mail_config=['userid','password','from','host','port','portal_url','to'],\n        hana_db_connection=['userName','password','server','port','dedicated_config_override'];\n        for(var item of b1_sl_config){\n            if(!payload['b1-sl-config'][item]){\n                configStatus['b1-sl-config']=false;\n                configStatus['warnings']+=1;\n                break;\n            }\n        }\n        for(item of mail_config){\n            if(!payload['mail-config'][item]){\n                configStatus['mail-config']=false;\n                configStatus['warnings']+=1;\n                break;\n            }\n        }\n        for(item of hana_db_connection){\n            if(!payload['hana-db-connection'][item]){\n                configStatus['hana-db-connection']=false;\n                configStatus['warnings']+=1;\n                break;\n            }\n        }\n        msg.payload=configStatus;\n        return msg;\n}\n\nmsg.payload=payload;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -9375,39 +9774,6 @@
                 "8179ee81a1197397"
             ]
         ]
-    },
-    {
-        "id": "6ae0d8e5d3743c55",
-        "type": "catch",
-        "z": "97998734b41b7fbf",
-        "name": "",
-        "scope": null,
-        "uncaught": false,
-        "x": 540,
-        "y": 1280,
-        "wires": [
-            [
-                "b7757afda4cea943",
-                "e4ad46cf91380f27"
-            ]
-        ]
-    },
-    {
-        "id": "b7757afda4cea943",
-        "type": "debug",
-        "z": "97998734b41b7fbf",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 790,
-        "y": 1280,
-        "wires": []
     },
     {
         "id": "4551d3240a1d3737",
@@ -9756,16 +10122,18 @@
         "type": "function",
         "z": "97998734b41b7fbf",
         "name": "testServiceLayer",
-        "func": "\nmsg.configOverride = msg.flowInfo.config['b1-sl-config'];\n\nreturn msg;\n",
+        "func": "\nmsg.configOverride = msg.flowInfo.config['b1-sl-config'];\nmsg.url = msg.flowInfo.config['b1-sl-config'].serviceLayerUrl.split('b1s')[0];\nmsg.rejectUnauthorized=false;\n\nreturn msg;\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 570,
-        "y": 1020,
+        "x": 750,
+        "y": 960,
         "wires": [
-            []
+            [
+                "f99680989059f9d5"
+            ]
         ]
     },
     {
@@ -9775,7 +10143,7 @@
         "name": "",
         "statusCode": "",
         "headers": {},
-        "x": 870,
+        "x": 1130,
         "y": 960,
         "wires": []
     },
@@ -9801,24 +10169,13 @@
         "type": "subflow:7ee266ca63cceab4",
         "z": "97998734b41b7fbf",
         "name": "",
-        "x": 640,
-        "y": 960,
+        "x": 620,
+        "y": 920,
         "wires": [
             [
-                "7a0654339a7dcbb2"
+                "52d6039141e1e8e7"
             ]
         ]
-    },
-    {
-        "id": "7a0654339a7dcbb2",
-        "type": "http response",
-        "z": "97998734b41b7fbf",
-        "name": "",
-        "statusCode": "401",
-        "headers": {},
-        "x": 820,
-        "y": 1000,
-        "wires": []
     },
     {
         "id": "908cf42f167e49fe",
@@ -9882,17 +10239,6 @@
         ]
     },
     {
-        "id": "370e85099328b295",
-        "type": "http response",
-        "z": "97998734b41b7fbf",
-        "name": "",
-        "statusCode": "401",
-        "headers": {},
-        "x": 900,
-        "y": 1240,
-        "wires": []
-    },
-    {
         "id": "4297c8089091f8c2",
         "type": "e-mail",
         "z": "97998734b41b7fbf",
@@ -9905,25 +10251,6 @@
         "x": 770,
         "y": 1180,
         "wires": []
-    },
-    {
-        "id": "e4ad46cf91380f27",
-        "type": "function",
-        "z": "97998734b41b7fbf",
-        "name": "",
-        "func": "msg.payload = msg.error;\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 740,
-        "y": 1240,
-        "wires": [
-            [
-                "370e85099328b295"
-            ]
-        ]
     },
     {
         "id": "3c2c73e3bc63d74b",
@@ -10223,7 +10550,7 @@
         "y": 1360,
         "wires": [
             [
-                "a98cb23422a81f49"
+                "61254f662384b75b"
             ],
             [
                 "7afddeb6a3799c42"
@@ -10263,7 +10590,7 @@
         "type": "function",
         "z": "97998734b41b7fbf",
         "name": "",
-        "func": "var payload={};\n\nmsg.payload.forEach(item=>{\n    payload[item.KEY]=JSON.parse(item.VALUE);\n});\n\nvar configStatus= {\n    'b1-sl-config':true,\n    'mail-config':true,\n    'hana-db-connection':true,\n    'warnings':0\n};\n    \n    var b1_sl_config=['SLD_AccessURL'],\n    mail_config=['userid','password','from','host','port','portal_url','to'],\n    hana_db_connection=['userName','password','server','port','dedicated_config_override'];\n    for(var item of b1_sl_config){\n        if(!payload['b1-sl-config'][item]){\n            configStatus['b1-sl-config']=false;\n            configStatus['warnings']+=1;\n            break;\n        }\n    }\n    for(item of mail_config){\n        if(!payload['mail-config'][item]){\n            configStatus['mail-config']=false;\n            configStatus['warnings']+=1;\n            break;\n        }\n    }\n    for(item of hana_db_connection){\n        if(!payload['hana-db-connection'][item]){\n            configStatus['hana-db-connection']=false;\n            configStatus['warnings']+=1;\n            break;\n        }\n    }\n    msg.payload=configStatus;\n    return msg;",
+        "func": "var payload={};\n\nmsg.payload.forEach(item=>{\n    try{\n        payload[item.KEY]=JSON.parse(item.VALUE);\n    }catch(err){\n        payload[item.KEY]=item.VALUE;\n    }\n});\n\nvar configStatus= {\n    'b1-sl-config':true,\n    'mail-config':true,\n    'hana-db-connection':true,\n    'warnings':0\n};\n    \n    var b1_sl_config=['SLD_AccessURL'],\n    mail_config=['userid','password','from','host','port','portal_url','to'],\n    hana_db_connection=['userName','password','server','port','dedicated_config_override'];\n    for(var item of b1_sl_config){\n        if(!payload['b1-sl-config'][item]){\n            configStatus['b1-sl-config']=false;\n            configStatus['warnings']+=1;\n            break;\n        }\n    }\n    for(item of mail_config){\n        if(!payload['mail-config'][item]){\n            configStatus['mail-config']=false;\n            configStatus['warnings']+=1;\n            break;\n        }\n    }\n    for(item of hana_db_connection){\n        if(!payload['hana-db-connection'][item]){\n            configStatus['hana-db-connection']=false;\n            configStatus['warnings']+=1;\n            break;\n        }\n    }\n    msg.payload=configStatus;\n    return msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -10316,7 +10643,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 510,
+        "x": 530,
         "y": 1500,
         "wires": [
             [
@@ -10353,7 +10680,8 @@
                 "7bc92b3f62d7f568"
             ],
             [
-                "a4811a906860d21e"
+                "a4811a906860d21e",
+                "d054e3f02a2cc8cf"
             ]
         ]
     },
@@ -10369,25 +10697,243 @@
         "wires": []
     },
     {
-        "id": "ec3322881be5968d",
-        "type": "sqlite",
+        "id": "f99680989059f9d5",
+        "type": "http request",
         "z": "97998734b41b7fbf",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 950,
+        "y": 960,
+        "wires": [
+            [
+                "1ec09b7ead222171"
+            ]
+        ]
+    },
+    {
+        "id": "5d560d6d3ff00068",
+        "type": "function",
+        "z": "97998734b41b7fbf",
+        "name": "testServiceLayer",
+        "func": "\n// msg.configOverride = msg.req.body;\nmsg.url = msg.req.body.serviceLayerUrl.split('b1s')[0];\nmsg.rejectUnauthorized=false;\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 630,
+        "y": 1700,
+        "wires": [
+            [
+                "42e7e37d9b3dcb8f"
+            ]
+        ]
+    },
+    {
+        "id": "0ccec81212472ca1",
+        "type": "http in",
+        "z": "97998734b41b7fbf",
+        "name": "[POST]validateServiceLayer",
+        "url": "api/validateServiceLayer",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 180,
+        "y": 1720,
+        "wires": [
+            [
+                "0fc9d6a6737550f4"
+            ]
+        ]
+    },
+    {
+        "id": "0fc9d6a6737550f4",
+        "type": "subflow:19a1d236fd159ab3",
+        "z": "97998734b41b7fbf",
+        "name": "",
+        "x": 400,
+        "y": 1720,
+        "wires": [
+            [
+                "5d560d6d3ff00068"
+            ],
+            [
+                "681d3b5ebe5f179c"
+            ]
+        ]
+    },
+    {
+        "id": "681d3b5ebe5f179c",
+        "type": "http response",
+        "z": "97998734b41b7fbf",
+        "name": "KO",
+        "statusCode": "",
+        "headers": {},
+        "x": 349,
+        "y": 1761,
+        "wires": []
+    },
+    {
+        "id": "42e7e37d9b3dcb8f",
+        "type": "http request",
+        "z": "97998734b41b7fbf",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 710,
+        "y": 1760,
+        "wires": [
+            [
+                "1a7db270d1b3ab31"
+            ]
+        ]
+    },
+    {
+        "id": "1a7db270d1b3ab31",
+        "type": "http response",
+        "z": "97998734b41b7fbf",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 890,
+        "y": 1760,
+        "wires": []
+    },
+    {
+        "id": "ef191bce85837024",
+        "type": "catch",
+        "z": "97998734b41b7fbf",
+        "name": "",
+        "scope": null,
+        "uncaught": false,
+        "x": 120,
+        "y": 1940,
+        "wires": [
+            [
+                "abde85c8ef58cce4",
+                "eca4e8b873443880"
+            ]
+        ]
+    },
+    {
+        "id": "abde85c8ef58cce4",
+        "type": "debug",
+        "z": "97998734b41b7fbf",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 370,
+        "y": 1940,
+        "wires": []
+    },
+    {
+        "id": "08e0044250fa1e25",
+        "type": "http response",
+        "z": "97998734b41b7fbf",
+        "name": "",
+        "statusCode": "401",
+        "headers": {},
+        "x": 480,
+        "y": 1900,
+        "wires": []
+    },
+    {
+        "id": "eca4e8b873443880",
+        "type": "function",
+        "z": "97998734b41b7fbf",
+        "name": "",
+        "func": "msg.payload = msg.error;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 1900,
+        "wires": [
+            [
+                "08e0044250fa1e25"
+            ]
+        ]
+    },
+    {
+        "id": "61254f662384b75b",
+        "type": "subflow:7ee266ca63cceab4",
+        "z": "97998734b41b7fbf",
+        "name": "",
+        "env": [
+            {
+                "name": "b1-sl-config",
+                "type": "bool",
+                "value": "false"
+            }
+        ],
+        "x": 680,
+        "y": 1360,
+        "wires": [
+            [
+                "a98cb23422a81f49"
+            ]
+        ]
+    },
+    {
+        "id": "d054e3f02a2cc8cf",
+        "type": "debug",
+        "z": "97998734b41b7fbf",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 444,
+        "y": 1549.5999755859375,
+        "wires": []
+    },
+    {
+        "id": "977f72e6e9822fac",
+        "type": "sqlite",
+        "z": "680f23997f7dfd3d",
         "mydb": "e7336e81.c32bc",
         "sqlquery": "msg.topic",
         "sql": "",
         "name": "",
         "x": 740,
-        "y": 740,
+        "y": 80,
         "wires": [
             [
-                "1e47d8986358f424"
+                "5982c849d993f066"
             ]
         ]
     },
     {
-        "id": "3d3a3fd212f6ce7c",
+        "id": "b44600a64ebcf3c5",
         "type": "function",
-        "z": "97998734b41b7fbf",
+        "z": "680f23997f7dfd3d",
         "name": "",
         "func": "\nmsg.topic = `UPDATE ENT_CONFIG SET VALUE = '${JSON.stringify(msg.req.body)}'  WHERE KEY ='security'`;\nreturn msg;\n",
         "outputs": 1,
@@ -10395,67 +10941,621 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 560,
-        "y": 660,
+        "x": 540,
+        "y": 80,
         "wires": [
             [
-                "ec3322881be5968d"
+                "977f72e6e9822fac"
             ]
         ]
     },
     {
-        "id": "1e47d8986358f424",
+        "id": "5982c849d993f066",
         "type": "http response",
-        "z": "97998734b41b7fbf",
+        "z": "680f23997f7dfd3d",
         "name": "",
         "statusCode": "",
         "headers": {},
-        "x": 910,
-        "y": 740,
+        "x": 770,
+        "y": 140,
         "wires": []
     },
     {
-        "id": "c3c448f0fb486b00",
+        "id": "a4ac74d843dec42c",
         "type": "http in",
-        "z": "97998734b41b7fbf",
+        "z": "680f23997f7dfd3d",
         "name": "[]POST]security",
         "url": "api/security",
         "method": "post",
         "upload": false,
         "swaggerDoc": "",
         "x": 140,
-        "y": 680,
+        "y": 100,
         "wires": [
             [
-                "ab50d9c4d343a396"
+                "78ab9149f28c819c"
             ]
         ]
     },
     {
-        "id": "ab50d9c4d343a396",
+        "id": "78ab9149f28c819c",
         "type": "subflow:19a1d236fd159ab3",
-        "z": "97998734b41b7fbf",
+        "z": "680f23997f7dfd3d",
         "name": "",
         "x": 360,
-        "y": 680,
+        "y": 100,
         "wires": [
             [
-                "3d3a3fd212f6ce7c"
+                "b44600a64ebcf3c5"
             ],
             [
-                "8f89a09a7f907b41"
+                "95725f4ea2173b70"
             ]
         ]
     },
     {
-        "id": "8f89a09a7f907b41",
+        "id": "95725f4ea2173b70",
         "type": "http response",
-        "z": "97998734b41b7fbf",
+        "z": "680f23997f7dfd3d",
         "name": "KO",
         "statusCode": "",
         "headers": {},
         "x": 370,
-        "y": 720,
+        "y": 140,
         "wires": []
+    },
+    {
+        "id": "716ed5af4e965af1",
+        "type": "sqlite",
+        "z": "680f23997f7dfd3d",
+        "mydb": "e7336e81.c32bc",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 760,
+        "y": 240,
+        "wires": [
+            [
+                "122bb33e9ab2a814"
+            ]
+        ]
+    },
+    {
+        "id": "e44655efa9d3ee80",
+        "type": "function",
+        "z": "680f23997f7dfd3d",
+        "name": "",
+        "func": "msg.payload=msg.req.body;\nfunction uuidv4() {\n    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\n        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);\n        return v.toString(16);\n     });\n}\n\nfunction getBody(agg,item){\n    return agg + (agg === ''?'' : ',') +`('${item.USER_ID ? item.USER_ID : uuidv4()}','Admin', '${item.USERNAME}', 'ADMIN', '${item.PASSWORD}', 'N', datetime('now', 'localtime'))`;\n}\n\nconst sqlBody = msg.payload.upsert.reduce(getBody,'');\n\nmsg.topic=`\n    INSERT INTO ENT_USERS (USER_ID, NAME, USERNAME, ROLE, PASSWORD, BLOCKED, CREATED_ON)\n      VALUES ${sqlBody}\n      ON CONFLICT(USER_ID) DO UPDATE SET\n        USERNAME=excluded.USERNAME,\n        PASSWORD=excluded.PASSWORD\n`;\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 240,
+        "wires": [
+            [
+                "f16fa67d604e12d4",
+                "716ed5af4e965af1"
+            ]
+        ]
+    },
+    {
+        "id": "ba59d63a7983b2ec",
+        "type": "http response",
+        "z": "680f23997f7dfd3d",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 770,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "d907784957ab5e84",
+        "type": "http in",
+        "z": "680f23997f7dfd3d",
+        "name": "[]POST]users",
+        "url": "api/users",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 260,
+        "wires": [
+            [
+                "e59b3c25e78bcfc2"
+            ]
+        ]
+    },
+    {
+        "id": "e59b3c25e78bcfc2",
+        "type": "subflow:19a1d236fd159ab3",
+        "z": "680f23997f7dfd3d",
+        "name": "",
+        "x": 360,
+        "y": 260,
+        "wires": [
+            [
+                "e44655efa9d3ee80"
+            ],
+            [
+                "de9b8edc1d2a0fae"
+            ]
+        ]
+    },
+    {
+        "id": "de9b8edc1d2a0fae",
+        "type": "http response",
+        "z": "680f23997f7dfd3d",
+        "name": "KO",
+        "statusCode": "",
+        "headers": {},
+        "x": 410,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "5ce2e590f1a4ff49",
+        "type": "subflow:5ddb2001.76d37",
+        "z": "680f23997f7dfd3d",
+        "name": "",
+        "env": [
+            {
+                "name": "inputVarName",
+                "value": "payload",
+                "type": "str"
+            },
+            {
+                "name": "currentObjectName",
+                "value": "user",
+                "type": "str"
+            }
+        ],
+        "x": 490,
+        "y": 760,
+        "wires": [
+            [
+                "c3ccdd423f7d5a20",
+                "1b02f92e6ca48963"
+            ],
+            [
+                "2c2341967dc37037"
+            ]
+        ]
+    },
+    {
+        "id": "4f1ca8bf612d36b4",
+        "type": "sqlite",
+        "z": "680f23997f7dfd3d",
+        "mydb": "e7336e81.c32bc",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 520,
+        "y": 880,
+        "wires": [
+            [
+                "2702f84a212236c4"
+            ]
+        ]
+    },
+    {
+        "id": "2e56ea2b3a9e549e",
+        "type": "function",
+        "z": "680f23997f7dfd3d",
+        "name": "",
+        "func": "\nmsg.topic = `DELETE FROM ENT_USERS WHERE USER_ID = '5626607f-e21d-4c45-a22c-cd7e8205940e'`;\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 880,
+        "wires": [
+            [
+                "4f1ca8bf612d36b4"
+            ]
+        ]
+    },
+    {
+        "id": "2a95516d2b86aa20",
+        "type": "inject",
+        "z": "680f23997f7dfd3d",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 880,
+        "wires": [
+            [
+                "2e56ea2b3a9e549e"
+            ]
+        ]
+    },
+    {
+        "id": "2702f84a212236c4",
+        "type": "debug",
+        "z": "680f23997f7dfd3d",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 690,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "c3ccdd423f7d5a20",
+        "type": "function",
+        "z": "680f23997f7dfd3d",
+        "name": "",
+        "func": "function uuidv4() {\n    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\n        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);\n        return v.toString(16);\n     });\n}\n\nconst {USER_ID, USERNAME, PASSWORD} = msg.user;\nif(USER_ID){\n    msg.topic += `UPDATE ENT_USERS SET USERNAME = '${USERNAME}', PASSWORD = '${PASSWORD}'  WHERE USER_ID ='${msg.user.USER_ID}'; `;\n}else{\n    const ID = uuidv4();\n    msg.topic += `INSERT INTO ENT_USERS (USER_ID, NAME, USERNAME, ROLE, PASSWORD, BLOCKED, CREATED_ON)\n            VALUES ('${ID}','Admin', '${USERNAME}', 'ADMIN', '${PASSWORD}', 'N', datetime('now', 'localtime'));`;\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 640,
+        "y": 740,
+        "wires": [
+            [
+                "5ce2e590f1a4ff49"
+            ]
+        ]
+    },
+    {
+        "id": "2c2341967dc37037",
+        "type": "debug",
+        "z": "680f23997f7dfd3d",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 630,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "1b02f92e6ca48963",
+        "type": "debug",
+        "z": "680f23997f7dfd3d",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 630,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "564e26aabdfe0e13",
+        "type": "debug",
+        "z": "680f23997f7dfd3d",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 770,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "f16fa67d604e12d4",
+        "type": "debug",
+        "z": "680f23997f7dfd3d",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 730,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "f4061b5485194ab3",
+        "type": "catch",
+        "z": "680f23997f7dfd3d",
+        "name": "",
+        "scope": null,
+        "uncaught": false,
+        "x": 120,
+        "y": 680,
+        "wires": [
+            [
+                "9c7b073801446d8a",
+                "851b9c372ba69e2b"
+            ]
+        ]
+    },
+    {
+        "id": "9c7b073801446d8a",
+        "type": "debug",
+        "z": "680f23997f7dfd3d",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 290,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "844dad69c056daeb",
+        "type": "http response",
+        "z": "680f23997f7dfd3d",
+        "name": "",
+        "statusCode": "401",
+        "headers": {},
+        "x": 440,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "851b9c372ba69e2b",
+        "type": "function",
+        "z": "680f23997f7dfd3d",
+        "name": "",
+        "func": "msg.payload=msg.error;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 700,
+        "wires": [
+            [
+                "844dad69c056daeb"
+            ]
+        ]
+    },
+    {
+        "id": "7e5a7676a2a54d32",
+        "type": "sqlite",
+        "z": "680f23997f7dfd3d",
+        "mydb": "e7336e81.c32bc",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 740,
+        "y": 500,
+        "wires": [
+            [
+                "8c5bc3d1c5fcbb8e"
+            ]
+        ]
+    },
+    {
+        "id": "167601b233c0fcbd",
+        "type": "function",
+        "z": "680f23997f7dfd3d",
+        "name": "",
+        "func": "msg.payload=msg.req.body;\nfunction uuidv4() {\n    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\n        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);\n        return v.toString(16);\n     });\n}\n\nfunction getBody(agg,item){\n    return agg + (agg === ''?'' : ',') +`('${item.SERVER_ID ? item.SERVER_ID : uuidv4()}','${item.HOSTNAME}', ${item.PORT}, '${item.USERNAME}', '${item.PASSWORD}', datetime('now', 'localtime'))`;\n}\n\nconst sqlBody = msg.payload.upsert.reduce(getBody,'');\n\nmsg.topic=`\n    INSERT INTO ENT_SERVERS (SERVER_ID, HOSTNAME, PORT, USERNAME, PASSWORD, CREATED_ON)\n      VALUES ${sqlBody}\n      ON CONFLICT(SERVER_ID) DO UPDATE SET\n        HOSTNAME=excluded.HOSTNAME,\n        PORT=excluded.PORT,\n        USERNAME=excluded.USERNAME,\n        PASSWORD=excluded.PASSWORD\n`;\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 500,
+        "wires": [
+            [
+                "6b755bc58d6d62ad",
+                "7e5a7676a2a54d32"
+            ]
+        ]
+    },
+    {
+        "id": "28ba59d5bb5427a9",
+        "type": "http in",
+        "z": "680f23997f7dfd3d",
+        "name": "[]POST]servers",
+        "url": "api/servers",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 140,
+        "y": 520,
+        "wires": [
+            [
+                "b20ba11e5d06c294"
+            ]
+        ]
+    },
+    {
+        "id": "b20ba11e5d06c294",
+        "type": "subflow:19a1d236fd159ab3",
+        "z": "680f23997f7dfd3d",
+        "name": "",
+        "x": 360,
+        "y": 520,
+        "wires": [
+            [
+                "167601b233c0fcbd"
+            ],
+            [
+                "867b1ff3b45ce285"
+            ]
+        ]
+    },
+    {
+        "id": "867b1ff3b45ce285",
+        "type": "http response",
+        "z": "680f23997f7dfd3d",
+        "name": "KO",
+        "statusCode": "",
+        "headers": {},
+        "x": 410,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "6b755bc58d6d62ad",
+        "type": "debug",
+        "z": "680f23997f7dfd3d",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 710,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "122bb33e9ab2a814",
+        "type": "function",
+        "z": "680f23997f7dfd3d",
+        "name": "",
+        "func": "if( msg.req.body.delete.length){\n    msg.topic =  \"DELETE FROM ENT_USERS WHERE USER_ID = '\"+ msg.req.body.delete.join(\"' OR \") + \"' ;\"\n    return [msg, null];\n}else{\n    return [null, msg];\n}\n",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 320,
+        "wires": [
+            [
+                "9ff03aaa346d763a"
+            ],
+            [
+                "ba59d63a7983b2ec"
+            ]
+        ]
+    },
+    {
+        "id": "9ff03aaa346d763a",
+        "type": "sqlite",
+        "z": "680f23997f7dfd3d",
+        "mydb": "e7336e81.c32bc",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 800,
+        "y": 280,
+        "wires": [
+            [
+                "ba59d63a7983b2ec",
+                "564e26aabdfe0e13"
+            ]
+        ]
+    },
+    {
+        "id": "c0124f24c22b2e38",
+        "type": "http response",
+        "z": "680f23997f7dfd3d",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 790,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "d855f0d0cd26f586",
+        "type": "debug",
+        "z": "680f23997f7dfd3d",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 790,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "8c5bc3d1c5fcbb8e",
+        "type": "function",
+        "z": "680f23997f7dfd3d",
+        "name": "",
+        "func": "if( msg.req.body.delete.length){\n    msg.topic =  \"DELETE FROM ENT_SERVERS WHERE SERVER_ID = '\"+ msg.req.body.delete.join(\"' OR \") + \"' ;\"\n    return [msg, null];\n}else{\n    return [null, msg];\n}\n",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 580,
+        "wires": [
+            [
+                "442d57349fbf7bf7"
+            ],
+            [
+                "c0124f24c22b2e38"
+            ]
+        ]
+    },
+    {
+        "id": "442d57349fbf7bf7",
+        "type": "sqlite",
+        "z": "680f23997f7dfd3d",
+        "mydb": "e7336e81.c32bc",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 820,
+        "y": 540,
+        "wires": [
+            [
+                "c0124f24c22b2e38",
+                "d855f0d0cd26f586"
+            ]
+        ]
     }
 ]

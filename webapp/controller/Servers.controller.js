@@ -35,7 +35,9 @@ sap.ui.define([
   				]
   			});
         that.getView().setBusy(true);
+        // debugger;
         dbAPI.callMiddleWare("/hostInfo", "GET").then(function(oData) {
+          // debugger;
           that.oModel = new JSONModel({serverCollection:oData});
           that.getView().setModel(that.oModel);
           that.rebindTable(that.oReadOnlyTemplate, "Navigation");
@@ -43,16 +45,48 @@ sap.ui.define([
         }).catch(function(oError) {
           dbAPI.errorHandler(oError, that);
         });
+        this.deletedServers = [];
     	},
 
       rebindTable: function(oTemplate, sKeyboardMode) {
-        // debugger;
 			this.oTable.bindItems({
 				path: "/serverCollection",
 				template: oTemplate,
 				templateShareable: true,
 				key: "SERVER_ID"
 			}).setKeyboardMode(sKeyboardMode);
+		},
+    handleEditPress : function () {
+
+			this._toggleButtonsAndView(true);
+
+		},
+    handleCancelPress : function () {
+			//Restore the data
+      this.loadConfig();
+			this._toggleButtonsAndView(false);
+		},
+    handleSavePress : function () {
+      var that = this;
+      var payload = this.getView().getModel("local").getProperty("/config/path-for-export-import");
+      dbAPI.callMiddleWare("/pathforExportImport", "POST", {
+        "path-for-export-import" : payload
+      }).then(function(oData) {
+        that.getView().setBusy(false);
+        that._toggleButtonsAndView(false);
+        MessageToast.show("Saved")
+      }).catch(function(oError) {
+        dbAPI.errorHandler(oError, that);
+      });
+  },
+    _toggleButtonsAndView : function (bEdit) {
+			var oView = this.getView();
+			// Show the appropriate action buttons
+      oView.byId("FormDisplay354").setVisible(!bEdit);
+      oView.byId("FormChange354").setVisible(bEdit);
+			oView.byId("edit").setVisible(!bEdit);
+			oView.byId("save").setVisible(bEdit);
+			oView.byId("cancel").setVisible(bEdit);
 		},
 
 		onEdit: function() {
@@ -70,8 +104,21 @@ sap.ui.define([
       this.byId("addButton").setVisible(false);
 			this.byId("cancelButton").setVisible(false);
 			this.byId("editButton").setVisible(true);
-			this.rebindTable(this.oReadOnlyTemplate, "Navigation");
       this.oTable.setMode('None');
+      var that = this;
+      var payload = {
+        upsert: this.oModel.getProperty("/serverCollection"),
+        delete: this.deletedServers
+      };
+      dbAPI.callMiddleWare("/servers", "POST", payload).then(function(oData) {
+        that.getView().setBusy(false);
+        that.deletedServers = [];
+        that.rebindTable(that.oReadOnlyTemplate, "Navigation");
+        MessageToast.show("Saved")
+      }).catch(function(oError) {
+        that.deletedServers = [];
+        dbAPI.errorHandler(oError, that);
+      });
 		},
 
 		onCancel: function() {
@@ -80,9 +127,10 @@ sap.ui.define([
       this.byId("addButton").setVisible(false);
 			this.byId("saveButton").setVisible(false);
 			this.byId("editButton").setVisible(true);
-			this.oModel.setProperty("/ProductCollection", this.aProductCollection);
+			this.oModel.setProperty("/serverCollection", this.aProductCollection);
 			this.rebindTable(this.oReadOnlyTemplate, "Navigation");
       this.oTable.setMode('None');
+      this.deletedServers = [];
       // that.getView().setBusy(true);
       // dbAPI.callMiddleWare("/hostInfo", "GET").then(function(oData) {
       //   that.oModel = new JSONModel({serverCollection:oData});
@@ -95,7 +143,10 @@ sap.ui.define([
 		},
     onDelete: function(oEvent){
       let sPath = oEvent.getParameter('listItem').getBindingContext().sPath;
-      this.getView().getModel().getProperty('/serverCollection').splice(parseInt(sPath.split('/')[2]),1);
+      const delItem = this.getView().getModel().getProperty('/serverCollection').splice(parseInt(sPath.split('/')[2]),1);
+      if(delItem[0].SERVER_ID){
+        this.deletedServers.push(delItem[0].SERVER_ID);
+      }
       this.getView().getModel().refresh();
       // this.getView().getModel().setProperty('/serverCollection',servers);
     },

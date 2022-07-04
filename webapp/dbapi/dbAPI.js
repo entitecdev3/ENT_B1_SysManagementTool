@@ -165,12 +165,12 @@ sap.ui.define([
           } catch (error) {
             if (jqr.includes('Session expired.') || jqr.includes('authenticated')) {
               sessionStorage.session_id = null;
-              var oMessage = then.getModel("i18n").getProperty("SessionExpire");
+              var oMessage = jqr;
               MessageBox.error(oMessage, {
                 actions: [MessageBox.Action.OK],
                 onClose: function() {
 
-                  window.location.href = "/";
+                  window.location.href = "/ui/index.html";
                 }
               });
             } else if (jqr.includes('User Not Found')) {

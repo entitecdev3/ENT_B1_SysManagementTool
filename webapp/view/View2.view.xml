@@ -197,6 +197,40 @@
 								</HBox>
 							</content>
 						</Panel>
+						<Panel expandable="true" headerText="Custom SQL Queries" width="100%" class="sapUiResponsiveMargin">
+							<Table id="idQueriesTable" growing="true" growingThreshold="10" paste="onPaste" mode="None" delete="onQueriesDelete">
+						<headerToolbar>
+									<OverflowToolbar id="otbSubheader">
+										<Title text="Queries" level="H2" />
+										<ToolbarSpacer />
+										<Button id="editButton" text="Edit" type="Transparent"
+											press="onQueriesEdit" />
+											<Button id="addButton" icon="sap-icon://add" text="Add" type="Transparent"
+												press="onQueriesAdd" visible="false" />
+										<Button id="saveButton" text="Save" type="Transparent"
+											press="onQueriesSave" visible="false" icon="sap-icon://save"/>
+										<Button id="cancelButton" text="Cancel" type="Transparent"
+											press="onQueriesCancel" visible="false" />
+									</OverflowToolbar>
+								</headerToolbar>
+								<columns>
+									<Column minScreenWidth="Tablet">
+										<Text text="Name" />
+									</Column>
+									<Column hAlign="Center">
+										<Text text="Query" />
+									</Column>
+								</columns>
+								<items>
+									<ColumnListItem vAlign="Middle">
+										<cells>
+											<Text text="{local>Name}" />
+											<Text text="{local>Query}"/>
+										</cells>
+									</ColumnListItem>
+								</items>
+							</Table>
+						</Panel>
 						</content>
 					</IconTabFilter>
 					<IconTabFilter text="Logs" key="logs" icon="sap-icon://activity-items">

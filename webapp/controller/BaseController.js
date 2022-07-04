@@ -104,7 +104,7 @@ sap.ui.define([
       var that = this;
       that.getView().setBusy(true);
       dbAPI.callMiddleWare("/users", "GET").then(function(oData) {
-        that.getOwnerComponent().getModel("local").setProperty("/users", oData);
+        that.getOwnerComponent().getModel("local").setProperty("/Users", oData);
         that.getView().setBusy(false);
       }).catch(function(oError) {
         dbAPI.errorHandler(oError, that);
@@ -151,7 +151,7 @@ sap.ui.define([
             that.getOwnerComponent().getModel("local").setProperty("/Template", data.value);
           }).catch(function(oError) {
             MessageBox.error(oError);
-            that.logOutApp();
+            dbAPI.errorHandler(oError, that);
           });
       }
     },
@@ -164,8 +164,17 @@ sap.ui.define([
       return this.getView().getModel(sName);
     },
 
-    logOutApp: function() {
-      window.top.location.href = "/ui/index.html";
+    logOutApp: function(oEvent) {
+      if(oEvent){
+        var that = this;
+        that.getView().setBusy(true);
+        dbAPI.callMiddleWare("/logout", "GET").then(function(oData) {
+          window.top.location.href = "/ui/index.html";
+          that.getView().setBusy(false);
+        }).catch(function(oError) {
+          dbAPI.errorHandler(oError, that);
+        });
+      }
     },
 
     getResourceBundle: function() {

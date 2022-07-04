@@ -6,6 +6,82 @@
 			<Button class="sapUiSmallMargin" icon="sap-icon://log" text="{i18n>Logout}" type="Negative" tooltip="Logout" press="logOutApp"/>
 		</headerContent>
 				<content>
+					<f:Form id="FormDisplay354"
+						editable="true">
+						<f:toolbar>
+							<Toolbar id="TB1">
+								<Title id="Title1" text="Config"/>
+								<ToolbarSpacer />
+								<Button id="edit" text="Edit" enabled="true" press="handleEditPress" />
+							</Toolbar>
+						</f:toolbar>
+						<f:layout>
+							<f:ResponsiveGridLayout
+								labelSpanXL="3"
+								labelSpanL="3"
+								labelSpanM="3"
+								labelSpanS="12"
+								adjustLabelSpan="false"
+								emptySpanXL="4"
+								emptySpanL="4"
+								emptySpanM="4"
+								emptySpanS="0"
+								columnsXL="1"
+								columnsL="1"
+								columnsM="1"
+								singleContainerFullSize="false" />
+						</f:layout>
+						<f:formContainers>
+							<f:FormContainer>
+								<f:formElements>
+									<f:FormElement label="Path for Export Import">
+										<f:fields>
+											<Text visible="true" text="{local>/config/path-for-export-import}" id="serverText"/>
+										</f:fields>
+									</f:FormElement>
+								</f:formElements>
+							</f:FormContainer>
+						</f:formContainers>
+					</f:Form>
+					<f:Form id="FormChange354"
+						editable="true"
+						visible="false">
+						<f:toolbar>
+							<Toolbar>
+								<Title text="B1 SL"/>
+								<ToolbarSpacer />
+								<Button id="save" text="Save" type="Emphasized" visible="false" press="handleSavePress" />
+								<Button id="cancel" text="Cancel" visible="false" press="handleCancelPress" />
+							</Toolbar>
+						</f:toolbar>
+						<f:layout>
+							<f:ResponsiveGridLayout
+								labelSpanXL="3"
+								labelSpanL="3"
+								labelSpanM="3"
+								labelSpanS="12"
+								adjustLabelSpan="false"
+								emptySpanXL="4"
+								emptySpanL="4"
+								emptySpanM="4"
+								emptySpanS="0"
+								columnsXL="1"
+								columnsL="1"
+								columnsM="1"
+								singleContainerFullSize="true" />
+						</f:layout>
+						<f:formContainers>
+							<f:FormContainer>
+								<f:formElements>
+									<f:FormElement label="Path for Export Import">
+										<f:fields>
+											<Input value="{local>/config/path-for-export-import}" description="" id="b1sUrl" required="true"/>
+										</f:fields>
+									</f:FormElement>
+								</f:formElements>
+							</f:FormContainer>
+						</f:formContainers>
+					</f:Form>
 					<Table id="idProductsTable" growing="true" growingThreshold="10" paste="onPaste" mode="None" delete="onDelete">
 				<headerToolbar>
 					<OverflowToolbar id="otbSubheader">

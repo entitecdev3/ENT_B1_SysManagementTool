@@ -74,7 +74,7 @@
 			<f:formContainers>
 				<f:FormContainer>
 					<f:formElements>
-						<f:FormElement label="Service Layer URL">
+						<f:FormElement label="Session Timeout">
 							<f:fields>
 								<Input value="{local>/config/security/ENT_SESSION_TIMEOUT}" description="Min" id="b1sUrl" required="true"/>
 							</f:fields>

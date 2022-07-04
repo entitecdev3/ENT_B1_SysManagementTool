@@ -2,9 +2,13 @@ sap.ui.define([
   "nvid/sample/controller/BaseController",
   "nvid/sample/dbapi/dbAPI",
   "nvid/sample/model/formatter",
+  'sap/base/util/deepExtend',
+  "sap/ui/model/json/JSONModel",
+  'sap/m/ColumnListItem',
+	'sap/m/Input',
   "sap/m/MessageBox",
   "sap/m/MessageToast"
-], function(BaseController, dbAPI, formatter, MessageBox, MessageToast) {
+], function(BaseController, dbAPI, formatter, deepExtend, JSONModel, ColumnListItem, Input, MessageBox, MessageToast) {
   "use strict";
 
   return BaseController.extend("nvid.sample.controller.View2", {
@@ -15,9 +19,28 @@ sap.ui.define([
      * @memberOf nvid.sample.view.View2
      */
     onInit: function() {
+      var that = this;
+      this.oModel=this.getOwnerComponent().getModel("local");
+      this.oTable = this.byId("idQueriesTable");
+      this.oReadOnlyTemplate = this.byId("idQueriesTable").removeItem(0);
+      this.oEditableTemplate = new ColumnListItem({
+        cells: [
+          new Input({
+           value: "{local>Name}",
+         }), new Input({
+           value: "{local>Query}"
+         })
+        ]
+      });
       this.oRouter = this.getOwnerComponent().getRouter();
       this.oRouter.getRoute("detail").attachMatched(this.herculis, this);
     },
+    rebindTable: function(oTemplate, sKeyboardMode) {
+    this.oTable.bindItems({
+      path: "local>/Jobs/" + this.jobIndex + "/CONFIGURATION/Custom_SQL_Queries",
+      template: oTemplate
+    });
+  },
 
     formatter: formatter,
 
@@ -35,6 +58,7 @@ sap.ui.define([
         BASE_SCHEMA
       } = this.getView().getModel("local").getProperty("/Jobs/" + this.jobIndex);
       that.jobId = JOB_ID;
+      that.rebindTable(that.oReadOnlyTemplate, "Navigation");
       // dbAPI.callMiddleWare("/jobbyId?JOB_ID=" + jobId, "GET").then(function(jobData) {
       //   that.getOwnerComponent().getModel("local").setProperty("/JobDetails", jobData[0]);
       // }).catch(function(oError) {
@@ -128,7 +152,8 @@ sap.ui.define([
         BASE_SCHEMA: job.BASE_SCHEMA,
         TARGET_SCHEMA: job.TARGET_SCHEMA,
         JOB_TYPE: job.JOB_TYPE,
-        Attach_Path_Remap_Existing_Documents: job.CONFIGURATION.Attach_Path_Remap_Existing_Documents
+        Attach_Path_Remap_Existing_Documents: job.CONFIGURATION.Attach_Path_Remap_Existing_Documents,
+        Custom_SQL_Queries: job.CONFIGURATION.Custom_SQL_Queries
       };
       if (job.JOB_TYPE === "COPY_COMPANY") {
         job.CONFIGURATION.UserName = job.UserName;
@@ -144,6 +169,7 @@ sap.ui.define([
       }
       job.CONFIGURATION = JSON.stringify(job.CONFIGURATION);
       dbAPI.callMiddleWare("/updateJob", "PUT", job).then(function(oData) {
+        that.onQueriesSave();
         MessageToast.show("Success");
         that.loadJobs();
       }).catch(function(oError) {
@@ -175,6 +201,47 @@ sap.ui.define([
       }).catch(function(oError) {
         dbAPI.errorHandler(oError, that);
       });
+    },
+
+		onQueriesEdit: function() {
+			this.aUserCollection = deepExtend([], this.oModel.getProperty("/Jobs/" + this.jobIndex + "/CONFIGURATION/Custom_SQL_Queries"));
+			this.byId("editButton").setVisible(false);
+      this.byId("addButton").setVisible(true);
+			// this.byId("saveButton").setVisible(true);
+			this.byId("cancelButton").setVisible(true);
+      this.oTable.setMode('Delete');
+      this.rebindTable(this.oEditableTemplate, "Edit");
+		},
+
+		onQueriesSave: function() {
+			// this.byId("saveButton").setVisible(false);
+      this.byId("addButton").setVisible(false);
+			this.byId("cancelButton").setVisible(false);
+			this.byId("editButton").setVisible(true);
+			this.rebindTable(this.oReadOnlyTemplate, "Navigation");
+      this.oTable.setMode('None');
+		},
+
+		onQueriesCancel: function() {
+      var that=this;
+			this.byId("cancelButton").setVisible(false);
+      this.byId("addButton").setVisible(false);
+			this.byId("saveButton").setVisible(false);
+			this.byId("editButton").setVisible(true);
+			this.oModel.setProperty("/Jobs/" + this.jobIndex + "/CONFIGURATION/Custom_SQL_Queries", this.aUserCollection);
+			this.rebindTable(this.oReadOnlyTemplate, "Navigation");
+      this.oTable.setMode('None');
+		},
+    onQueriesDelete: function(oEvent){
+      let sPath = oEvent.getParameter('listItem').getBindingContextPath();
+      this.getView().getModel('local').getProperty("/Jobs/" + this.jobIndex + "/CONFIGURATION/Custom_SQL_Queries").splice(parseInt(sPath.split('/')[5]),1);
+      this.getView().getModel('local').refresh();
+      // this.getView().getModel().setProperty('/serverCollection',servers);
+    },
+    onQueriesAdd: function(oEvent){
+      let users = this.getView().getModel('local').getProperty("/Jobs/" + this.jobIndex + "/CONFIGURATION/Custom_SQL_Queries")||[];
+      users.push({})
+      this.getView().getModel('local').setProperty("/Jobs/" + this.jobIndex + "/CONFIGURATION/Custom_SQL_Queries",users);
     }
     /**
      * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered
