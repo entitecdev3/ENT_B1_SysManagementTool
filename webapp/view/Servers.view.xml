@@ -73,7 +73,7 @@
 						<f:formContainers>
 							<f:FormContainer>
 								<f:formElements>
-									<f:FormElement label="Path for Export Import">
+									<f:FormElement label="Path for Hana Export Import">
 										<f:fields>
 											<Input value="{local>/config/path-for-export-import}" description="" id="b1sUrl" required="true"/>
 										</f:fields>

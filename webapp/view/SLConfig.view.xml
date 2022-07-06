@@ -35,7 +35,10 @@
 			<f:formContainers>
 				<f:FormContainer>
 					<f:formElements>
-						<f:FormElement label="Service Layer URL">
+						<f:FormElement>
+							<f:label>
+								<Label text="Service Layer URL" design="Bold" width="100%" required="true" textAlign="Center" textDirection="Inherit" visible="true" />
+              </f:label>
 							<f:fields>
 								<Text visible="true" text="{local>/config/b1-sl-config/serviceLayerUrl}" id="serverText"/>
 							</f:fields>
@@ -79,7 +82,10 @@
 			<f:formContainers>
 				<f:FormContainer>
 					<f:formElements>
-						<f:FormElement label="Service Layer URL">
+						<f:FormElement>
+							<f:label>
+								<Label text="Service Layer URL" design="Bold" width="100%" required="true" textAlign="Center" textDirection="Inherit" visible="true" />
+              </f:label>
 							<f:fields>
 								<Input value="{local>/config/b1-sl-config/serviceLayerUrl}" id="b1sUrl" required="true"/>
 								<Button icon="sap-icon://synchronize" tooltip="Fetch URL from B1 SLD" text="Fetch from B1 SLD" press="onFetchUrl"/>

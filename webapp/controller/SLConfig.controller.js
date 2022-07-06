@@ -88,7 +88,7 @@ sap.ui.define([
         dbAPI.errorHandler(oError, that);
       });
       setTimeout(function(){
-        that.testBtn.setIcon("sap-icon://synchronize").setType("Emphasized").setText("Test");
+        that.testBtn.setIcon("sap-icon://synchronize").setType("Emphasized").setText("Validate");
       },30000);
     }
     /**

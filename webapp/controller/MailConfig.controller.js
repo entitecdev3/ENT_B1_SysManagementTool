@@ -63,6 +63,23 @@ sap.ui.define([
         that.testBtn.setIcon("sap-icon://synchronize").setType("Emphasized").setText("Test");
       },30000);
     },
+    onEditTestPress: function(oEvent){
+      var that=this;
+      that.testBtn = oEvent.getSource();
+      var payload = this.getView().getModel("local").getProperty("/config/mail-config");
+      that.getView().setBusy(true);
+      dbAPI.callMiddleWare("/validateMailService", "POST", payload).then(function(oData) {
+        that.testBtn.setIcon("sap-icon://message-success").setType("Accept").setText("Success");
+        that.getView().setBusy(false);
+        MessageToast.show("Synced")
+      }).catch(function(oError) {
+        that.testBtn.setIcon("sap-icon://message-error").setType("Reject").setText("Error");
+        dbAPI.errorHandler(oError, that);
+      });
+      setTimeout(function(){
+        that.testBtn.setIcon("sap-icon://synchronize").setType("Emphasized").setText("Test");
+      },30000);
+    },
     /**
      * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered
      * (NOT before the first rendering! onInit() is used for that one!).

@@ -187,7 +187,7 @@
 						</HBox>
 					</content>
 				</Panel>
-				<Panel expandable="true" headerText="Custom SQL Queries" width="100%" class="sapUiResponsiveMargin">
+				<Panel expandable="true" headerText="Custom SQL Queries (Applied on the Target Schema)" width="100%" class="sapUiResponsiveMargin">
 					<Table id="idQueriesTable" growing="true" growingThreshold="10" paste="onPaste" mode="Delete" delete="onQueriesDelete">
 				<headerToolbar>
 							<OverflowToolbar id="otbSubheader">

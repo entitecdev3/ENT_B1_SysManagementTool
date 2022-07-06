@@ -6872,7 +6872,14 @@
         "dname": "",
         "x": 770,
         "y": 400,
-        "wires": []
+        "wires": [
+            [
+                "6c6daa6f33f0600f"
+            ],
+            [
+                "021f8d210c08e941"
+            ]
+        ]
     },
     {
         "id": "e772305f0ab42166",
@@ -7103,6 +7110,57 @@
                 "295d8ea8.7cf3d2"
             ]
         ]
+    },
+    {
+        "id": "6c6daa6f33f0600f",
+        "type": "debug",
+        "z": "3e2f123667197722",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 910,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "021f8d210c08e941",
+        "type": "debug",
+        "z": "3e2f123667197722",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 910,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "fe33562c678fe06f",
+        "type": "debug",
+        "z": "3e2f123667197722",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 630,
+        "y": 580,
+        "wires": []
     },
     {
         "id": "bdbd1fe121b09e75",
@@ -10156,7 +10214,7 @@
         "method": "get",
         "upload": false,
         "swaggerDoc": "",
-        "x": 160,
+        "x": 120,
         "y": 960,
         "wires": [
             [
@@ -10188,12 +10246,11 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 560,
-        "y": 1180,
+        "x": 600,
+        "y": 1040,
         "wires": [
             [
-                "4297c8089091f8c2",
-                "3c2c73e3bc63d74b"
+                "4297c8089091f8c2"
             ]
         ]
     },
@@ -10205,20 +10262,20 @@
         "statusCode": "",
         "headers": {},
         "x": 950,
-        "y": 1140,
+        "y": 1040,
         "wires": []
     },
     {
         "id": "596396bb809aaaf6",
         "type": "http in",
         "z": "97998734b41b7fbf",
-        "name": "[]GET]testServiceLayer",
+        "name": "[]GET]testMailService",
         "url": "api/testMailService",
         "method": "get",
         "upload": false,
         "swaggerDoc": "",
-        "x": 160,
-        "y": 1120,
+        "x": 120,
+        "y": 1040,
         "wires": [
             [
                 "8cf3ff12253c5ef6"
@@ -10230,8 +10287,8 @@
         "type": "subflow:7ee266ca63cceab4",
         "z": "97998734b41b7fbf",
         "name": "",
-        "x": 360,
-        "y": 1120,
+        "x": 420,
+        "y": 1040,
         "wires": [
             [
                 "908cf42f167e49fe"
@@ -10249,29 +10306,12 @@
         "name": "",
         "dname": "",
         "x": 770,
-        "y": 1180,
-        "wires": []
-    },
-    {
-        "id": "3c2c73e3bc63d74b",
-        "type": "delay",
-        "z": "97998734b41b7fbf",
-        "name": "",
-        "pauseType": "delay",
-        "timeout": "5",
-        "timeoutUnits": "seconds",
-        "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "allowrate": false,
-        "outputs": 1,
-        "x": 780,
-        "y": 1140,
+        "y": 1040,
         "wires": [
+            [
+                "1840c53e38237299",
+                "e479c7e5b26f3f9f"
+            ],
             [
                 "1840c53e38237299"
             ]
@@ -10912,6 +10952,148 @@
         "statusType": "auto",
         "x": 444,
         "y": 1549.5999755859375,
+        "wires": []
+    },
+    {
+        "id": "e479c7e5b26f3f9f",
+        "type": "debug",
+        "z": "97998734b41b7fbf",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 950,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "5db5ff916dc753a4",
+        "type": "function",
+        "z": "97998734b41b7fbf",
+        "name": "testMailService",
+        "func": "\nconst {userid, from, password, host, port, tls, secure, portal_url, to} = msg.req.body;\n\nmsg.userid = userid;\nmsg.password = password;\nmsg.from = from;\nmsg.host = host;\nmsg.port = port;\nmsg.tls = tls;\nmsg.secure = secure;\nmsg.to = to;\nmsg.topic = 'B1 System Management';//msg.req.body.emailTitle;\nmsg.payload = \"Test E-Mail\";//msg.req.body.mailBody\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 1120,
+        "wires": [
+            [
+                "91ab6b0ab33fd8de"
+            ]
+        ]
+    },
+    {
+        "id": "03e5777c818fca7c",
+        "type": "http response",
+        "z": "97998734b41b7fbf",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 950,
+        "y": 1100,
+        "wires": []
+    },
+    {
+        "id": "af50b57eb4c5a302",
+        "type": "http in",
+        "z": "97998734b41b7fbf",
+        "name": "[POST]validateMailService",
+        "url": "api/validateMailService",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 170,
+        "y": 1120,
+        "wires": [
+            [
+                "2168512c3829eda6"
+            ]
+        ]
+    },
+    {
+        "id": "91ab6b0ab33fd8de",
+        "type": "e-mail",
+        "z": "97998734b41b7fbf",
+        "server": "smtp.gmail.com",
+        "port": "465",
+        "secure": true,
+        "tls": true,
+        "name": "",
+        "dname": "",
+        "x": 770,
+        "y": 1120,
+        "wires": [
+            [
+                "03e5777c818fca7c",
+                "a4537198d7b872dd"
+            ],
+            [
+                "a4537198d7b872dd",
+                "f50bd8de933a6660"
+            ]
+        ]
+    },
+    {
+        "id": "a4537198d7b872dd",
+        "type": "debug",
+        "z": "97998734b41b7fbf",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 950,
+        "y": 1120,
+        "wires": []
+    },
+    {
+        "id": "2168512c3829eda6",
+        "type": "subflow:19a1d236fd159ab3",
+        "z": "97998734b41b7fbf",
+        "name": "",
+        "x": 400,
+        "y": 1140,
+        "wires": [
+            [
+                "5db5ff916dc753a4"
+            ],
+            [
+                "1ca9670646836d88"
+            ]
+        ]
+    },
+    {
+        "id": "1ca9670646836d88",
+        "type": "http response",
+        "z": "97998734b41b7fbf",
+        "name": "KO",
+        "statusCode": "",
+        "headers": {},
+        "x": 570,
+        "y": 1160,
+        "wires": []
+    },
+    {
+        "id": "f50bd8de933a6660",
+        "type": "http response",
+        "z": "97998734b41b7fbf",
+        "name": "KO",
+        "statusCode": "",
+        "headers": {},
+        "x": 950,
+        "y": 1140,
         "wires": []
     },
     {
