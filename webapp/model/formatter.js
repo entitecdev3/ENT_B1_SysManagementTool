@@ -14,24 +14,17 @@ sap.ui.define([
 			}
 			return result;
 		},
-		getStatus: function(actual, formal){
-			return actual==='Online' && formal==='Online' ? "Online" : actual==='Offline' && formal==='Offline' ? "Offline" : "Warning"
+		getStatus: function(status){
+			return status ? status==='Online' ? "Online" : status==='Offline' ? "Offline" : "Warning" : "Loading..."
 			// actual=false or formal=false then "Warning"
 		},
-		getState: function(actual, formal){
-			return actual==='Online' && formal==='Online' ? "Success" : actual==='Offline' && formal==='Offline' ? "Error" : "Warning"
+		getState: function(status){
+			return status==='Online' ? "Success" : status==='Offline' ? "Error" : "Warning"
 			// actual=false or formal=false then "Warning"
 		},
-		getStatusIcon: function(actual, formal){
-			return actual==='Online' && formal==='Online' ? "sap-icon://circle-task-2" : actual==='Offline' && formal==='Offline' ? "sap-icon://appear-offline" : "sap-icon://message-warning"
+		getStatusIcon: function(status){
+			return status ? status==='Online' ? "sap-icon://circle-task-2" : status==='Offline' ? "sap-icon://appear-offline" : "sap-icon://message-warning" : "sap-icon://lateness"
 			// actual=false or formal=false then "Warning"
-		},
-		checkTargetPath: function(base,target){
-			if(base&&target&&base===target){
-				return "Success";
-			}else{
-				return "Error"
-			}
 		},
 		formatNumberToLocale: function(num) {
 			var oCurrencyFormat = NumberFormat.getCurrencyInstance({
@@ -58,24 +51,7 @@ sap.ui.define([
 				return v.toString(16);
 			});
 		},
-		isVisibleCapozona: function(oVal) {
-			if (oVal && oVal !== "MANAGER" && oVal !== "AGENT") {
-				return true;
-			}
-			return false;
-		},
-		isVisibleAgente: function(oVal) {
-			if (oVal && oVal !== "AGENT") {
-				return true;
-			}
-			return false;
-		},
-		isVisibleNazione: function(oVal) {
-			if (oVal && (oVal === "POWER USER" || oVal === "ADMIN")) {
-				return true;
-			}
-			return false;
-		},
+
 		titleCase: function(str) {
 			if (str) {
 				return str.toLowerCase().split(' ').map(function(word) {
@@ -107,7 +83,15 @@ sap.ui.define([
 			var oNow = new Date(date);
 			return oDateFormat.format(oNow); //string in the same format as "Thu, Jan 29, 2017"
 		},
+		getFormatedDate: function(date){
+			debugger;
+			var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
+				pattern: "yyyy-MM-dd HH:mm:ss"
+			});
 
+			var oNow = new Date(date);
+			return oDateFormat.format(oNow); //string in the same format as "Thu, Jan 29, 2017"
+		},
 		checkEmail: function(oInput) {
 			if (oInput) {
 				var email = oInput.getValue();
@@ -121,13 +105,7 @@ sap.ui.define([
 					return true;
 				}
 			}
-		},
-		isAddtionalDocumentVisible: function(oVal) {
-				if (oVal && oVal.length > 0) {
-					return true;
-				}
-				return false;
-			}
+		}
 	};
 
 	return formatter;

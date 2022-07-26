@@ -113,9 +113,80 @@ sap.ui.define([
     loadServices: function() {
       var that = this;
       that.getView().setBusy(true);
-      dbAPI.callMiddleWare("/getServices", "GET").then(function(oData) {
+      dbAPI.callMiddleWare("/getServices2", "GET").then(function(oData) {
         that.getOwnerComponent().getModel("local").setProperty("/Services", oData);
+        that.getOwnerComponent().getModel("local").refresh();
         that.getView().setBusy(false);
+        if(that.getView().byId("idLogRefreshTime")){
+          that.getView().byId("idLogRefreshTime").setDateValue(new Date(oData[0].CREATED_ON))
+          that.getView().byId("refreshButton").setBusy(false);
+        }
+        // that.loadAsyncServicesStatus(oData);
+      }).catch(function(oError) {
+        dbAPI.errorHandler(oError, that);
+      });
+    },
+    loadAsyncServicesStatus: function(services){
+      var that = this;
+      // services.forEach(item=>{
+      //   dbAPI.callMiddleWare("/getServices?ServiceCode=" + item.ServiceCode, "GET", {}, true).then(function(oData) {
+      //     for(var index in services){
+      //       if(services[index].ServiceCode === oData.ServiceCode){
+      //         services[index] = Object.assign(oData, services[index]);
+      //         that.getOwnerComponent().getModel("local").setProperty("/Services", services);
+      //         break;
+      //       }
+      //     }
+      //   }).catch(function(oError) {
+      //     dbAPI.errorHandler(oError, that);
+      //   });
+      // });
+      for(var service of services){
+        dbAPI.callMiddleWare("/getServices2?ServiceCode=" + service.ServiceCode, "GET", {}, true).then(function(oData) {
+          for(var index in services){
+            if(services[index].ServiceCode === oData.ServiceCode){
+              services[index] = Object.assign(oData, services[index]);
+              that.getOwnerComponent().getModel("local").setProperty("/Services", services);
+              break;
+            }
+          }
+        }).catch(function(oError) {
+          dbAPI.errorHandler(oError, that);
+        });
+      }
+    },
+    loadCompanies: function() {
+      var that = this;
+      that.getView().setBusy(true);
+      dbAPI.callMiddleWare("/companies", "GET").then(function(oData) {
+        that.getOwnerComponent().getModel("local").setProperty("/Companies", oData);
+        that.getView().setBusy(false);
+        dbAPI.callMiddleWare("/memorySizes", "GET").then(function(oMemory) {
+          oData.forEach((item, index)=>{
+            Object.assign(oData[index],oMemory[item.dbName] ? oMemory[item.dbName] : {
+              MEMORY_SIZE : 'Deleted',
+              DISK_SIZE: 'Deleted'
+            });
+          });
+          that.getOwnerComponent().getModel("local").setProperty("/Companies", oData);
+          if(that.getView().byId("idLogRefreshTime")){
+            that.getView().byId("idLogRefreshTime").setDateValue(new Date());
+            that.getView().byId("refreshButton").setEnabled(true);
+          }
+        }).catch(function(oError) {
+          dbAPI.errorHandler(oError, that);
+        });
+        dbAPI.callMiddleWare("/diskSizes", "GET").then(function(oDisk) {
+          oData.forEach((item, index)=>{
+            Object.assign(oData[index],oDisk[item.dbName]);
+          });
+          that.getOwnerComponent().getModel("local").setProperty("/Companies", oData);
+          if(that.getView().byId("idLogRefreshTime")){
+            that.getView().byId("idLogRefreshTime").setDateValue(new Date());
+          }
+        }).catch(function(oError) {
+          dbAPI.errorHandler(oError, that);
+        });
         if(that.getView().byId("idLogRefreshTime")){
           that.getView().byId("idLogRefreshTime").setDateValue(new Date())
         }
@@ -125,10 +196,10 @@ sap.ui.define([
     },
     loadServicesOnOffCount: function() {
       var that = this;
-      that.getView().setBusy(true);
-      dbAPI.callMiddleWare("/getServices?count=true", "GET").then(function(oData) {
+      // that.getView().setBusy(true);
+      dbAPI.callMiddleWare("/getServices2?count=true", "GET").then(function(oData) {
         that.getOwnerComponent().getModel("local").setProperty("/ServicesOnOffCount", oData);
-        that.getView().setBusy(false);
+        // that.getView().setBusy(false);
       }).catch(function(oError) {
         dbAPI.errorHandler(oError, that);
       });

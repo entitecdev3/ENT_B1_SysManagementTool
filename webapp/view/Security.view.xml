@@ -40,6 +40,11 @@
 								<Text visible="true" text="{local>/config/security/ENT_SESSION_TIMEOUT} Min" id="serverText"/>
 							</f:fields>
 						</f:FormElement>
+						<f:FormElement label="B1Services~PollingInterval">
+							<f:fields>
+								<Text visible="true" text="{local>/config/security/B1_SERVICES_POLLING_INTERVAL} Min" id="idPollingIntervalText"/>
+							</f:fields>
+						</f:FormElement>
 					</f:formElements>
 				</f:FormContainer>
 			</f:formContainers>
@@ -77,6 +82,11 @@
 						<f:FormElement label="Session Timeout">
 							<f:fields>
 								<Input value="{local>/config/security/ENT_SESSION_TIMEOUT}" description="Min" id="b1sUrl" required="true"/>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="B1Services~PollingInterval">
+							<f:fields>
+								<Input value="{local>/config/security/B1_SERVICES_POLLING_INTERVAL}" description="Min" id="idPollingInterval" required="true"/>
 							</f:fields>
 						</f:FormElement>
 					</f:formElements>

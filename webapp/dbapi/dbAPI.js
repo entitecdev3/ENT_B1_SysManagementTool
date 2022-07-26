@@ -11,7 +11,7 @@ sap.ui.define([
   return {
     callMiddleWare: function(sUrl, sMethod, oPayload = {}, asyncBol = true) {
       return new Promise(function(resolve, reject) {
-        asyncBol = asyncBol ? asyncBol : true;
+        // asyncBol = asyncBol ? asyncBol : true;
         var currentDate = new Date();
         //prefilter for ajax to cancel the duplicate calls
         // $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
@@ -29,6 +29,7 @@ sap.ui.define([
               async: asyncBol,
               type: 'GET', // http method
               contentType: "application/json",
+              timeout: 300000,
               // data: JSON.stringify(oPayload), // data to submit
               success: function(data, status, xhr) {
                 resolve(data);

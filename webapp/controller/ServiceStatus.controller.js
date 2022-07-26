@@ -28,11 +28,18 @@ sap.ui.define([
 		onInit: function onInit() {
 			this.oRouter = this.getOwnerComponent().getRouter();
       this.oRouter.getRoute("ServiceStatus").attachMatched(this._onRouteMatched, this);
+			if(!this.setInterval){
+				setInterval(function(){
+					this.loadServices();
+				}.bind(this),60000);
+			}
+			this.setInterval = true;
 		},
 		_onRouteMatched: function _onRouteMatched(oEvent) {
 			this.loadServices();
 		},
 		onRefresh: function(){
+			this.getView().byId("refreshButton").setBusy(true);
 			this.loadServices();
 		},
 		onServerLocationPress: function (pEvent) {

@@ -3,6 +3,10 @@
   text-align: right;
 }
 
+.tileLayout {
+	float: left;
+}
+
 .size1 {
 	font-size : 1.5rem;
   margin-top: .8rem;

@@ -1,0 +1,19 @@
+<ActionSheet id="actionSheet"
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	title="Choose Your Action"
+	showCancelButton="true"
+	placement="Bottom">
+	<Button
+		text="Ascending"
+		icon="sap-icon://sort-ascending"
+		press="onSortingPress2" />
+	<Button
+		text="Descending"
+		icon="sap-icon://sort-descending"
+		press="onSortingPress2" />
+	<Button
+		text="Clear"
+		icon="sap-icon://sys-cancel"
+		press="onSortingPress2" />
+</ActionSheet>

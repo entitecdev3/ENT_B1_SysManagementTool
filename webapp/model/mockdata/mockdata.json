@@ -17,6 +17,12 @@
     },
     "CREATED_ON": null
   },
+  "ServicesOnOffCount": {
+
+  },
+  "CompanyDetails": {
+
+  },
   "Job_Type": [
     {
       "CODE": "COPY_COMPANY",

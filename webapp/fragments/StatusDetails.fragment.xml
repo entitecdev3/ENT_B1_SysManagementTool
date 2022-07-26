@@ -9,12 +9,12 @@
 				<items>
 					<IconTabFilter text="Actual Status" key="actual" icon="sap-icon://task">
 						<content>
-              <Text text="{dialog>/ActualStatusTxt}"/>
+              <Text text="{dialog>/STATUS_INFO/Actual_Info}"/>
 						</content>
 					</IconTabFilter>
 					<IconTabFilter text="Formal Status" key="formal" icon="sap-icon://activity-items">
 						<content>
-              <Text text="{dialog>/FormalStatusTxt}"/>
+              <Text text="{dialog>/STATUS_INFO/Formal_Info}"/>
 						</content>
 					</IconTabFilter>
 				</items>

@@ -1,0 +1,196 @@
+<mvc:View controllerName="nvid.sample.controller.CompaniesDetail" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc" xmlns:core="sap.ui.core" xmlns="sap.m">
+	<Page title="{local>/CompanyDetailTitle/cmpName} ({local>/CompanyDetailTitle/dbName}) - {local>/CompanyDetailTitle/LOC}, Ver. {local>/CompanyDetailTitle/versStr}" id="idCompaniesDetail" showNavButton="true" navButtonPress="onNavBack">
+		<headerContent>
+			<Button id="refreshButton" icon="sap-icon://refresh" text="" type="Accept"
+				press="onRefresh" visible="true" />
+			<Button class="sapUiSmallMargin" icon="sap-icon://log" text="{i18n>Logout}" type="Negative" tooltip="Logout" press="logOutApp"/>
+		</headerContent>
+			<HBox width="100%" class="sapUiTinyMarginTop">
+				<GenericTile class="sapUiSmallMarginBegin tileLayout" header="Open Sessions" id="OpenSessions" state="{=${local>/CompanyDetails/OpenSessionsCount} || ${local>/CompanyDetails/OpenSessionsCount}===0 ? 'Loaded' : 'Loading'}" press="pressTile1" visible="true">
+					<TileContent>
+						<NumericContent icon="sap-icon://line-charts" scale="{=${local>/CompanyDetails/OpenSessionsCount} || ${local>/CompanyDetails/OpenSessionsCount} ===0  ? 'Session':''}" value="{local>/CompanyDetails/OpenSessionsCount}" valueColor="Good" indicator="" withMargin="false" />
+					</TileContent>
+				</GenericTile>
+
+				<GenericTile class="sapUiSmallMarginBegin tileLayout" header="Dependencies From" id="DependenciesFrom" state="{=${local>/CompanyDetails/DependenciesFromCount} || ${local>/CompanyDetails/DependenciesFromCount}===0 ? 'Loaded' : 'Loading'}" press="pressTile2" visible="true">
+					<TileContent>
+						<NumericContent icon="sap-icon://drill-down" scale="{=${local>/CompanyDetails/DependenciesFromCount} || ${local>/CompanyDetails/DependenciesFromCount}===0 ?'Dependencies':''}" value="{local>/CompanyDetails/DependenciesFromCount}" valueColor="{=${local>/CompanyDetails/DependenciesFromCount} ===0  ? 'Good':'Error'}" indicator="" withMargin="false" />
+					</TileContent>
+				</GenericTile>
+
+				<GenericTile class="sapUiSmallMarginBegin tileLayout" header="Dependencies To" id="DependenciesTo" state="{=${local>/CompanyDetails/DependenciesToCount} || ${local>/CompanyDetails/DependenciesToCount}===0 ? 'Loaded' : 'Loading'}" press="pressTile3" visible="true">
+					<TileContent>
+						<NumericContent icon="sap-icon://drill-up" scale="{=${local>/CompanyDetails/DependenciesToCount} || ${local>/CompanyDetails/DependenciesToCount}===0 ? 'Dependencies' :''}" value="{local>/CompanyDetails/DependenciesToCount}" valueColor="{=${local>/CompanyDetails/DependenciesToCount} ===0  ? 'Good':'Critical'}" indicator="" withMargin="false" />
+					</TileContent>
+				</GenericTile>
+</HBox>
+			<VBox width="100%" class="sapUiSmallMarginTop">
+				<IconTabBar
+					id="idIconTabBarSeparatorNoIcon"
+					expanded="true"
+					class="sapUiResponsiveContentPadding">
+					<items>
+						<IconTabFilter
+							key="1"
+							count="{local>/CompanyDetails/OpenSessionsCount}"
+							icon="sap-icon://line-charts"
+							iconColor="Positive">
+							<Table id="idSessionsTable"
+							inset="false"
+							alternateRowColors="true"
+							mode="None"
+							editable= "true"
+							items="{
+							path: 'local>/CompanyDetails/OpenSessions',
+							sorter: [{ path: 'CLIENT_HOST_IP', descending: false, group:true}]}">
+							<columns>
+								<Column
+									minScreenWidth="Desktop"
+									demandPopin="true"
+									mergeDuplicates="true"
+									hAlign="Begin">
+									<Text text="CLIENT HOST - IP" />
+								</Column>
+								<!-- <Column
+									hAlign="Begin">
+									<Text text="CLIENT IP" />
+								</Column> -->
+								<Column
+									minScreenWidth="Tablet"
+									hAlign="Begin"
+									demandPopin="true">
+									<Text text="CLIENT PID" />
+								</Column>
+								<Column hAlign="Begin">
+									<Text text="SESSION ID" />
+								</Column>
+								<Column hAlign="Begin">
+									<Text text="START TIME" />
+								</Column>
+								<Column hAlign="End">
+									<Text text="IDLE TIME" />
+								</Column>
+							</columns>
+							<items>
+								<ColumnListItem vAlign="Middle">
+									<cells>
+										<Text text="{local>CLIENT_HOST_IP}" visible="false"/>
+										<!-- <ObjectStatus text="{ path:'local>CLIENT_IP'}"/> -->
+										<ObjectNumber number="{local>CLIENT_PID}"/>
+										<ObjectNumber number="{local>SESSION_ID}"/>
+										<DateTimePicker id="idLogRefreshTime" width="160px" value="{path: 'local>START_TIME', formatter: '.formatter.getFormatedDate'}" valueFormat="yyyy-MM-dd HH:mm:ss" displayFormat="yyyy-MM-dd HH:mm:ss" class="sapUiSmallMarginBegin sapUiSmallMarginEnd" editable="false"/>
+										<ObjectNumber
+										number="{=parseFloat(${local>IDLETIME_MINUTES}).toFixed(2)}"
+										unit="Min"
+										state="Warning" />
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+						</IconTabFilter>
+						<IconTabSeparator icon=""/>
+						<IconTabFilter
+							key="2"
+							icon="sap-icon://drill-down"
+							iconColor="Neutral"
+							count="{local>/CompanyDetails/DependenciesFromCount}">
+							<Table class="" id="idDependenciesFromTable"
+							inset="false"
+							alternateRowColors="true"
+							mode="None"
+							items="{
+							path: 'local>/CompanyDetails/DependenciesFrom'}">
+							<columns>
+								<Column
+									hAlign="Begin">
+									<Text text="DEPENDENT OBJECT NAME" />
+								</Column>
+								<Column
+									minScreenWidth="Tablet"
+									hAlign="Begin"
+									demandPopin="true">
+									<Text text="DEPENDENT OBJECT TYPE" />
+								</Column>
+								<Column hAlign="Begin">
+									<Text text="DIRECTION" />
+								</Column>
+								<Column hAlign="Begin">
+									<Text text="BASE OBJECT NAME" />
+								</Column>
+								<Column hAlign="Begin">
+									<Text text="BASE OBJECT TYPE" />
+								</Column>
+							</columns>
+							<items>
+								<ColumnListItem vAlign="Middle">
+									<cells>
+										<ObjectStatus active="true" press="onStatus" text="{ path:'local>DEPENDENT_OBJECT_NAME'}"/>
+										<ObjectIdentifier
+											title="{local>DEPENDENT_OBJECT_TYPE}"
+											text=""/>
+										<Text text="{local>DIRECTION}"/>
+										<Text text="{local>BASE_OBJECT_NAME}"/>
+										<Text text="{local>BASE_OBJECT_TYPE}"/>
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+						</IconTabFilter>
+						<IconTabSeparator icon=""/>
+						<IconTabFilter
+							key="3"
+							icon="sap-icon://drill-up"
+							count="{local>/CompanyDetails/DependenciesToCount}">
+							<Table class="" id="idDependenciesToTable"
+							inset="false"
+							alternateRowColors="true"
+							mode="None"
+							items="{
+							path: 'local>/CompanyDetails/DependenciesTo'}">
+							<columns>
+								<Column
+									hAlign="Begin">
+									<Text text="DEPENDENT OBJECT NAME" />
+								</Column>
+								<Column
+									minScreenWidth="Tablet"
+									hAlign="Begin"
+									demandPopin="true">
+									<Text text="DEPENDENT OBJECT TYPE" />
+								</Column>
+								<Column hAlign="Begin">
+									<Text text="DIRECTION" />
+								</Column>
+								<Column hAlign="Begin">
+									<Text text="BASE OBJECT NAME" />
+								</Column>
+								<Column hAlign="Begin">
+									<Text text="BASE OBJECT TYPE" />
+								</Column>
+							</columns>
+							<items>
+								<ColumnListItem vAlign="Middle">
+									<cells>
+										<ObjectStatus active="true" press="onStatus" text="{ path:'local>DEPENDENT_OBJECT_NAME'}"/>
+										<ObjectIdentifier
+											title="{local>DEPENDENT_OBJECT_TYPE}"
+											text=""/>
+										<Text text="{local>DIRECTION}"/>
+										<Text text="{local>BASE_OBJECT_NAME}"/>
+										<Text text="{local>BASE_OBJECT_TYPE}"/>
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+						</IconTabFilter>
+					</items>
+				</IconTabBar>
+			</VBox>
+		<footer>
+			<Toolbar>
+				<ToolbarSpacer/>
+				<Button text="Delete" icon="sap-icon://delete" press="onDeleteCompany" type="Reject"></Button>
+			</Toolbar>
+		</footer>
+	</Page>
+</mvc:View>

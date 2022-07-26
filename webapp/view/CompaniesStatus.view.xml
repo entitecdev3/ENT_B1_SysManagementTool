@@ -1,0 +1,150 @@
+<mvc:View controllerName="nvid.sample.controller.CompaniesStatus" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc" xmlns:core="sap.ui.core" xmlns="sap.m">
+	<Page title="Companies" id="idCompaniesStatus" showNavButton="true" navButtonPress="onNavBack">
+		<headerContent>
+			<Text id="idUserName" text="{i18n>Email} : {local>/UserName}" visible="false"/>
+			<Button class="sapUiSmallMargin" icon="sap-icon://log" text="{i18n>Logout}" type="Negative" tooltip="Logout" press="logOutApp"/>
+		</headerContent>
+		<Table class="sapUiSmallMarginBegin" id="idCompaniesTable"
+		alternateRowColors="true"
+		fixedLayout="false"
+		autoPopinMode= "true"
+		mode="None"
+		items="{
+			path: 'local>/Companies',
+			sorter: [{ path: 'typeSts', descending: false, group:true}]
+		}">
+		<headerToolbar>
+			<OverflowToolbar id="otbSubheader" class="sapUiSmallMarginEnd">
+				<Title text="" level="H2" />
+				<ToolbarSpacer />
+				<Button id="refreshButton" icon="sap-icon://refresh" text="" type="Accept"
+					press="onRefresh" visible="true" />
+					<DateTimePicker id="idLogRefreshTime" width="160px" valueFormat="yyyy-MM-dd HH:mm:ss" displayFormat="yyyy-MM-dd HH:mm:ss" class="sapUiSmallMarginBegin sapUiSmallMarginEnd" editable="false"/>
+			</OverflowToolbar>
+		</headerToolbar>
+		<columns>
+			<Column
+				minScreenWidth="Desktop"
+				demandPopin="true"
+				hAlign="Begin">
+				<Button
+					text="Schema"
+					class="sapUiSmallMargin"
+					iconFirst = "false"
+					press="onFilterButtonPress"
+					type="Transparent"
+					ariaHasPopup="Menu" >
+					<customData>
+					<core:CustomData value="dbName"/>
+				</customData>
+				</Button>
+			</Column>
+			<Column
+				hAlign="Begin">
+				<Button
+					text="Company Name"
+					iconFirst = "false"
+					class="sapUiSmallMargin"
+					press="onFilterButtonPress"
+					type="Transparent"
+					ariaHasPopup="Menu" >
+					<customData>
+					<core:CustomData value="cmpName"/>
+				</customData>
+				</Button>
+			</Column>
+			<Column
+				minScreenWidth="Tablet"
+				hAlign="Begin"
+				demandPopin="true">
+				<Button
+					text="Version"
+					class="sapUiSmallMargin"
+					iconFirst = "false"
+					press="onFilterButtonPress"
+					type="Transparent"
+					ariaHasPopup="Menu" >
+					<customData>
+					<core:CustomData value="versStr"/>
+				</customData>
+				</Button>
+			</Column>
+			<Column hAlign="Center">
+				<Text text="Localization" />
+			</Column>
+			<Column hAlign="Center">
+				<Text text="Type (Prod/Test)" />
+			</Column>
+			<Column hAlign="End">
+				<Button
+					text="Size on Disk"
+					class="sapUiSmallMargin"
+					iconFirst = "false"
+					press="onFilterButtonPress"
+					type="Transparent"
+					ariaHasPopup="Menu" >
+					<customData>
+					<core:CustomData value="DISK_SIZE"/>
+				</customData>
+				</Button>
+			</Column>
+			<Column hAlign="End">
+			<Button
+				text="Size in Memory"
+				class="sapUiSmallMargin"
+				iconFirst = "false"
+				press="onFilterButtonPress"
+				type="Transparent"
+				ariaHasPopup="Menu" >
+				<dependents>
+					<core:Fragment
+						fragmentName="nvid.sample.fragments.ActionSheet"
+						type="XML" />
+				</dependents>
+				<customData>
+				<core:CustomData value="MEMORY_SIZE"/>
+			</customData>
+			</Button>
+			</Column>
+			<Column hAlign="End">
+				<Text text="" />
+			</Column>
+		</columns>
+		<items>
+			<ColumnListItem vAlign="Middle" type="Navigation">
+				<cells>
+					<ObjectIdentifier
+						title="{local>dbName}"
+						text=""/>
+						<ObjectIdentifier
+							title="{local>cmpName}"
+							text=""/>
+					<ObjectIdentifier
+						title="{local>versStr}"
+						text=""/>
+						<ObjectIdentifier
+							title="{local>LOC}"
+							text=""/>
+						<Button icon="{=${local>DISK_SIZE}==='Deleted' ? 'sap-icon://delete' : 'sap-icon://edit'}" text="{local>cmpType}" type="{=${local>DISK_SIZE}==='Deleted' ? 'Reject' : 'Transparent'}" tooltip="Type Unconfirmed" press="onTypeEdit">
+							<customData>
+							<BadgeCustomData
+								key="badge"
+								value="{=${local>typeSts}.includes('UNCONFIRMED') ? '1' : ''}"
+								visible="true"/>
+					</customData>
+						</Button>
+							<ObjectNumber
+							number="{=${local>DISK_SIZE} || ${local>MEMORY_SIZE}===0 ? ${local>DISK_SIZE} : 'loading...'}"
+							unit="{=${local>DISK_SIZE} === 'Deleted' ? '' : ${local>DISK_SIZE} ? 'GB' : ''}"
+							state="{=${local>DISK_SIZE} === 'Deleted' ? 'Error' : ${local>DISK_SIZE} ? 'Success' : 'Warning'}" />
+							<ObjectNumber
+							number="{=${local>MEMORY_SIZE} || ${local>MEMORY_SIZE}===0 ? ${local>MEMORY_SIZE} : 'loading...'}"
+							unit="{=${local>MEMORY_SIZE} === 'Deleted' ? '' : ${local>MEMORY_SIZE} ? 'GB' : ''}"
+							state="{=${local>MEMORY_SIZE} === 'Deleted' ? 'Error' : ${local>MEMORY_SIZE} ? 'Success' : 'Warning'}" />
+							<Button icon="sap-icon://navigation-right-arrow" press="onItemPress" type="Transparent" width="4rem"/>
+				</cells>
+			</ColumnListItem>
+		</items>
+	</Table>
+	</Page>
+</mvc:View>

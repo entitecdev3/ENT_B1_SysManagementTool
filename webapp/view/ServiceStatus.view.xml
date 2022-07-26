@@ -24,7 +24,7 @@
 					press="onRestart" visible="true" enabled="false" />
 				<ToolbarSpacer />
 				<Button id="refreshButton" icon="sap-icon://refresh" text="" type="Accept"
-					press="onRefresh" visible="true" />
+					press="onRefresh" visible="false" />
 					<DateTimePicker id="idLogRefreshTime" width="160px" valueFormat="yyyy-MM-dd HH:mm:ss" displayFormat="yyyy-MM-dd HH:mm:ss" class="sapUiSmallMarginBegin sapUiSmallMarginEnd" editable="false"/>
 			</OverflowToolbar>
 		</headerToolbar>
@@ -55,7 +55,7 @@
 			<ColumnListItem vAlign="Middle" highlight="{parts:[{path:'local>ActualStatus'}, {path:'local>FormalStatus'}], formatter:'.formatter.getState'}">
 				<cells>
 					<Button icon="sap-icon://edit" text="{local>SLD_ServerLocation}" press="onServerLocationPress"/>
-					<ObjectStatus active="true" press="onStatus" icon="{parts:[{path:'local>ActualStatus'}, {path:'local>FormalStatus'}], formatter:'.formatter.getStatusIcon'}" text="{parts:[{path:'local>ActualStatus'}, {path:'local>FormalStatus'}], formatter:'.formatter.getStatus'}" state="{parts:[{path:'local>ActualStatus'}, {path:'local>FormalStatus'}], formatter:'.formatter.getState'}" tooltip="Actual Status: {local>ActualStatus} | Formal Status: {local>FormalStatus}"/>
+					<ObjectStatus active="true" press="onStatus" icon="{ path:'local>STATUS', formatter:'.formatter.getStatusIcon'}" text="{ path:'local>STATUS', formatter:'.formatter.getStatus'}" state="{ path:'local>STATUS', formatter:'.formatter.getState'}" tooltip="{path:'local>STATUS'}"/>
 					<ObjectIdentifier
 						title="{local>ServiceName}"
 						text=""/>

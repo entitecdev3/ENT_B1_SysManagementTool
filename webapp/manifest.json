@@ -68,7 +68,15 @@
           "pattern": "ServiceStatus",
           "name": "ServiceStatus",
           "target": "ServiceStatus"
+        }, {
+          "pattern": "CompaniesStatus",
+          "name": "CompaniesStatus",
+          "target": "CompaniesStatus"
         },{
+				"name": "CompaniesDetail",
+				"pattern": "CompaniesDetail/{dbName}",
+				"target": "CompaniesDetail"
+			  },{
 				"pattern": "Jobs",
 				"name": "Jobs",
 				"target": ["donald", "trumph"]
@@ -113,6 +121,17 @@
 					"viewName": "ServiceStatus",
 					"viewId": "idServiceStatus"
         },
+        "CompaniesStatus": {
+					"viewName": "CompaniesStatus",
+					"viewId": "idCompaniesStatus",
+          "viewLevel": 1
+        },
+        "CompaniesDetail": {
+          "viewType": "XML",
+          "transition": "slide",
+          "viewName": "CompaniesDetail",
+          "viewLevel": 2
+        },
         "Main": {
 					"viewName": "Main",
 					"viewId": "idMain"
@@ -142,7 +161,7 @@
 					"parent": "App",
           "controlId": "idAppCon",
           "controlAggregation": "detailPages",
-          "viewLevel": 1
+          "viewLevel": 2
         },
         "ManageMails": {
           "viewName": "ManageMails",
@@ -150,7 +169,7 @@
 					"parent": "App",
           "controlId": "idAppCon",
           "controlAggregation": "detailPages",
-          "viewLevel": 1
+          "viewLevel": 2
         },
         "MailConfig": {
           "viewName": "MailConfig",
@@ -158,7 +177,7 @@
 					"parent": "App",
           "controlId": "idAppCon",
           "controlAggregation": "detailPages",
-          "viewLevel": 1
+          "viewLevel": 2
         },
         "Security": {
           "viewName": "Security",
@@ -166,7 +185,7 @@
 					"parent": "App",
           "controlId": "idAppCon",
           "controlAggregation": "detailPages",
-          "viewLevel": 1
+          "viewLevel": 2
         },
         "donald": {
           "viewName": "View1",
