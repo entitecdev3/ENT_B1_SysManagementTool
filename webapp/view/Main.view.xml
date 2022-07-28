@@ -26,7 +26,7 @@
 					<ImageContent src="sap-icon://building"/>
 				</TileContent>
 			</GenericTile>
-			<GenericTile class="sapUiSmallMarginBegin tileLayout" header="B1 Service Status" id="ServiceStatus" state="{=${local>/ServicesOnOffCount/warnings} || ${local>/ServicesOnOffCount/warnings}===0 ? 'Loaded' : 'Loading'}" subheader="{=${local>/ServicesOnOffCount/warnings} ? '':'loading...'}" press="press" visible="true">
+			<GenericTile class="sapUiSmallMarginBegin tileLayout" header="B1 Service Status" id="ServiceStatus" state="{=${local>/ServicesOnOffCount/warnings} || ${local>/ServicesOnOffCount/warnings}===0 ? 'Loaded' : 'Loading'}" subheader="" press="press" visible="true">
 				<TileContent>
 					<NumericContent icon="sap-icon://line-charts" scale="{=${local>/ServicesOnOffCount/warnings}===0?'':'Alert'}" value="{=${local>/ServicesOnOffCount/warnings}===0?'OK':${local>/ServicesOnOffCount/warnings}}" valueColor="{=${local>/ServicesOnOffCount/warnings}===0?'Good':'Critical'}" indicator="" withMargin="false" />
 				</TileContent>

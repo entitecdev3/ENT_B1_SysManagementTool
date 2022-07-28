@@ -106,12 +106,12 @@
 			</customData>
 			</Button>
 			</Column>
-			<Column hAlign="End">
+			<Column hAlign="End" class="sapUiSmallMarginEnd">
 				<Text text="" />
 			</Column>
 		</columns>
 		<items>
-			<ColumnListItem vAlign="Middle" type="Navigation">
+			<ColumnListItem vAlign="Middle">
 				<cells>
 					<ObjectIdentifier
 						title="{local>dbName}"
@@ -133,15 +133,15 @@
 								visible="true"/>
 					</customData>
 						</Button>
-							<ObjectNumber
+							<ObjectNumber class="sapUiSmallMarginEnd"
 							number="{=${local>DISK_SIZE} || ${local>MEMORY_SIZE}===0 ? ${local>DISK_SIZE} : 'loading...'}"
 							unit="{=${local>DISK_SIZE} === 'Deleted' ? '' : ${local>DISK_SIZE} ? 'GB' : ''}"
 							state="{=${local>DISK_SIZE} === 'Deleted' ? 'Error' : ${local>DISK_SIZE} ? 'Success' : 'Warning'}" />
-							<ObjectNumber
+							<ObjectNumber class="sapUiSmallMarginEnd"
 							number="{=${local>MEMORY_SIZE} || ${local>MEMORY_SIZE}===0 ? ${local>MEMORY_SIZE} : 'loading...'}"
 							unit="{=${local>MEMORY_SIZE} === 'Deleted' ? '' : ${local>MEMORY_SIZE} ? 'GB' : ''}"
 							state="{=${local>MEMORY_SIZE} === 'Deleted' ? 'Error' : ${local>MEMORY_SIZE} ? 'Success' : 'Warning'}" />
-							<Button icon="sap-icon://navigation-right-arrow" press="onItemPress" type="Transparent" width="4rem"/>
+							<Button icon="sap-icon://navigation-right-arrow" class="sapUiSmallMarginEnd" press="onItemPress" type="Transparent" width="4rem"/>
 				</cells>
 			</ColumnListItem>
 		</items>

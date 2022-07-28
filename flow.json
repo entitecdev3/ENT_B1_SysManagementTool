@@ -2843,7 +2843,8 @@
         "y": 300,
         "wires": [
             [
-                "67b9fe76.c6992"
+                "67b9fe76.c6992",
+                "4333281ea4c9d8fd"
             ]
         ]
     },
@@ -2946,6 +2947,23 @@
         "wires": []
     },
     {
+        "id": "4333281ea4c9d8fd",
+        "type": "debug",
+        "z": "e7f8ec40.9de36",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 850,
+        "y": 260,
+        "wires": []
+    },
+    {
         "id": "9ad8dbca52938aee",
         "type": "http in",
         "z": "deb00af94856228f",
@@ -2976,7 +2994,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 550,
-        "y": 80,
+        "y": 100,
         "wires": []
     },
     {
@@ -14128,6 +14146,222 @@
         "x": 740,
         "y": 1060,
         "wires": []
+    },
+    {
+        "id": "5c99a0697fa59c0a",
+        "type": "function",
+        "z": "dfb0188865563809",
+        "name": "SBOCOMMON.SRGC",
+        "func": "\nmsg.configOverrideHana = msg.flowInfo.config['hana-db-connection'];\n\nmsg.flowInfo.sql =`\nALTER SYSTEM DISCONNECT SESSION '${msg.item}';\n`;\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 1240,
+        "wires": [
+            [
+                "0cc43d2683539fb5",
+                "838c36fcc36cb97d"
+            ]
+        ]
+    },
+    {
+        "id": "0cc43d2683539fb5",
+        "type": "HanaClient-request",
+        "z": "dfb0188865563809",
+        "server": "d92dfc92c370a6d4",
+        "sql": "",
+        "x": 650,
+        "y": 1240,
+        "wires": [
+            [
+                "23846b3e6f072dee"
+            ],
+            [
+                "24bbd038016e1c41"
+            ]
+        ]
+    },
+    {
+        "id": "804bf96cf0794d01",
+        "type": "http in",
+        "z": "dfb0188865563809",
+        "name": "[POST]disconnectSession",
+        "url": "api/disconnectSession",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 150,
+        "y": 1140,
+        "wires": [
+            [
+                "fdf5a9e482adabf6"
+            ]
+        ]
+    },
+    {
+        "id": "bad9f294da755a92",
+        "type": "subflow:7ee266ca63cceab4",
+        "z": "dfb0188865563809",
+        "name": "",
+        "x": 580,
+        "y": 1120,
+        "wires": [
+            [
+                "d4a0a54ae5dc9586"
+            ]
+        ]
+    },
+    {
+        "id": "fdf5a9e482adabf6",
+        "type": "subflow:19a1d236fd159ab3",
+        "z": "dfb0188865563809",
+        "name": "",
+        "x": 375,
+        "y": 1137,
+        "wires": [
+            [
+                "bad9f294da755a92"
+            ],
+            [
+                "21518350e36a3260"
+            ]
+        ]
+    },
+    {
+        "id": "21518350e36a3260",
+        "type": "http response",
+        "z": "dfb0188865563809",
+        "name": "KO",
+        "statusCode": "",
+        "headers": {},
+        "x": 550,
+        "y": 1160,
+        "wires": []
+    },
+    {
+        "id": "838c36fcc36cb97d",
+        "type": "debug",
+        "z": "dfb0188865563809",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 610,
+        "y": 1240,
+        "wires": []
+    },
+    {
+        "id": "23846b3e6f072dee",
+        "type": "subflow:5ddb2001.76d37",
+        "z": "dfb0188865563809",
+        "name": "",
+        "env": [
+            {
+                "name": "inputVarName",
+                "value": "sessions",
+                "type": "str"
+            },
+            {
+                "name": "currentObjectName",
+                "value": "item",
+                "type": "str"
+            }
+        ],
+        "x": 850,
+        "y": 1120,
+        "wires": [
+            [
+                "5c99a0697fa59c0a"
+            ],
+            [
+                "476a660eb9525931"
+            ]
+        ]
+    },
+    {
+        "id": "24bbd038016e1c41",
+        "type": "http response",
+        "z": "dfb0188865563809",
+        "name": "",
+        "statusCode": "401",
+        "headers": {},
+        "x": 840,
+        "y": 1360,
+        "wires": []
+    },
+    {
+        "id": "5c12e9a8e0acf6e3",
+        "type": "debug",
+        "z": "dfb0188865563809",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 808,
+        "y": 1179,
+        "wires": []
+    },
+    {
+        "id": "94352dbc0807ce56",
+        "type": "http response",
+        "z": "dfb0188865563809",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 930,
+        "y": 1180,
+        "wires": []
+    },
+    {
+        "id": "476a660eb9525931",
+        "type": "function",
+        "z": "dfb0188865563809",
+        "name": "",
+        "func": "return msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 800,
+        "y": 1180,
+        "wires": [
+            [
+                "94352dbc0807ce56"
+            ]
+        ]
+    },
+    {
+        "id": "d4a0a54ae5dc9586",
+        "type": "function",
+        "z": "dfb0188865563809",
+        "name": "body",
+        "func": "msg.sessions = msg.req.body.sessions\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 1120,
+        "wires": [
+            [
+                "23846b3e6f072dee"
+            ]
+        ]
     },
     {
         "id": "ec9294b856890aee",

@@ -84,13 +84,20 @@ sap.ui.define([
 			return oDateFormat.format(oNow); //string in the same format as "Thu, Jan 29, 2017"
 		},
 		getFormatedDate: function(date){
-			debugger;
 			var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
 				pattern: "yyyy-MM-dd HH:mm:ss"
 			});
-
 			var oNow = new Date(date);
 			return oDateFormat.format(oNow); //string in the same format as "Thu, Jan 29, 2017"
+		},
+		getFormatedAppName: function(val){
+				if(val.includes('ServiceLayer')){
+					return 'Service Layer';
+				}else if(val.includes('HDBStudio')){
+					return 'HANA Studio';
+				}else{
+					return val;
+				}
 		},
 		checkEmail: function(oInput) {
 			if (oInput) {

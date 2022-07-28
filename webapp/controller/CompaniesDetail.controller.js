@@ -15,8 +15,9 @@ sap.ui.define([
 	"sap/m/library",
 	"sap/m/Text",
 	"sap/m/Input",
-	"sap/m/MessageBox"
-], function(BaseController, dbAPI, JSONModel, formatter, GenericTile, TileContent, NumericContent, Filter, FilterOperator, Core, Dialog, Button, Label, mobileLibrary, Text, Input, MessageBox ) {
+	"sap/m/MessageBox",
+	"sap/m/MessageToast"
+], function(BaseController, dbAPI, JSONModel, formatter, GenericTile, TileContent, NumericContent, Filter, FilterOperator, Core, Dialog, Button, Label, mobileLibrary, Text, Input, MessageBox, MessageToast ) {
 	"use strict";
 	// shortcut for sap.m.ButtonType
 	var ButtonType = mobileLibrary.ButtonType;
@@ -87,6 +88,20 @@ sap.ui.define([
 		pressTile3: function(){
 			this.getView().byId("idIconTabBarSeparatorNoIcon").setSelectedKey("3");
 		},
+		onDisconnectSession: function(oEvent){
+			var sessions = [],
+					that = this;
+			this.getView().byId("idSessionsTable").getSelectedContextPaths().forEach(function(item){
+				sessions.push(this.getView().getModel('local').getProperty(item).SESSION_ID);
+			}.bind(this));
+			dbAPI.callMiddleWare("/disconnectSession", "POST", {sessions: sessions}).then(function(oData) {
+				that.loadOpenSessions(that.dbName);
+				that.getView().byId("idSessionsTable").removeSelections();
+				MessageToast.show("Disconnected Successfully");
+      }).catch(function(oError) {
+        dbAPI.errorHandler(oError, that);
+      });
+		},
 		onDeleteCompany: function(oEvent){
 			var icon = MessageBox.Icon.SUCCESS,
 						msg = "Pre-checks Successfull",
@@ -99,7 +114,8 @@ sap.ui.define([
 			icon: icon,
 			title: msg,
 			actions: [MessageBox.Action.YES, MessageBox.Action.NO],
-			emphasizedAction: MessageBox.Action.YES,
+			emphasizedAction: icon === MessageBox.Icon.SUCCESS ? MessageBox.Action.YES :  MessageBox.Action.NO,
+			initialFocus: icon === MessageBox.Icon.SUCCESS ? MessageBox.Action.YES :  MessageBox.Action.NO,
 			onClose: function (oAction) {
 				if(oAction==="YES"){
 					that.getView().setBusy(true);

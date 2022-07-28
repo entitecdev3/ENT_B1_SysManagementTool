@@ -38,11 +38,19 @@
 							<Table id="idSessionsTable"
 							inset="false"
 							alternateRowColors="true"
-							mode="None"
+							mode="MultiSelect"
 							editable= "true"
 							items="{
 							path: 'local>/CompanyDetails/OpenSessions',
 							sorter: [{ path: 'CLIENT_HOST_IP', descending: false, group:true}]}">
+							<headerToolbar>
+								<OverflowToolbar id="otbSubheader" class="sapUiSmallMarginEnd">
+									<Title text="Open Sessions" level="H2" />
+									<ToolbarSpacer />
+									<Button id="idDisconnect" icon="sap-icon://disconnected" text="Disconnect" type="Reject"
+										press="onDisconnectSession" visible="true" />
+								</OverflowToolbar>
+							</headerToolbar>
 							<columns>
 								<Column
 									minScreenWidth="Desktop"
@@ -51,18 +59,20 @@
 									hAlign="Begin">
 									<Text text="CLIENT HOST - IP" />
 								</Column>
-								<!-- <Column
-									hAlign="Begin">
-									<Text text="CLIENT IP" />
-								</Column> -->
-								<Column
-									minScreenWidth="Tablet"
-									hAlign="Begin"
-									demandPopin="true">
+								<Column>
 									<Text text="CLIENT PID" />
 								</Column>
 								<Column hAlign="Begin">
 									<Text text="SESSION ID" />
+								</Column>
+								<Column hAlign="Begin">
+									<Text text="CLIENT OS APPNAME" />
+								</Column>
+								<Column hAlign="Begin">
+									<Text text="CLIENT OS USER" />
+								</Column>
+								<Column hAlign="Begin">
+									<Text text="DB USER" />
 								</Column>
 								<Column hAlign="Begin">
 									<Text text="START TIME" />
@@ -70,19 +80,28 @@
 								<Column hAlign="End">
 									<Text text="IDLE TIME" />
 								</Column>
+								<!-- <Column hAlign="End">
+									<Text text="Disconnect" />
+								</Column> -->
 							</columns>
 							<items>
 								<ColumnListItem vAlign="Middle">
 									<cells>
 										<Text text="{local>CLIENT_HOST_IP}" visible="false"/>
-										<!-- <ObjectStatus text="{ path:'local>CLIENT_IP'}"/> -->
 										<ObjectNumber number="{local>CLIENT_PID}"/>
 										<ObjectNumber number="{local>SESSION_ID}"/>
-										<DateTimePicker id="idLogRefreshTime" width="160px" value="{path: 'local>START_TIME', formatter: '.formatter.getFormatedDate'}" valueFormat="yyyy-MM-dd HH:mm:ss" displayFormat="yyyy-MM-dd HH:mm:ss" class="sapUiSmallMarginBegin sapUiSmallMarginEnd" editable="false"/>
+
+										<Text text="{path: 'local>CLIENT_OS_APPNAME', formatter: '.formatter.getFormatedAppName'}"/>
+										<Text text="{local>CLIENT_OS_USER}"/>
+										<Text text="{local>DB_USER}"/>
+
+										<!-- <Text text="{path: 'local>START_TIME', formatter: '.formatter.getFormatedDate'}"/> -->
+										<DateTimePicker width="160px" value="{path: 'local>START_TIME', formatter: '.formatter.getFormatedDate'}" valueFormat="yyyy-MM-dd HH:mm:ss" displayFormat="yyyy-MM-dd HH:mm:ss" class="sapUiSmallMarginBegin sapUiSmallMarginEnd" editable="false"/>
 										<ObjectNumber
-										number="{=parseFloat(${local>IDLETIME_MINUTES}).toFixed(2)}"
+										number="{=parseFloat(${local>IDLETIME_MINUTES}).toFixed(0)}"
 										unit="Min"
 										state="Warning" />
+										<!-- <Button class="sapUiTinyMarginEnd" width="4rem" text="Dis." type="Reject" icon="sap-icon://disconnected"/> -->
 									</cells>
 								</ColumnListItem>
 							</items>
@@ -98,6 +117,7 @@
 							inset="false"
 							alternateRowColors="true"
 							mode="None"
+							headerText=""
 							items="{
 							path: 'local>/CompanyDetails/DependenciesFrom'}">
 							<columns>
@@ -124,7 +144,10 @@
 							<items>
 								<ColumnListItem vAlign="Middle">
 									<cells>
-										<ObjectStatus active="true" press="onStatus" text="{ path:'local>DEPENDENT_OBJECT_NAME'}"/>
+										<!-- <ObjectStatus active="false" press="onStatus" text="{ path:'local>DEPENDENT_OBJECT_NAME'}"/> -->
+										<ObjectIdentifier
+											title="{ path:'local>DEPENDENT_OBJECT_NAME'}"
+											text=""/>
 										<ObjectIdentifier
 											title="{local>DEPENDENT_OBJECT_TYPE}"
 											text=""/>
@@ -161,6 +184,10 @@
 								<Column hAlign="Begin">
 									<Text text="DIRECTION" />
 								</Column>
+
+								<Column hAlign="Begin">
+									<Text text="BASE SCHEMA NAME" />
+								</Column>
 								<Column hAlign="Begin">
 									<Text text="BASE OBJECT NAME" />
 								</Column>
@@ -171,11 +198,15 @@
 							<items>
 								<ColumnListItem vAlign="Middle">
 									<cells>
-										<ObjectStatus active="true" press="onStatus" text="{ path:'local>DEPENDENT_OBJECT_NAME'}"/>
+										<!-- <ObjectStatus active="false" press="onStatus" text="{ path:'local>DEPENDENT_OBJECT_NAME'}"/> -->
+										<ObjectIdentifier
+											title="{ path:'local>DEPENDENT_OBJECT_NAME'}"
+											text=""/>
 										<ObjectIdentifier
 											title="{local>DEPENDENT_OBJECT_TYPE}"
 											text=""/>
 										<Text text="{local>DIRECTION}"/>
+										<Text text="{local>BASE_SCHEMA_NAME}"/>
 										<Text text="{local>BASE_OBJECT_NAME}"/>
 										<Text text="{local>BASE_OBJECT_TYPE}"/>
 									</cells>
